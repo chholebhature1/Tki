@@ -1,0 +1,10 @@
+export { ProfileHero } from "./profile-hero";
+export { ProfileAbout } from "./profile-about";
+export { ProfileSpecializations } from "./profile-specializations";
+export { ProfileEducation } from "./profile-education";
+export { ProfileCertifications } from "./profile-certifications";
+export { ProfileConsultationInfo } from "./profile-consultation-info";
+export { ProfileAvailability } from "./profile-availability";
+export { ProfileReviews } from "./profile-reviews";
+export { BookingCard } from "./booking-card";
+export { SimilarTherapists } from "./similar-therapists";

@@ -1,0 +1,11 @@
+export { HeroSection } from "./hero-section";
+export { TrustSection } from "./trust-section";
+export { CategoriesSection } from "./categories-section";
+export { HowItWorksSection } from "./how-it-works-section";
+export { FeaturedTherapistsSection } from "./featured-therapists-section";
+export { TestimonialsSection } from "./testimonials-section";
+export { FeatureCard } from "./feature-card";
+export { CategoryCard } from "./category-card";
+export { StepCard } from "./step-card";
+export { TherapistCard } from "./therapist-card";
+export { TestimonialCard } from "./testimonial-card";

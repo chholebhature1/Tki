@@ -1,0 +1,5940 @@
+# 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+
+# TalkIndia
+
+## Design System & Brand Guidelines
+
+Version: 1.0
+
+Dependencies
+
+* 00_PROJECT_OVERVIEW.md
+* 01_PRODUCT_REQUIREMENTS.md
+* 04_SYSTEM_ARCHITECTURE.md
+
+---
+
+# 1. Purpose
+
+This document defines the complete visual language of TalkIndia.
+
+Every page, component, icon, spacing rule, animation, and layout must follow this document.
+
+The goal is to ensure the platform feels consistent regardless of which module is being developed.
+
+---
+
+# 2. Brand Philosophy
+
+TalkIndia is a mental healthcare platform.
+
+The interface should communicate:
+
+* Calmness
+* Trust
+* Professionalism
+* Simplicity
+* Hope
+* Safety
+
+Avoid making the interface look like:
+
+* Banking software
+* Gaming UI
+* Crypto dashboard
+* Social media platform
+
+The user should feel relaxed rather than overwhelmed.
+
+---
+
+# 3. Design Principles
+
+Every screen should follow these principles.
+
+### Calm
+
+Large whitespace.
+
+Soft colors.
+
+Rounded corners.
+
+Minimal distractions.
+
+---
+
+### Trustworthy
+
+Clear typography.
+
+Professional layouts.
+
+Visible verification badges.
+
+Transparent pricing.
+
+---
+
+### Accessible
+
+Keyboard friendly.
+
+Readable typography.
+
+High contrast.
+
+Screen reader compatible.
+
+---
+
+### Consistent
+
+Identical spacing system.
+
+Identical component styles.
+
+Predictable navigation.
+
+---
+
+### Fast
+
+Minimal animations.
+
+Instant feedback.
+
+Skeleton loading.
+
+No layout shift.
+
+---
+
+# 4. Brand Color Palette
+
+## Primary
+
+Light Green
+
+```css
+#6FCF97
+```
+
+Usage
+
+* Primary buttons
+* Active navigation
+* CTA buttons
+* Selected cards
+* Progress bars
+* Active tabs
+* Links
+
+---
+
+## Primary Hover
+
+```css
+#57C784
+```
+
+---
+
+## Primary Light
+
+```css
+#EAF9F0
+```
+
+Usage
+
+* Hero background
+* Empty states
+* Success banners
+* Statistics cards
+* Selected filters
+
+---
+
+## Background
+
+```css
+#FFFFFF
+```
+
+Used for
+
+* Entire application background
+* Cards
+* Forms
+* Modals
+* Dashboard
+
+---
+
+## Surface
+
+```css
+#F8FCF9
+```
+
+Used for
+
+* Alternate sections
+* Hero
+* Dashboard widgets
+* Tables
+
+---
+
+## Border
+
+```css
+#DCEFE3
+```
+
+---
+
+## Divider
+
+```css
+#E5E7EB
+```
+
+---
+
+## Text Primary
+
+```css
+#1F2937
+```
+
+---
+
+## Text Secondary
+
+```css
+#6B7280
+```
+
+---
+
+## Muted
+
+```css
+#9CA3AF
+```
+
+---
+
+## Success
+
+```css
+#22C55E
+```
+
+---
+
+## Warning
+
+```css
+#F59E0B
+```
+
+---
+
+## Error
+
+```css
+#EF4444
+```
+
+---
+
+## Information
+
+```css
+#3B82F6
+```
+
+---
+
+# 5. Color Usage Rules
+
+Never use more than:
+
+* One primary color
+* One accent color
+
+Do not create pages filled with green.
+
+Green should guide attention, not dominate the interface.
+
+White should remain the primary background.
+
+---
+
+# 6. CSS Design Tokens
+
+```css
+:root{
+
+--color-primary:#6FCF97;
+--color-primary-hover:#57C784;
+--color-primary-light:#EAF9F0;
+
+--color-background:#FFFFFF;
+--color-surface:#F8FCF9;
+
+--color-border:#DCEFE3;
+
+--color-text:#1F2937;
+--color-text-secondary:#6B7280;
+--color-muted:#9CA3AF;
+
+--color-success:#22C55E;
+--color-warning:#F59E0B;
+--color-danger:#EF4444;
+--color-info:#3B82F6;
+
+}
+```
+
+---
+
+# 7. Typography
+
+Font
+
+Geist
+
+Fallback
+
+Inter
+
+sans-serif
+
+---
+
+Heading 1
+
+48px
+
+Bold
+
+---
+
+Heading 2
+
+36px
+
+Bold
+
+---
+
+Heading 3
+
+30px
+
+SemiBold
+
+---
+
+Heading 4
+
+24px
+
+SemiBold
+
+---
+
+Heading 5
+
+20px
+
+Medium
+
+---
+
+Body
+
+16px
+
+Regular
+
+---
+
+Caption
+
+14px
+
+Regular
+
+---
+
+Small
+
+12px
+
+Regular
+
+---
+
+# 8. 8-Point Spacing System
+
+Allowed spacing values
+
+4
+
+8
+
+12
+
+16
+
+20
+
+24
+
+32
+
+40
+
+48
+
+64
+
+80
+
+96
+
+Never use arbitrary spacing values.
+
+---
+
+# 9. Border Radius
+
+Buttons
+
+12px
+
+Cards
+
+20px
+
+Inputs
+
+12px
+
+Dialogs
+
+24px
+
+Badges
+
+999px
+
+---
+
+# 10. Shadows
+
+Small
+
+Cards
+
+Medium
+
+Dropdowns
+
+Large
+
+Modals
+
+Avoid heavy shadows.
+
+---
+
+# 11. Buttons
+
+Variants
+
+Primary
+
+Secondary
+
+Outline
+
+Ghost
+
+Danger
+
+Loading
+
+Disabled
+
+Every button must support:
+
+Loading
+
+Disabled
+
+Hover
+
+Focus
+
+Active
+
+---
+
+# 12. Inputs
+
+Text
+
+Textarea
+
+Select
+
+Search
+
+Password
+
+Phone
+
+OTP
+
+Date Picker
+
+Time Picker
+
+Autocomplete
+
+All inputs require:
+
+Label
+
+Placeholder
+
+Helper text
+
+Validation
+
+Error message
+
+---
+
+# 13. Icons
+
+Library
+
+Lucide React
+
+Size
+
+16
+
+20
+
+24
+
+32
+
+Do not mix icon libraries.
+
+---
+
+# 14. Cards
+
+Card
+
+Stat Card
+
+Therapist Card
+
+Appointment Card
+
+Payment Card
+
+Notification Card
+
+Every card
+
+Rounded
+
+Soft shadow
+
+Hover elevation
+
+---
+
+# 15. Animations
+
+Duration
+
+150ms
+
+200ms
+
+250ms
+
+Allowed
+
+Fade
+
+Slide
+
+Scale
+
+Avoid
+
+Bounce
+
+Flash
+
+Long transitions
+
+---
+
+# 16. Accessibility
+
+WCAG AA
+
+Keyboard Navigation
+
+Visible Focus
+
+ARIA Labels
+
+Semantic HTML
+
+Screen Reader Support
+
+Minimum touch target
+
+44x44
+
+---
+
+# 17. Responsive Breakpoints
+
+Mobile
+
+<640px
+
+Tablet
+
+640px–1024px
+
+Desktop
+
+> 1024px
+
+Large Desktop
+
+> 1440px
+
+---
+
+# 18. Dark Mode
+
+Not included in Version 1.
+
+The architecture should allow adding dark mode later without rewriting components.
+
+---
+
+# 19. Kiro Implementation Rules
+
+* Use Tailwind CSS theme extension for all design tokens.
+* Never hardcode colors, spacing, or font sizes.
+* Build a reusable design system before feature pages.
+* Base components on shadcn/ui and customize through theme variables.
+* Use CSS variables for all semantic colors.
+* Maintain visual consistency across all modules.
+* Ensure every interactive element has keyboard and focus support.
+* Prefer composition over duplication when creating components.
+
+---
+
+# 20. Acceptance Criteria
+
+The design system is complete when:
+
+* Every UI component uses design tokens.
+* Typography follows the defined scale.
+* Colors are centralized.
+* Spacing follows the 8-point system.
+* Components are reusable.
+* Accessibility requirements are met.
+* The interface feels calm, modern, and healthcare-focused.
+
+---
+
+# End of Document
+
+
+# 08.02_PUBLIC_WEBSITE_UI.md
+
+# TalkIndia
+
+## Public Website UI Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+
+---
+
+# 1. Purpose
+
+Defines every public-facing page of TalkIndia.
+
+Public users include:
+
+* Guests
+* Patients (before login)
+* Search engines
+
+Primary Goal:
+
+Guide visitors toward booking a therapist.
+
+Secondary Goals:
+
+* Build trust
+* Explain services
+* Improve SEO
+* Encourage therapist registration
+
+---
+
+# 2. Public Navigation
+
+Desktop Navigation
+
+```text
+---------------------------------------------------------------
+Logo
+
+Home
+Find Therapist
+Services
+Blog
+About
+Contact
+
+Login
+Register
+
+Primary CTA
+Book Appointment
+---------------------------------------------------------------
+```
+
+---
+
+Mobile Navigation
+
+Logo
+
+↓
+
+Hamburger Menu
+
+↓
+
+Drawer
+
+* Home
+* Find Therapist
+* Services
+* Blog
+* About
+* Contact
+* Login
+* Register
+
+CTA remains visible.
+
+---
+
+# 3. Home Page Structure
+
+The homepage should follow this order.
+
+```text
+Navigation
+
+↓
+
+Hero
+
+↓
+
+Search Therapist
+
+↓
+
+Popular Categories
+
+↓
+
+Featured Therapists
+
+↓
+
+How TalkIndia Works
+
+↓
+
+Why Choose TalkIndia
+
+↓
+
+Success Statistics
+
+↓
+
+Patient Testimonials
+
+↓
+
+Frequently Asked Questions
+
+↓
+
+Become a Therapist
+
+↓
+
+Latest Blogs
+
+↓
+
+Footer
+```
+
+Users should be able to start searching within the first screen.
+
+---
+
+# 4. Hero Section
+
+Purpose
+
+Immediately communicate what TalkIndia does.
+
+Layout
+
+```text
+-------------------------------------------------
+Headline
+
+Subheading
+
+Search Bar
+
+Book Appointment Button
+
+Illustration
+
+-------------------------------------------------
+```
+
+Headline Example
+
+Find the Right Mental Health Professional with Confidence.
+
+Primary CTA
+
+Book Appointment
+
+Secondary CTA
+
+Browse Therapists
+
+Background
+
+Very light green.
+
+Illustration
+
+Clean healthcare illustration.
+
+Avoid cartoon characters.
+
+---
+
+# 5. Therapist Search Section
+
+Large search bar.
+
+Placeholder
+
+Search by therapist name, specialization, or condition.
+
+Quick Filters
+
+* Anxiety
+* Depression
+* Stress
+* Couples Therapy
+* Child Therapy
+* Career Counselling
+
+Search Button
+
+Primary Green
+
+---
+
+# 6. Popular Categories
+
+Grid Layout
+
+2 columns (mobile)
+
+4 columns (tablet)
+
+6 columns (desktop)
+
+Each Card
+
+Icon
+
+Title
+
+Short Description
+
+Hover State
+
+Soft shadow.
+
+---
+
+# 7. Featured Therapists
+
+Horizontal card layout.
+
+Each Card
+
+Photo
+
+Verification Badge
+
+Name
+
+Qualification
+
+Experience
+
+Languages
+
+Consultation Fee
+
+Rating
+
+Book Appointment Button
+
+View Profile
+
+Show maximum 8 therapists.
+
+Lazy load images.
+
+---
+
+# 8. How TalkIndia Works
+
+Three-Step Layout
+
+```text
+Search Therapist
+
+↓
+
+Book Appointment
+
+↓
+
+Attend Consultation
+```
+
+Each step
+
+Illustration
+
+Heading
+
+Description
+
+---
+
+# 9. Why Choose TalkIndia
+
+Grid
+
+Verified Therapists
+
+Secure Payments
+
+Private Consultations
+
+Easy Booking
+
+Expert Support
+
+Flexible Scheduling
+
+---
+
+# 10. Statistics Section
+
+Display
+
+* Therapists
+* Appointments
+* Cities
+* Patient Satisfaction
+
+Animate counters only when visible.
+
+Animation duration < 1 second.
+
+---
+
+# 11. Testimonials
+
+Card Carousel
+
+Each Card
+
+Patient Name (optional anonymous)
+
+Rating
+
+Review
+
+Location (optional)
+
+Navigation
+
+Swipe on mobile.
+
+---
+
+# 12. FAQ
+
+Accordion
+
+Examples
+
+How do I book?
+
+Are therapists verified?
+
+Can I cancel?
+
+Can I reschedule?
+
+Is my consultation private?
+
+---
+
+# 13. Become a Therapist
+
+Purpose
+
+Acquire therapists.
+
+Layout
+
+```text
+Heading
+
+Description
+
+Benefits
+
+CTA
+
+Join TalkIndia
+```
+
+---
+
+# 14. Latest Blogs
+
+Grid
+
+Latest 3 articles.
+
+Each Card
+
+Image
+
+Category
+
+Title
+
+Short Description
+
+Read More
+
+---
+
+# 15. Footer
+
+Columns
+
+Company
+
+About
+
+Careers (Future)
+
+Contact
+
+Patients
+
+Find Therapist
+
+Book Appointment
+
+Support
+
+Therapists
+
+Join
+
+Verification
+
+Resources
+
+Blog
+
+FAQ
+
+Legal
+
+Privacy
+
+Terms
+
+Cookies
+
+Bottom
+
+Copyright
+
+Social Links
+
+---
+
+# 16. Find Therapist Page
+
+Layout
+
+```text
+Search
+
+↓
+
+Filters Sidebar
+
+↓
+
+Therapist Results
+
+↓
+
+Pagination
+```
+
+Filters
+
+Language
+
+Gender
+
+Specialization
+
+Experience
+
+Price
+
+Availability
+
+Consultation Mode
+
+Rating
+
+---
+
+# 17. Therapist Profile Page
+
+Sections
+
+Hero
+
+Overview
+
+Education
+
+Experience
+
+Specializations
+
+Languages
+
+Availability
+
+Reviews
+
+Sticky Booking Card
+
+Desktop
+
+Booking Card remains visible while scrolling.
+
+Mobile
+
+Booking Card fixed at bottom.
+
+---
+
+# 18. Blog Listing
+
+Grid
+
+Search
+
+Categories
+
+Pagination
+
+Each Blog
+
+Image
+
+Title
+
+Excerpt
+
+Author
+
+Date
+
+---
+
+# 19. Blog Details
+
+Hero Image
+
+Title
+
+Author
+
+Published Date
+
+Reading Time
+
+Article
+
+Related Posts
+
+Newsletter
+
+---
+
+# 20. Contact Page
+
+Sections
+
+Contact Form
+
+Office Information
+
+Email
+
+Phone
+
+Google Map (Future)
+
+FAQ Link
+
+---
+
+# 21. About Page
+
+Mission
+
+Vision
+
+Story
+
+Why TalkIndia
+
+Platform Values
+
+Future Roadmap
+
+---
+
+# 22. Loading States
+
+Skeletons for:
+
+Therapist Cards
+
+Blog Cards
+
+Search Results
+
+Hero Images
+
+Buttons show loading state during actions.
+
+---
+
+# 23. Empty States
+
+No Therapists
+
+Suggest changing filters.
+
+No Blogs
+
+Display friendly message.
+
+No Search Results
+
+Suggest broader keywords.
+
+---
+
+# 24. Error States
+
+404
+
+Not Found
+
+500
+
+Server Error
+
+Network Error
+
+Retry Action
+
+---
+
+# 25. Responsive Behaviour
+
+Desktop
+
+Multi-column layout.
+
+Tablet
+
+Reduced spacing.
+
+Mobile
+
+Single-column layout.
+
+Bottom CTA for booking remains visible.
+
+---
+
+# 26. SEO Requirements
+
+Every page requires:
+
+* Unique title
+* Meta description
+* Open Graph tags
+* Twitter Card
+* Canonical URL
+* Structured Data (Schema.org where appropriate)
+
+Blog articles should support rich snippets.
+
+---
+
+# 27. Performance Guidelines
+
+* Optimize all images.
+* Lazy load below-the-fold content.
+* Use Next.js Image component.
+* Keep Largest Contentful Paint under 2.5 seconds.
+* Avoid unnecessary animations.
+
+---
+
+# 28. Accessibility
+
+* Keyboard navigation.
+* ARIA labels.
+* Skip-to-content link.
+* Proper heading hierarchy.
+* Alt text for all images.
+* Minimum 44×44px touch targets.
+
+---
+
+# 29. Kiro Implementation Rules
+
+* Build the homepage using reusable sections.
+* Keep marketing content editable via the CMS where practical.
+* Do not hardcode therapist data; fetch dynamically.
+* Use semantic HTML for SEO.
+* Reuse card components across homepage, search, and blog pages.
+* Ensure mobile-first responsiveness from the start.
+
+---
+
+# 30. Acceptance Criteria
+
+The public website is complete when:
+
+* Users understand the platform within the first screen.
+* Therapist search is immediately accessible.
+* Navigation is intuitive.
+* Pages are responsive and accessible.
+* SEO best practices are implemented.
+* Homepage drives users toward booking.
+* Therapist onboarding CTA is visible.
+* All pages reuse the design system.
+
+---
+
+# End of Document
+
+
+# 08.03_BOOKING_AND_THERAPIST_JOURNEY_UI.md
+
+# TalkIndia
+
+## Therapist Discovery, Booking & Appointment Journey UI
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* 08.02_PUBLIC_WEBSITE_UI.md
+
+---
+
+# 1. Purpose
+
+This document defines the complete booking experience.
+
+This is the highest-priority user journey because it directly generates revenue.
+
+Goals:
+
+* Find therapist quickly
+* Compare therapists easily
+* Book in under 90 seconds
+* Minimize abandonment
+* Increase booking completion rate
+
+---
+
+# 2. Complete User Journey
+
+```text
+Landing Page
+      │
+      ▼
+Find Therapist
+      │
+      ▼
+Search Results
+      │
+      ▼
+Therapist Profile
+      │
+      ▼
+Booking Wizard
+      │
+      ▼
+Payment
+      │
+      ▼
+Booking Confirmation
+      │
+      ▼
+Upcoming Appointment
+      │
+      ▼
+Video Consultation
+      │
+      ▼
+Completed Session
+      │
+      ▼
+Review
+```
+
+---
+
+# 3. Therapist Search Experience
+
+Layout
+
+```text
+---------------------------------------------------
+Search Bar
+---------------------------------------------------
+
+Filters | Therapist Cards
+
+Filters | Therapist Cards
+
+Filters | Therapist Cards
+
+Filters | Therapist Cards
+---------------------------------------------------
+Pagination
+```
+
+Desktop
+
+Left Sidebar
+
+Results Right
+
+---
+
+Tablet
+
+Collapsible Filters
+
+---
+
+Mobile
+
+Filters Bottom Sheet
+
+Search Always Visible
+
+---
+
+# 4. Search Bar
+
+Width
+
+100%
+
+Placeholder
+
+Search therapist, condition or specialization...
+
+Autocomplete
+
+Yes
+
+Recent Searches
+
+Yes
+
+Popular Searches
+
+Yes
+
+Voice Search
+
+Future
+
+---
+
+# 5. Filters
+
+Always visible on Desktop.
+
+Filter Groups
+
+Specialization
+
+Language
+
+Gender
+
+Experience
+
+Price
+
+Consultation Mode
+
+Availability
+
+Rating
+
+Years of Experience
+
+Sort By
+
+Newest
+
+Recommended
+
+Highest Rated
+
+Lowest Fee
+
+Most Experienced
+
+Reset Button
+
+Always visible.
+
+---
+
+# 6. Therapist Cards
+
+Every therapist card contains:
+
+Photo
+
+Verification Badge
+
+Online Status
+
+Name
+
+Professional Title
+
+Experience
+
+Languages
+
+Specializations
+
+Rating
+
+Total Reviews
+
+Consultation Fee
+
+Next Available Slot
+
+Book Button
+
+View Profile Button
+
+Hover State
+
+Lift slightly
+
+Soft shadow
+
+Border highlight
+
+---
+
+# 7. Therapist Profile
+
+Layout
+
+```text
+------------------------------------------------------
+Profile Header
+------------------------------------------------------
+
+Left Content            Sticky Booking Card
+
+Overview                Fee
+
+Experience              Calendar
+
+Education               Slot
+
+Languages               Book Button
+
+Reviews
+
+FAQ
+```
+
+---
+
+Profile Header
+
+Profile Photo
+
+Name
+
+Verification Badge
+
+Experience
+
+Languages
+
+Fee
+
+Rating
+
+Book Button
+
+Share Profile
+
+Save Therapist
+
+Future
+
+---
+
+# 8. Sticky Booking Card
+
+Desktop
+
+Always visible while scrolling.
+
+Contains
+
+Consultation Fee
+
+Consultation Type
+
+Next Available Slot
+
+Calendar Preview
+
+Book Appointment
+
+Cancellation Policy
+
+Mobile
+
+Fixed Bottom CTA
+
+---
+
+# 9. Booking Wizard
+
+Single-page multi-step interface.
+
+Progress Bar
+
+```text
+Therapist
+    │
+Consultation
+    │
+Date
+    │
+Time
+    │
+Review
+    │
+Payment
+```
+
+User never leaves the booking flow.
+
+---
+
+# 10. Step 1
+
+Consultation Type
+
+Options
+
+Online
+
+In-person
+
+Future
+
+Home Visit
+
+Cards
+
+Large
+
+Icon
+
+Description
+
+Selection Highlight
+
+---
+
+# 11. Step 2
+
+Date Selection
+
+Monthly Calendar
+
+Unavailable Days Disabled
+
+Today Highlighted
+
+Weekends Supported
+
+Future Booking Window
+
+Configurable
+
+---
+
+# 12. Step 3
+
+Time Slot Selection
+
+Grid Layout
+
+09:00
+
+09:30
+
+10:00
+
+10:30
+
+Selected Slot
+
+Green
+
+Unavailable
+
+Gray
+
+Loading
+
+Skeleton
+
+No Slots
+
+Suggest another date
+
+---
+
+# 13. Step 4
+
+Booking Review
+
+Display
+
+Therapist
+
+Date
+
+Time
+
+Duration
+
+Fee
+
+Taxes
+
+Coupon
+
+Total
+
+Buttons
+
+Back
+
+Continue to Payment
+
+---
+
+# 14. Payment Screen
+
+Payment Methods
+
+UPI
+
+Credit Card
+
+Debit Card
+
+Net Banking
+
+Wallet
+
+EMI
+
+Coupon Field
+
+Apply Button
+
+Order Summary
+
+Always visible.
+
+Secure Payment Badge
+
+Displayed.
+
+---
+
+# 15. Payment Success
+
+Large Success Icon
+
+Booking Confirmed
+
+Appointment Details
+
+Meeting Information
+
+Calendar Button
+
+Download Invoice
+
+Go To Dashboard
+
+Book Another Appointment
+
+---
+
+# 16. Payment Failure
+
+Friendly Message
+
+Retry Button
+
+Change Payment Method
+
+Contact Support
+
+Booking slot released after timeout.
+
+---
+
+# 17. Upcoming Appointment
+
+Card
+
+Therapist
+
+Countdown Timer
+
+Meeting Time
+
+Join Button
+
+Reschedule
+
+Cancel
+
+Download Invoice
+
+---
+
+# 18. Join Consultation
+
+Join Button enabled:
+
+15 minutes before appointment.
+
+Earlier
+
+Disabled
+
+Late Join
+
+Allowed
+
+Grace Period
+
+Configurable
+
+---
+
+# 19. Completed Appointment
+
+Status
+
+Completed
+
+Session Duration
+
+Invoice
+
+Review Button
+
+Book Follow-up
+
+---
+
+# 20. Cancellation
+
+Dialog
+
+Reason
+
+Refund Policy
+
+Confirm Button
+
+Cancel Button
+
+Warning displayed clearly.
+
+---
+
+# 21. Rescheduling
+
+Calendar
+
+↓
+
+Available Slots
+
+↓
+
+Confirmation
+
+↓
+
+Notifications
+
+No duplicate booking.
+
+---
+
+# 22. Loading States
+
+Search Results
+
+Therapist Profile
+
+Calendar
+
+Slots
+
+Payment
+
+Confirmation
+
+Use Skeleton components.
+
+---
+
+# 23. Empty States
+
+No Therapists
+
+No Slots
+
+No Reviews
+
+No Availability
+
+Suggest alternatives.
+
+---
+
+# 24. Error States
+
+Booking Conflict
+
+Payment Failed
+
+Meeting Expired
+
+Network Error
+
+Retry options always available.
+
+---
+
+# 25. Responsive Behaviour
+
+Desktop
+
+Sidebar filters
+
+Sticky booking card
+
+Tablet
+
+Collapsible filters
+
+Responsive calendar
+
+Mobile
+
+Bottom booking bar
+
+Full-screen booking wizard
+
+Single-column layout
+
+Large touch targets
+
+---
+
+# 26. Accessibility
+
+Keyboard navigation
+
+Calendar accessible
+
+Screen reader labels
+
+Visible focus
+
+ARIA roles
+
+Minimum 44px touch targets
+
+---
+
+# 27. Micro-interactions
+
+Hover elevation
+
+Button ripple (subtle)
+
+Calendar selection animation
+
+Progress bar animation
+
+Success check animation
+
+Toast notifications
+
+Animation duration
+
+150–250 ms
+
+---
+
+# 28. Kiro Implementation Rules
+
+* Implement booking as a single state-driven wizard, not multiple pages.
+* Generate slots dynamically from availability.
+* Do not hardcode therapist information.
+* Use optimistic UI carefully only after validation.
+* Persist booking progress if the user refreshes before payment where practical.
+* Prevent double submissions during payment.
+* Ensure every booking step is independently testable.
+
+---
+
+# 29. Acceptance Criteria
+
+The booking journey is complete when:
+
+* A patient can discover a therapist.
+* Compare therapist profiles.
+* Select consultation type.
+* Choose date and time.
+* Complete payment.
+* Receive confirmation.
+* Join the consultation.
+* Review the therapist.
+* Book a follow-up.
+
+The average booking flow should require minimal navigation and be optimized for both desktop and mobile.
+
+---
+
+# End of Document
+
+# 08.04_PATIENT_DASHBOARD_UI.md
+
+# TalkIndia
+
+## Patient Dashboard UI Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* 08.03_BOOKING_AND_THERAPIST_JOURNEY_UI.md
+
+---
+
+# 1. Purpose
+
+Defines the complete Patient Dashboard.
+
+The dashboard should help patients:
+
+* Manage appointments
+* Join consultations
+* Find therapists
+* View invoices
+* Update profile
+* Track notifications
+
+The dashboard should feel calm and organized rather than information-dense.
+
+---
+
+# 2. Navigation
+
+Desktop Layout
+
+```text
+--------------------------------------------------------------
+Logo
+
+Search
+
+Notifications
+
+Profile
+--------------------------------------------------------------
+
+Sidebar
+
+Dashboard
+
+Find Therapist
+
+Appointments
+
+Invoices
+
+Reviews
+
+Notifications
+
+Settings
+
+Logout
+
+--------------------------------------------------------------
+
+Main Content
+
+--------------------------------------------------------------
+```
+
+---
+
+Mobile Navigation
+
+Bottom Navigation
+
+Dashboard
+
+Search
+
+Appointments
+
+Notifications
+
+Profile
+
+---
+
+# 3. Dashboard Home
+
+Layout
+
+```text
+--------------------------------------------------------------
+
+Welcome Banner
+
+--------------------------------------------------------------
+
+Upcoming Appointment
+
+--------------------------------------------------------------
+
+Quick Actions
+
+--------------------------------------------------------------
+
+Recommended Therapists
+
+--------------------------------------------------------------
+
+Recent Activity
+
+--------------------------------------------------------------
+
+Notifications
+
+--------------------------------------------------------------
+```
+
+---
+
+# 4. Welcome Banner
+
+Displays
+
+Greeting
+
+Patient Name
+
+Today's Date
+
+Motivational message
+
+Example
+
+Good Morning, Rahul.
+
+You have one consultation scheduled today.
+
+Background
+
+Primary Light Green
+
+CTA
+
+Find Therapist
+
+---
+
+# 5. Upcoming Appointment Card
+
+Largest widget.
+
+Contains
+
+Therapist Photo
+
+Name
+
+Consultation Type
+
+Date
+
+Time
+
+Countdown Timer
+
+Meeting Status
+
+Buttons
+
+Join Meeting
+
+Reschedule
+
+Cancel
+
+Download Invoice
+
+Join button becomes active 15 minutes before the session.
+
+---
+
+# 6. Quick Actions
+
+Grid
+
+Book Appointment
+
+Browse Therapists
+
+Appointment History
+
+Invoices
+
+Settings
+
+Large touch-friendly cards.
+
+---
+
+# 7. Recommended Therapists
+
+Horizontal scrolling cards.
+
+Each card
+
+Photo
+
+Name
+
+Rating
+
+Fee
+
+Book Button
+
+Reason
+
+Examples
+
+Previously Viewed
+
+Popular
+
+Recommended
+
+---
+
+# 8. Recent Activity
+
+Timeline
+
+Appointment Booked
+
+Payment Completed
+
+Review Submitted
+
+Profile Updated
+
+Newest first.
+
+---
+
+# 9. Notifications Preview
+
+Latest five notifications.
+
+Buttons
+
+View All
+
+Mark All Read
+
+Unread indicator.
+
+---
+
+# 10. Appointment Module
+
+Sections
+
+Upcoming
+
+Completed
+
+Cancelled
+
+Rescheduled
+
+Each card contains
+
+Therapist
+
+Status
+
+Date
+
+Time
+
+Fee
+
+Buttons
+
+View Details
+
+Invoice
+
+Review
+
+Book Again
+
+---
+
+# 11. Appointment Details
+
+Displays
+
+Therapist
+
+Date
+
+Time
+
+Duration
+
+Meeting
+
+Invoice
+
+Payment
+
+Notes (Future)
+
+Buttons
+
+Join
+
+Cancel
+
+Reschedule
+
+Download Invoice
+
+Support
+
+---
+
+# 12. Find Therapist
+
+Embedded search experience.
+
+Recent Searches
+
+Saved Filters
+
+Popular Categories
+
+Quick Booking
+
+---
+
+# 13. Saved Therapists
+
+Future Ready
+
+List of bookmarked therapists.
+
+Each card
+
+Photo
+
+Name
+
+Rating
+
+Book Again
+
+---
+
+# 14. Reviews
+
+List of submitted reviews.
+
+Status
+
+Published
+
+Pending
+
+Editable (within allowed time)
+
+Buttons
+
+Edit
+
+View Therapist
+
+---
+
+# 15. Invoices
+
+Table
+
+Invoice Number
+
+Therapist
+
+Appointment Date
+
+Amount
+
+Status
+
+Download PDF
+
+Search and filter supported.
+
+---
+
+# 16. Notifications
+
+List View
+
+Unread Badge
+
+Category Filter
+
+Booking
+
+Payment
+
+Reminder
+
+System
+
+Support
+
+Actions
+
+Mark Read
+
+Delete (soft)
+
+---
+
+# 17. Profile
+
+Editable fields
+
+Photo
+
+Full Name
+
+Phone
+
+Email
+
+Gender
+
+Date of Birth
+
+City
+
+State
+
+Emergency Contact
+
+Buttons
+
+Save
+
+Cancel
+
+---
+
+# 18. Settings
+
+Sections
+
+Account
+
+Privacy
+
+Notifications
+
+Security
+
+Language (Future)
+
+Delete Account Request
+
+Logout
+
+---
+
+# 19. Empty States
+
+Upcoming Appointments
+
+"You don't have any upcoming appointments."
+
+Primary CTA
+
+Find Therapist
+
+Invoices
+
+"No invoices available."
+
+Reviews
+
+"No reviews submitted."
+
+Notifications
+
+"You're all caught up."
+
+---
+
+# 20. Loading States
+
+Dashboard widgets
+
+Skeleton cards
+
+Appointments
+
+Skeleton list
+
+Invoices
+
+Skeleton table
+
+Buttons
+
+Loading spinner
+
+---
+
+# 21. Error States
+
+Network Error
+
+Session Expired
+
+Appointment Not Found
+
+Invoice Download Failed
+
+Retry actions provided.
+
+---
+
+# 22. Responsive Behaviour
+
+Desktop
+
+Sidebar visible
+
+Multiple columns
+
+Tablet
+
+Collapsible sidebar
+
+Two-column widgets
+
+Mobile
+
+Single-column layout
+
+Bottom navigation
+
+Sticky "Join Meeting" button when applicable
+
+---
+
+# 23. Accessibility
+
+Keyboard navigation
+
+Visible focus
+
+ARIA labels
+
+High contrast
+
+Screen reader support
+
+Touch targets ≥ 44px
+
+---
+
+# 24. Performance
+
+Server-render dashboard where possible.
+
+Lazy-load recommended therapists.
+
+Paginate appointment history.
+
+Cache non-sensitive dashboard widgets.
+
+---
+
+# 25. Security
+
+Only authenticated patients may access.
+
+Profile edits validated server-side.
+
+Invoices generated from secure endpoints.
+
+Meeting links visible only for confirmed appointments.
+
+---
+
+# 26. Kiro Implementation Rules
+
+* Keep the dashboard action-oriented rather than data-heavy.
+* Prioritize the upcoming appointment card above all other content.
+* Reuse appointment, therapist, and notification cards across modules.
+* Fetch dashboard data efficiently to avoid multiple unnecessary queries.
+* Use optimistic updates only for low-risk actions such as marking notifications as read.
+* Ensure all sensitive actions require server-side validation.
+
+---
+
+# 27. Acceptance Criteria
+
+The Patient Dashboard is complete when:
+
+* Patients can quickly see their next appointment.
+* Joining a consultation requires no more than one click when available.
+* Booking another appointment is easily accessible.
+* Invoices are downloadable.
+* Notifications are manageable.
+* The interface remains responsive, accessible, and visually consistent with the TalkIndia design system.
+
+---
+
+# End of Document
+
+# 08.05_AUTHENTICATION_AND_ONBOARDING_UI.md
+
+# TalkIndia
+
+## Authentication & Onboarding UI Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* 08.02_PUBLIC_WEBSITE_UI.md
+
+---
+
+# 1. Purpose
+
+Defines the complete authentication and onboarding experience for TalkIndia.
+
+Supports:
+
+* Patient Registration
+* Therapist Registration
+* Login
+* Forgot Password
+* Reset Password
+* Email Verification
+* Therapist Verification
+* Session Management
+
+Goals
+
+* Fast patient signup
+* Secure authentication
+* Smooth therapist onboarding
+* Clear verification status
+
+---
+
+# 2. Authentication Flow
+
+```text
+Landing Page
+      │
+      ▼
+Login / Register
+      │
+      ▼
+Choose Role
+ ┌──────────────┐
+ │              │
+ ▼              ▼
+Patient     Therapist
+ │              │
+ ▼              ▼
+Dashboard   Onboarding
+```
+
+---
+
+# 3. Login Page
+
+Layout
+
+```text
+-------------------------------------------
+
+Logo
+
+Welcome Back
+
+Email
+
+Password
+
+Forgot Password
+
+Login Button
+
+Continue with Google
+
+-------------------------------------------
+
+Don't have an account?
+
+Register
+
+-------------------------------------------
+```
+
+---
+
+Features
+
+Email
+
+Password
+
+Remember Me
+
+Show Password
+
+Forgot Password
+
+Google Login
+
+Validation
+
+Inline validation
+
+Loading Button
+
+Error Banner
+
+---
+
+# 4. Registration Role Selection
+
+Instead of showing a long registration form immediately.
+
+Show two large cards.
+
+```text
+------------------------------------------
+
+Who are you?
+
+------------------------------------------
+
+[ Patient ]
+
+Book appointments
+
+Find therapists
+
+Online consultation
+
+------------------------------------------
+
+[ Therapist ]
+
+Receive appointments
+
+Manage schedule
+
+Grow your practice
+
+------------------------------------------
+```
+
+Selecting a card opens the appropriate registration flow.
+
+---
+
+# 5. Patient Registration
+
+Fields
+
+Full Name
+
+Email
+
+Phone Number
+
+Password
+
+Confirm Password
+
+Gender
+
+Date of Birth
+
+Checkbox
+
+Accept Privacy Policy
+
+Button
+
+Create Account
+
+---
+
+Validation
+
+Email
+
+Phone
+
+Password Strength
+
+Matching Password
+
+---
+
+After Registration
+
+Email Verification
+
+↓
+
+Dashboard
+
+---
+
+# 6. Therapist Registration
+
+Step 1
+
+Basic Details
+
+Full Name
+
+Email
+
+Phone
+
+Password
+
+---
+
+Step 2
+
+Professional Information
+
+Professional Title
+
+Qualification
+
+Years of Experience
+
+License Number
+
+Consultation Fee
+
+Languages
+
+Specializations
+
+---
+
+Step 3
+
+Document Upload
+
+Government ID
+
+Degree Certificate
+
+Professional License
+
+Profile Photograph
+
+---
+
+Step 4
+
+Review Information
+
+↓
+
+Submit
+
+↓
+
+Verification Pending
+
+---
+
+# 7. Email Verification
+
+Layout
+
+```text
+-----------------------------------------
+
+Email Sent
+
+Check your inbox.
+
+Resend Email
+
+Back to Login
+
+-----------------------------------------
+```
+
+Automatic redirect after successful verification.
+
+---
+
+# 8. Forgot Password
+
+Fields
+
+Email
+
+Send Reset Link
+
+Success Screen
+
+"Password reset link sent."
+
+---
+
+# 9. Reset Password
+
+Fields
+
+New Password
+
+Confirm Password
+
+Reset Button
+
+Success
+
+Redirect to Login
+
+---
+
+# 10. Therapist Verification Status
+
+States
+
+Draft
+
+Submitted
+
+Pending Review
+
+Approved
+
+Rejected
+
+Expired
+
+Each state has:
+
+Color
+
+Icon
+
+Description
+
+Next Action
+
+---
+
+# 11. Pending Verification Screen
+
+Illustration
+
+Verification Timeline
+
+Expected Review Time
+
+Support Link
+
+Edit Information Button
+
+---
+
+# 12. Rejected Verification
+
+Display
+
+Reason
+
+Highlighted Issues
+
+Buttons
+
+Edit Information
+
+Upload Again
+
+Submit Again
+
+---
+
+# 13. Session Expired
+
+Modal
+
+Session Expired
+
+Login Again
+
+Return Home
+
+---
+
+# 14. Security Indicators
+
+Every authentication page shows
+
+Secure Platform Badge
+
+Encrypted Connection
+
+Privacy Notice
+
+Trust indicators should be subtle, not distracting.
+
+---
+
+# 15. Loading States
+
+Login
+
+Register
+
+Upload
+
+Verification
+
+Password Reset
+
+Skeletons where appropriate.
+
+Buttons disabled during submission.
+
+---
+
+# 16. Error States
+
+Incorrect Password
+
+Email Exists
+
+Weak Password
+
+Expired Token
+
+Upload Failed
+
+Network Error
+
+Each error includes a clear recovery action.
+
+---
+
+# 17. Responsive Behaviour
+
+Desktop
+
+Centered authentication card
+
+Tablet
+
+Reduced width
+
+Mobile
+
+Full-width form
+
+Large touch targets
+
+Sticky primary action button where appropriate
+
+---
+
+# 18. Accessibility
+
+Keyboard navigation
+
+Visible focus
+
+ARIA labels
+
+Password visibility toggle accessible
+
+Touch targets ≥ 44px
+
+---
+
+# 19. Performance
+
+Lazy-load illustrations.
+
+Optimize uploaded images before submission.
+
+Compress document previews.
+
+Use server-side validation in addition to client-side checks.
+
+---
+
+# 20. Kiro Implementation Rules
+
+* Keep authentication screens visually simple.
+* Separate patient and therapist registration after role selection.
+* Use a multi-step wizard for therapist onboarding.
+* Autosave therapist onboarding progress.
+* Validate uploads before sending.
+* Never expose verification decisions on the client without server validation.
+* Show progress indicators during onboarding.
+
+---
+
+# 21. Acceptance Criteria
+
+Authentication and onboarding are complete when:
+
+* Patients can register in under 2 minutes.
+* Therapists can complete onboarding without losing progress.
+* Email verification works reliably.
+* Password reset flow is secure.
+* Therapist verification states are clearly communicated.
+* The experience is responsive, accessible, and consistent with the TalkIndia design system.
+
+---
+
+# End of Document
+
+
+# 08.06_THERAPIST_DASHBOARD_UI.md
+
+# TalkIndia
+
+## Therapist Dashboard UI Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* 08.03_BOOKING_AND_THERAPIST_JOURNEY_UI.md
+* 08.05_AUTHENTICATION_AND_ONBOARDING_UI.md
+
+---
+
+# 1. Purpose
+
+Defines the complete Therapist Dashboard experience.
+
+The dashboard should allow therapists to:
+
+* Manage appointments
+* Configure availability
+* Conduct consultations
+* Monitor earnings
+* Respond to reviews
+* Update professional profile
+
+The experience should prioritize today's work rather than analytics.
+
+---
+
+# 2. Dashboard Goals
+
+Primary Goals
+
+* Know today's schedule immediately
+* Join consultations quickly
+* Manage calendar efficiently
+* Keep availability updated
+
+Secondary Goals
+
+* Track earnings
+* Review patient feedback
+* Complete profile
+* Monitor verification status
+
+---
+
+# 3. Navigation
+
+Desktop
+
+```text id="therapist-nav"
+------------------------------------------------------------
+Logo
+
+Search
+
+Notifications
+
+Profile
+------------------------------------------------------------
+
+Sidebar
+
+Dashboard
+Calendar
+Appointments
+Availability
+Patients
+Reviews
+Earnings
+Profile
+Settings
+Support
+Logout
+
+------------------------------------------------------------
+
+Main Content
+```
+
+---
+
+Mobile
+
+Bottom Navigation
+
+Dashboard
+
+Calendar
+
+Appointments
+
+Profile
+
+More
+
+---
+
+# 4. Dashboard Home
+
+Layout
+
+```text id="therapist-home"
+----------------------------------------------------------
+
+Welcome Banner
+
+----------------------------------------------------------
+
+Today's Schedule
+
+----------------------------------------------------------
+
+Upcoming Sessions
+
+----------------------------------------------------------
+
+Quick Actions
+
+----------------------------------------------------------
+
+Revenue Summary
+
+----------------------------------------------------------
+
+Recent Reviews
+
+----------------------------------------------------------
+
+Verification Status
+
+----------------------------------------------------------
+```
+
+---
+
+# 5. Welcome Banner
+
+Displays
+
+Greeting
+
+Today's Date
+
+Today's Session Count
+
+Next Appointment Countdown
+
+Primary CTA
+
+View Calendar
+
+Background
+
+Primary Light Green
+
+---
+
+# 6. Today's Schedule
+
+Most important widget.
+
+Each Appointment Card
+
+Patient Name
+
+Time
+
+Consultation Type
+
+Duration
+
+Status
+
+Buttons
+
+Join Session
+
+View Details
+
+Reschedule
+
+Cancel (if allowed)
+
+Join button becomes active 15 minutes before start.
+
+---
+
+# 7. Calendar
+
+Views
+
+Day
+
+Week
+
+Month
+
+Agenda
+
+Display
+
+Available Slots
+
+Booked Sessions
+
+Blocked Time
+
+Cancelled Sessions
+
+Current Time Indicator
+
+Drag-and-drop rescheduling (future version)
+
+---
+
+# 8. Availability Management
+
+Weekly Schedule
+
+Monday → Sunday
+
+Working Hours
+
+Break Time
+
+Slot Duration
+
+Buffer Before
+
+Buffer After
+
+Holiday Management
+
+Buttons
+
+Save
+
+Copy Schedule
+
+Apply to Multiple Days
+
+---
+
+# 9. Appointments
+
+Tabs
+
+Upcoming
+
+Today
+
+Completed
+
+Cancelled
+
+No Show
+
+Each Card
+
+Patient
+
+Time
+
+Status
+
+Payment Status
+
+Meeting Link
+
+Buttons
+
+Open
+
+Join
+
+Reschedule
+
+Cancel
+
+---
+
+# 10. Appointment Details
+
+Displays
+
+Patient Information
+
+Appointment Information
+
+Payment Status
+
+Invoice
+
+Session Notes (Private)
+
+Follow-up Recommendation
+
+Buttons
+
+Start Session
+
+Complete Session
+
+Cancel
+
+---
+
+# 11. Patients
+
+List View
+
+Columns
+
+Patient
+
+Last Session
+
+Upcoming Session
+
+Total Sessions
+
+Status
+
+Search
+
+Filters
+
+Pagination
+
+Patient medical records are **not** stored in Version 1.
+
+---
+
+# 12. Reviews
+
+Average Rating
+
+Rating Distribution
+
+Review List
+
+Each Review
+
+Rating
+
+Comment
+
+Appointment Date
+
+Patient Name (if visible)
+
+Response (future)
+
+---
+
+# 13. Earnings
+
+Cards
+
+Today's Earnings
+
+This Month
+
+This Year
+
+Pending Payout
+
+Table
+
+Appointment
+
+Amount
+
+Platform Fee
+
+Net Earnings
+
+Status
+
+Export CSV (future)
+
+---
+
+# 14. Profile
+
+Editable
+
+Photo
+
+Professional Title
+
+Biography
+
+Experience
+
+Languages
+
+Specializations
+
+Consultation Fee
+
+Education
+
+Certificates
+
+Buttons
+
+Save Changes
+
+Preview Public Profile
+
+---
+
+# 15. Verification Status
+
+States
+
+Draft
+
+Pending
+
+Approved
+
+Rejected
+
+Expired
+
+Each State
+
+Color
+
+Icon
+
+Description
+
+Required Action
+
+---
+
+# 16. Notifications
+
+Appointment Reminders
+
+New Booking
+
+Cancellation
+
+Review Received
+
+Payment Processed
+
+Verification Update
+
+---
+
+# 17. Support
+
+Create Ticket
+
+View Tickets
+
+Reply
+
+Upload Attachment
+
+Track Status
+
+---
+
+# 18. Settings
+
+Profile
+
+Security
+
+Notification Preferences
+
+Availability Defaults
+
+Language (future)
+
+Delete Account Request
+
+Logout
+
+---
+
+# 19. Empty States
+
+No Appointments Today
+
+"No appointments scheduled."
+
+CTA
+
+Update Availability
+
+No Reviews
+
+"No reviews yet."
+
+No Earnings
+
+"No completed consultations."
+
+---
+
+# 20. Loading States
+
+Dashboard Widgets
+
+Skeleton Cards
+
+Calendar
+
+Skeleton Grid
+
+Appointments
+
+Skeleton List
+
+Buttons
+
+Loading Indicator
+
+---
+
+# 21. Error States
+
+Calendar Load Failed
+
+Session Join Failed
+
+Availability Save Failed
+
+Network Error
+
+Retry Actions Available
+
+---
+
+# 22. Responsive Behaviour
+
+Desktop
+
+Persistent Sidebar
+
+Multi-column Dashboard
+
+Tablet
+
+Collapsible Sidebar
+
+Two-column Widgets
+
+Mobile
+
+Single Column
+
+Bottom Navigation
+
+Sticky "Join Session" button when relevant
+
+---
+
+# 23. Accessibility
+
+Keyboard Navigation
+
+Screen Reader Support
+
+ARIA Labels
+
+Visible Focus States
+
+Touch Targets ≥ 44px
+
+Accessible Calendar Navigation
+
+---
+
+# 24. Performance
+
+Lazy-load analytics.
+
+Virtualize long appointment lists.
+
+Paginate patient history.
+
+Prefetch upcoming appointment details.
+
+Cache dashboard widgets where appropriate.
+
+---
+
+# 25. Security
+
+Only authenticated therapists can access.
+
+Therapists may only view their own appointments.
+
+Private session notes are therapist-only.
+
+Financial information is visible only to the therapist and authorized admins.
+
+---
+
+# 26. Kiro Implementation Rules
+
+* Make Today's Schedule the highest-priority content.
+* Build the calendar as a reusable component shared with booking.
+* Keep dashboard widgets modular.
+* Autosave availability changes where practical.
+* Never expose private therapist notes to patients.
+* Optimize for therapists who primarily use tablets and laptops.
+
+---
+
+# 27. Acceptance Criteria
+
+The Therapist Dashboard is complete when:
+
+* Therapists can manage their daily schedule efficiently.
+* Availability is easy to configure.
+* Joining consultations is one click when available.
+* Earnings are clearly presented.
+* Reviews and verification status are visible.
+* The interface remains responsive, accessible, and consistent with the TalkIndia design system.
+
+---
+
+# End of Document
+
+
+# 08.07_ADMIN_DASHBOARD_UI.md
+
+# TalkIndia
+
+## Admin Dashboard UI Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* 08.06_THERAPIST_DASHBOARD_UI.md
+
+---
+
+# 1. Purpose
+
+Defines the complete administrator experience.
+
+The dashboard enables platform administrators to:
+
+* Verify therapists
+* Manage users
+* Monitor appointments
+* Handle payments and refunds
+* Resolve support tickets
+* Publish blog content
+* Monitor platform health
+* Configure platform settings
+
+The interface should prioritize operational efficiency over visual complexity.
+
+---
+
+# 2. Admin Goals
+
+Primary Goals
+
+* Approve therapists quickly
+* Resolve support efficiently
+* Monitor platform activity
+* Detect issues early
+
+Secondary Goals
+
+* Manage CMS
+* Review analytics
+* Configure platform
+* Audit sensitive actions
+
+---
+
+# 3. Navigation
+
+Desktop Layout
+
+```text id="admin-layout"
+------------------------------------------------------------
+Logo
+
+Global Search
+
+Notifications
+
+Admin Profile
+------------------------------------------------------------
+
+Sidebar
+
+Dashboard
+Therapists
+Patients
+Appointments
+Payments
+Refunds
+Support
+CMS
+Analytics
+Audit Logs
+Settings
+Logout
+
+------------------------------------------------------------
+
+Main Content
+```
+
+---
+
+Mobile
+
+Admin dashboard is optimized primarily for tablets and desktops.
+
+Mobile provides:
+
+Dashboard
+
+Notifications
+
+Critical Approvals
+
+Support
+
+Read-only analytics
+
+---
+
+# 4. Dashboard Home
+
+Layout
+
+```text id="admin-home"
+----------------------------------------------------------
+
+Platform Overview
+
+----------------------------------------------------------
+
+Pending Therapist Verification
+
+----------------------------------------------------------
+
+Today's Platform Activity
+
+----------------------------------------------------------
+
+Support Queue
+
+----------------------------------------------------------
+
+Revenue Snapshot
+
+----------------------------------------------------------
+
+Recent Audit Activity
+
+----------------------------------------------------------
+```
+
+---
+
+# 5. Platform Overview
+
+Statistics Cards
+
+Registered Patients
+
+Verified Therapists
+
+Pending Therapists
+
+Today's Appointments
+
+Completed Appointments
+
+Revenue Today
+
+Revenue This Month
+
+Support Tickets
+
+---
+
+# 6. Therapist Verification Queue
+
+Highest-priority section.
+
+Each Card
+
+Photo
+
+Name
+
+Qualification
+
+License Number
+
+Experience
+
+Submitted Date
+
+Verification Status
+
+Buttons
+
+Review
+
+Approve
+
+Reject
+
+View Documents
+
+Bulk approval is **not** allowed.
+
+Each therapist requires manual review.
+
+---
+
+# 7. Therapist Details
+
+Displays
+
+Profile
+
+Professional Information
+
+Uploaded Documents
+
+Education
+
+Certificates
+
+Verification History
+
+Admin Notes
+
+Buttons
+
+Approve
+
+Reject
+
+Request Additional Documents
+
+Suspend
+
+---
+
+# 8. User Management
+
+Tabs
+
+Patients
+
+Therapists
+
+Admins
+
+Columns
+
+Name
+
+Email
+
+Phone
+
+Status
+
+Role
+
+Created Date
+
+Actions
+
+View
+
+Suspend
+
+Reactivate
+
+Reset Password (Admin)
+
+Search and advanced filters available.
+
+---
+
+# 9. Appointment Monitoring
+
+Overview
+
+Today's Sessions
+
+Upcoming
+
+Cancelled
+
+No Shows
+
+Failed Payments
+
+Search
+
+Date Filter
+
+Therapist Filter
+
+Status Filter
+
+Actions
+
+View Details
+
+Contact Support
+
+---
+
+# 10. Payments & Refunds
+
+Summary Cards
+
+Revenue
+
+Refund Requests
+
+Pending Payouts
+
+Gateway Errors
+
+Table
+
+Payment ID
+
+Patient
+
+Therapist
+
+Amount
+
+Gateway
+
+Status
+
+Buttons
+
+View
+
+Approve Refund
+
+Reject Refund
+
+Export
+
+---
+
+# 11. Support Dashboard
+
+Priority Queue
+
+Urgent
+
+High
+
+Medium
+
+Low
+
+Each Ticket
+
+Subject
+
+Customer
+
+Category
+
+Created Time
+
+Assigned Admin
+
+Status
+
+Buttons
+
+Open
+
+Assign
+
+Resolve
+
+Escalate
+
+---
+
+# 12. CMS
+
+Sidebar
+
+Blog Posts
+
+Categories
+
+Media Library
+
+SEO
+
+Each Blog
+
+Status
+
+Author
+
+Updated Date
+
+Actions
+
+Edit
+
+Preview
+
+Publish
+
+Archive
+
+---
+
+# 13. Analytics
+
+Charts
+
+Appointments
+
+Revenue
+
+Bookings
+
+Active Users
+
+Top Therapists
+
+Top Categories
+
+Growth Trends
+
+Filters
+
+Daily
+
+Weekly
+
+Monthly
+
+Yearly
+
+---
+
+# 14. Audit Logs
+
+Table
+
+Timestamp
+
+Admin
+
+Action
+
+Entity
+
+IP Address
+
+Status
+
+Search
+
+Filters
+
+Date
+
+Action
+
+Admin
+
+Entity
+
+Read-only.
+
+No editing allowed.
+
+---
+
+# 15. Platform Settings
+
+Categories
+
+General
+
+Booking
+
+Payments
+
+Notifications
+
+Email
+
+Security
+
+Storage
+
+Maintenance Mode
+
+Each setting shows:
+
+Description
+
+Current Value
+
+Last Updated
+
+Updated By
+
+---
+
+# 16. Platform Settings
+
+Admins can configure key platform values:
+
+- Commission percentage
+- Cancellation window (hours before appointment)
+- Maximum reschedules per appointment
+- Slot lock duration (minutes)
+
+Each setting shows: current value, description, last updated.
+
+Simple form with save button. No complex feature flag system needed for MVP.
+
+---
+
+# 17. Notifications
+
+Admin Alerts
+
+Payment Failures
+
+Verification Requests
+
+Support Escalations
+
+System Maintenance
+
+Security Events
+
+---
+
+# 18. System Health (Future Enhancement)
+
+Not needed for MVP. Vercel and Supabase dashboards provide this natively.
+
+---
+
+# 19. Search
+
+Global Search
+
+Search across
+
+Users
+
+Therapists
+
+Appointments
+
+Payments
+
+Support Tickets
+
+Blog Posts
+
+Audit Logs
+
+Keyboard shortcut
+
+Ctrl + K / Cmd + K
+
+---
+
+# 20. Loading States
+
+Dashboard Cards
+
+Skeletons
+
+Tables
+
+Skeleton Rows
+
+Charts
+
+Loading Placeholders
+
+Buttons
+
+Loading Indicator
+
+---
+
+# 21. Empty States
+
+No Pending Therapists
+
+No Refund Requests
+
+No Support Tickets
+
+No Analytics Data
+
+Each state provides context and recommended actions.
+
+---
+
+# 22. Error States
+
+Permission Denied
+
+Data Load Failed
+
+Gateway Error
+
+Webhook Failure
+
+Retry actions available where appropriate.
+
+---
+
+# 23. Responsive Behaviour
+
+Desktop
+
+Full Sidebar
+
+Multi-column Dashboard
+
+Tablet
+
+Collapsible Sidebar
+
+Responsive Tables
+
+Mobile
+
+Critical operations only
+
+Read-only analytics
+
+Essential actions prioritized
+
+---
+
+# 24. Accessibility
+
+Keyboard Navigation
+
+ARIA Labels
+
+Visible Focus
+
+Accessible Charts
+
+Touch Targets ≥ 44px
+
+High Contrast
+
+---
+
+# 25. Performance
+
+Server-render overview widgets.
+
+Lazy-load charts.
+
+Paginate large tables.
+
+Virtualize audit logs.
+
+Cache analytics where appropriate.
+
+---
+
+# 26. Security
+
+Multi-factor Authentication recommended.
+
+Role-based permissions enforced.
+
+Sensitive actions require confirmation.
+
+Every administrative action recorded in audit logs.
+
+No destructive action without confirmation.
+
+---
+
+# 27. Kiro Implementation Rules
+
+* Design the dashboard around operational workflows rather than database tables.
+* Keep verification and support queues prominently visible.
+* Build reusable admin tables and filters.
+* Use optimistic updates only where safe.
+* Require confirmation dialogs for destructive actions.
+* Record all sensitive actions in the audit log.
+
+---
+
+# 28. Acceptance Criteria
+
+The Admin Dashboard is complete when:
+
+* Therapists can be reviewed efficiently.
+* Users can be managed securely.
+* Payments and refunds are monitored.
+* Support tickets are resolved.
+* CMS content is manageable.
+* Analytics are available.
+* Platform settings are configurable.
+* Audit logs provide complete traceability.
+
+---
+
+# End of Document
+
+# 08.08_COMPONENT_LIBRARY.md
+
+# TalkIndia
+
+## Component Library & Design System Specification
+
+Version: 1.0
+
+Dependencies
+
+* 08.01_DESIGN_SYSTEM_AND_BRAND_GUIDELINES.md
+* All UI Specification Documents
+
+---
+
+# 1. Purpose
+
+Defines every reusable UI component used throughout TalkIndia.
+
+Goals
+
+* Consistency
+* Reusability
+* Accessibility
+* Performance
+* Easy maintenance
+
+Every page must use components from this library.
+
+---
+
+# 2. Component Architecture
+
+```text id="component-tree"
+Primitive Components
+        │
+        ▼
+Shared Components
+        │
+        ▼
+Business Components
+        │
+        ▼
+Complete Screens
+```
+
+---
+
+# 3. Primitive Components
+
+Built using shadcn/ui.
+
+Includes
+
+Button
+
+Input
+
+Textarea
+
+Checkbox
+
+Radio
+
+Switch
+
+Badge
+
+Avatar
+
+Tooltip
+
+Popover
+
+Separator
+
+Scroll Area
+
+Accordion
+
+Tabs
+
+Dialog
+
+Drawer
+
+Dropdown Menu
+
+Context Menu
+
+Hover Card
+
+Command Palette
+
+Calendar
+
+---
+
+Rules
+
+Never modify primitive components directly.
+
+Extend them through wrappers.
+
+---
+
+# 4. Button Component
+
+Variants
+
+Primary
+
+Secondary
+
+Outline
+
+Ghost
+
+Link
+
+Danger
+
+Success
+
+Warning
+
+Loading
+
+Icon Only
+
+---
+
+Sizes
+
+Small
+
+Medium
+
+Large
+
+Extra Large
+
+---
+
+States
+
+Default
+
+Hover
+
+Focus
+
+Active
+
+Loading
+
+Disabled
+
+---
+
+Props
+
+Variant
+
+Size
+
+Loading
+
+Disabled
+
+Full Width
+
+Left Icon
+
+Right Icon
+
+---
+
+Accessibility
+
+Keyboard support
+
+Visible focus
+
+ARIA labels
+
+---
+
+# 5. Input Components
+
+Types
+
+Text
+
+Email
+
+Password
+
+Phone
+
+OTP
+
+Search
+
+Textarea
+
+Date
+
+Time
+
+Number
+
+Currency
+
+Autocomplete
+
+---
+
+Every Input Includes
+
+Label
+
+Placeholder
+
+Helper Text
+
+Validation Message
+
+Character Counter (optional)
+
+Leading Icon
+
+Trailing Icon
+
+Loading State
+
+Disabled State
+
+---
+
+# 6. Selection Components
+
+Checkbox
+
+Radio Group
+
+Toggle Group
+
+Switch
+
+Multi Select
+
+Single Select
+
+Combobox
+
+Autocomplete
+
+---
+
+# 7. Navigation Components
+
+Navbar
+
+Sidebar
+
+Breadcrumb
+
+Pagination
+
+Tabs
+
+Bottom Navigation
+
+Command Palette
+
+Search Bar
+
+---
+
+# 8. Feedback Components
+
+Toast
+
+Alert
+
+Confirmation Dialog
+
+Error Banner
+
+Success Banner
+
+Warning Banner
+
+Loading Overlay
+
+Progress Bar
+
+---
+
+# 9. Layout Components
+
+Container
+
+Section
+
+Card
+
+Grid
+
+Stack
+
+Divider
+
+Spacer
+
+Page Header
+
+Dashboard Widget
+
+Sticky Panel
+
+---
+
+# 10. Therapist Components
+
+Therapist Card
+
+Therapist Profile Header
+
+Specialization Badge
+
+Verification Badge
+
+Language Badge
+
+Availability Calendar
+
+Booking Summary Card
+
+Recommended Therapist Card
+
+---
+
+# 11. Appointment Components
+
+Appointment Card
+
+Appointment Timeline
+
+Status Badge
+
+Countdown Timer
+
+Meeting Card
+
+Cancellation Dialog
+
+Reschedule Dialog
+
+Appointment Summary
+
+---
+
+# 12. Payment Components
+
+Payment Summary
+
+Coupon Input
+
+Invoice Card
+
+Payment Method Selector
+
+Refund Status Badge
+
+Payment Status Badge
+
+Secure Payment Banner
+
+---
+
+# 13. Dashboard Components
+
+Statistic Card
+
+Revenue Card
+
+Upcoming Appointment Widget
+
+Today's Schedule Widget
+
+Recent Activity
+
+Notification Widget
+
+Support Widget
+
+Analytics Card
+
+Quick Action Card
+
+---
+
+# 14. Admin Components
+
+Verification Queue Card
+
+Support Ticket Card
+
+Audit Log Table
+
+User Table
+
+Platform Setting Card
+
+---
+
+# 15. CMS Components
+
+Rich Text Editor
+
+Image Upload
+
+SEO Preview
+
+Category Selector
+
+Media Library Grid
+
+Blog Card
+
+Blog Editor Toolbar
+
+---
+
+# 16. Data Display Components
+
+Table
+
+Data Grid
+
+List
+
+Timeline
+
+Accordion
+
+Tree View
+
+Chart Container
+
+Metric Card
+
+Key Value Pair
+
+---
+
+# 17. Calendar Components
+
+Month View
+
+Week View
+
+Day View
+
+Time Slot Grid
+
+Availability Editor
+
+Date Picker
+
+Range Picker
+
+Current Time Indicator
+
+---
+
+# 18. Modal Components
+
+Confirmation Modal
+
+Information Modal
+
+Warning Modal
+
+Success Modal
+
+Delete Confirmation
+
+Image Preview
+
+Document Preview
+
+Fullscreen Modal
+
+---
+
+# 19. Empty States
+
+Appointments
+
+Therapists
+
+Notifications
+
+Reviews
+
+Payments
+
+Support
+
+Search
+
+Blogs
+
+Each Includes
+
+Illustration
+
+Title
+
+Description
+
+Primary Action
+
+---
+
+# 20. Error States
+
+404
+
+403
+
+500
+
+Network Error
+
+Unauthorized
+
+Payment Failed
+
+Booking Conflict
+
+Retry Component
+
+---
+
+# 21. Loading Components
+
+Skeleton Card
+
+Skeleton Table
+
+Skeleton Profile
+
+Skeleton Dashboard
+
+Spinner
+
+Progress Bar
+
+Loading Button
+
+---
+
+# 22. Charts
+
+Line Chart
+
+Bar Chart
+
+Area Chart
+
+Pie Chart
+
+Donut Chart
+
+Metric Cards
+
+Trend Indicators
+
+---
+
+# 23. Component States
+
+Every component must support
+
+Default
+
+Hover
+
+Focus
+
+Active
+
+Disabled
+
+Loading
+
+Error
+
+Success (where applicable)
+
+---
+
+# 24. Accessibility Standards
+
+WCAG AA
+
+Keyboard Navigation
+
+Screen Reader Support
+
+Focus Indicators
+
+ARIA Labels
+
+Touch Targets ≥ 44px
+
+Color-independent Status Indicators
+
+---
+
+# 25. Responsive Rules
+
+Desktop
+
+Tablet
+
+Mobile
+
+Every component must define responsive behavior.
+
+No horizontal scrolling unless intentionally designed.
+
+---
+
+# 26. Naming Convention
+
+Files
+
+PascalCase
+
+Components
+
+PascalCase
+
+Hooks
+
+camelCase
+
+Props
+
+camelCase
+
+CSS Variables
+
+kebab-case
+
+---
+
+# 27. Folder Structure
+
+```text id="component-folder"
+components/
+
+ui/
+layout/
+forms/
+navigation/
+feedback/
+booking/
+therapists/
+appointments/
+payments/
+dashboard/
+admin/
+cms/
+charts/
+shared/
+```
+
+---
+
+# 28. Kiro Implementation Rules
+
+* Build primitives first.
+* Wrap shadcn/ui components instead of modifying them directly.
+* Keep business logic out of presentational components.
+* Prefer composition over inheritance.
+* Every component must be reusable.
+* Every component must include loading and disabled states where relevant.
+* Follow the design tokens defined in the design system.
+* Write components with strict TypeScript typing.
+* Avoid component duplication.
+
+---
+
+# 29. Acceptance Criteria
+
+The component library is complete when:
+
+* Every screen can be built using reusable components.
+* No duplicate UI components exist.
+* All components follow the design system.
+* Accessibility standards are met.
+* Components are responsive.
+* States are consistently implemented.
+* Components remain independent of business logic.
+
+---
+
+# End of Document
+
+# 08.09_FRONTEND_ARCHITECTURE.md
+
+# TalkIndia
+
+## Frontend Architecture Specification
+
+Version: 1.0
+
+Dependencies
+
+* 04_SYSTEM_ARCHITECTURE.md
+* 08.08_COMPONENT_LIBRARY.md
+
+---
+
+# 1. Purpose
+
+Defines how the TalkIndia frontend is structured.
+
+Goals
+
+* Scalable architecture
+* Feature isolation
+* Reusable UI
+* Excellent performance
+* Maintainability
+* Type safety
+
+This document is the source of truth for all frontend implementation.
+
+---
+
+# 2. Tech Stack
+
+Framework
+
+Next.js 15+
+
+Language
+
+TypeScript
+
+Styling
+
+Tailwind CSS
+
+Component Library
+
+shadcn/ui
+
+Backend
+
+Supabase
+
+Forms
+
+React Hook Form
+
+Validation
+
+Zod
+
+State
+
+TanStack Query
+
+React Context
+
+Icons
+
+Lucide React
+
+Animations
+
+Framer Motion (minimal)
+
+---
+
+# 3. Architectural Principles
+
+* Feature-first organization
+* Server Components by default
+* Client Components only when necessary
+* Thin UI, fat services
+* Strong typing everywhere
+* Composition over inheritance
+* Accessibility by default
+
+---
+
+# 4. Project Structure
+
+```text id="frontend-tree"
+app/
+features/
+components/
+lib/
+services/
+repositories/
+actions/
+providers/
+hooks/
+schemas/
+types/
+utils/
+constants/
+styles/
+public/
+```
+
+---
+
+# 5. App Router Structure
+
+```text id="app-router"
+app/
+
+(public)
+
+(auth)
+
+(patient)
+
+(therapist)
+
+(admin)
+
+api/
+
+layout.tsx
+
+loading.tsx
+
+error.tsx
+
+not-found.tsx
+```
+
+---
+
+# 6. Route Groups
+
+Public
+
+/
+
+/find-therapist
+
+/blog
+
+/about
+
+/contact
+
+Authentication
+
+/login
+
+/register
+
+/forgot-password
+
+/reset-password
+
+Patient
+
+/dashboard
+
+/appointments
+
+/invoices
+
+/reviews
+
+Therapist
+
+/dashboard
+
+/calendar
+
+/availability
+
+/earnings
+
+Admin
+
+/dashboard
+
+/users
+
+/payments
+
+/support
+
+/cms
+
+---
+
+# 7. Feature Modules
+
+Each feature contains:
+
+```text id="feature-structure"
+feature/
+
+components/
+
+actions/
+
+services/
+
+repositories/
+
+hooks/
+
+schemas/
+
+types/
+
+constants/
+```
+
+Examples
+
+booking/
+
+appointments/
+
+payments/
+
+therapists/
+
+notifications/
+
+reviews/
+
+---
+
+# 8. Component Hierarchy
+
+```text id="component-hierarchy"
+Primitive Components
+
+↓
+
+Shared Components
+
+↓
+
+Feature Components
+
+↓
+
+Page Components
+
+↓
+
+Layouts
+```
+
+Business logic never belongs in UI components.
+
+---
+
+# 9. Server Components
+
+Default choice.
+
+Use for
+
+Pages
+
+Layouts
+
+Data fetching
+
+SEO
+
+Static content
+
+---
+
+# 10. Client Components
+
+Only for
+
+Forms
+
+State
+
+Event handlers
+
+Browser APIs
+
+Interactive widgets
+
+Charts
+
+---
+
+# 11. State Management
+
+React Context
+
+Theme
+
+Auth Session
+
+UI Preferences
+
+TanStack Query
+
+Server data
+
+Caching
+
+Mutations
+
+Optimistic updates (when safe)
+
+Avoid global state unless necessary.
+
+---
+
+# 12. Data Flow
+
+```text id="data-flow"
+UI
+
+↓
+
+Server Action
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+Supabase
+
+↓
+
+Database
+```
+
+UI never talks directly to the database for business operations.
+
+---
+
+# 13. Forms
+
+Use
+
+React Hook Form
+
+Validation
+
+Zod
+
+Features
+
+Reusable field components
+
+Inline validation
+
+Server validation
+
+Optimistic UX where appropriate
+
+---
+
+# 14. Error Handling
+
+Global Error Boundary
+
+Feature Error Boundary
+
+Not Found
+
+Unauthorized
+
+Network Errors
+
+Validation Errors
+
+User-friendly messages only.
+
+---
+
+# 15. Loading Strategy
+
+Use
+
+Skeletons
+
+Suspense
+
+Progress Indicators
+
+Avoid spinner-only pages.
+
+---
+
+# 16. Authentication
+
+Supabase Auth
+
+Middleware
+
+Protected routes
+
+Role-based redirects
+
+Session refresh
+
+---
+
+# 17. Layout Architecture
+
+Public Layout
+
+Authentication Layout
+
+Patient Dashboard Layout
+
+Therapist Dashboard Layout
+
+Admin Dashboard Layout
+
+Each layout owns navigation and shared UI.
+
+---
+
+# 18. Styling Rules
+
+Tailwind only.
+
+Use design tokens.
+
+No inline styles.
+
+No arbitrary colors.
+
+Prefer utility classes over custom CSS.
+
+---
+
+# 19. Performance Strategy
+
+Server rendering by default.
+
+Lazy-load heavy components.
+
+Dynamic imports for charts.
+
+Optimize images with Next.js Image.
+
+Minimize client JavaScript.
+
+---
+
+# 20. Accessibility
+
+Semantic HTML
+
+Keyboard navigation
+
+ARIA labels
+
+Visible focus states
+
+Touch targets ≥ 44px
+
+---
+
+# 21. File Naming
+
+Components
+
+PascalCase.tsx
+
+Hooks
+
+useSomething.ts
+
+Schemas
+
+something.schema.ts
+
+Types
+
+something.types.ts
+
+Actions
+
+something.actions.ts
+
+Repositories
+
+something.repository.ts
+
+Services
+
+something.service.ts
+
+---
+
+# 22. Import Rules
+
+Absolute imports preferred.
+
+No circular dependencies.
+
+Shared utilities in lib/.
+
+Feature code should not directly depend on other features unless through shared contracts.
+
+---
+
+# 23. Testing Strategy (Future)
+
+Unit Tests
+
+Component Tests
+
+Integration Tests
+
+End-to-End Tests
+
+---
+
+# 24. Security
+
+Never expose service-role keys.
+
+Validate every server action.
+
+Escape user-generated content.
+
+Protect private routes with middleware and RLS.
+
+---
+
+# 25. Logging
+
+Log
+
+Critical errors
+
+Performance metrics
+
+User actions (where appropriate)
+
+Never log passwords or sensitive healthcare information.
+
+---
+
+# 26. Kiro Implementation Rules
+
+* Create the folder structure before implementing features.
+* Build shared providers first.
+* Implement authentication before protected routes.
+* Develop one feature module at a time.
+* Keep components focused on presentation.
+* Keep services responsible for business rules.
+* Repositories should be the only layer interacting with Supabase.
+* Use strict TypeScript (`noImplicitAny`, `strict` mode).
+* Keep imports organized and consistent.
+
+---
+
+# 27. Acceptance Criteria
+
+The frontend architecture is complete when:
+
+* The project follows a feature-first structure.
+* Pages use Server Components by default.
+* Client Components are limited to interactive use cases.
+* Data flows through Server Actions, services, and repositories.
+* Shared components are reused consistently.
+* Performance, accessibility, and security best practices are followed.
+* The codebase remains modular and maintainable as new features are added.
+
+---
+
+# End of Document
