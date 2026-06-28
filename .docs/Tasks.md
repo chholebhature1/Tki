@@ -118,6 +118,17 @@
 - [x] AppointmentDetailCard component (status badge, therapist info, details grid)
 - [x] /appointments/[appointmentId] page (Server Component, real Supabase queries)
 
+### Phase 4.3.1: Auth & Profile Synchronization
+
+- [x] `handle_new_user()` trigger function (auto-creates profile on signup)
+- [x] `on_auth_user_created` trigger on auth.users
+- [x] Default Patient role assignment (never NULL role_id)
+- [x] UPSERT/ON CONFLICT protection against duplicate profiles
+- [x] `update_updated_at_column()` reusable trigger function
+- [x] `set_updated_at` triggers on: profiles, therapist_profiles, appointments, reviews
+- [x] Regenerated database types
+- [x] Migration file: `20240701000001_auth_profile_sync.sql`
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
