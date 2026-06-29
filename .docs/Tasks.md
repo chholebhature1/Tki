@@ -321,7 +321,19 @@
   - UX: ConsultationUnavailable (too_early, ended, cancelled, payment_pending, unauthorized, not_found)
   - UX: ConsultationReady (shows token/room confirmation, participant info)
   - Redirect unauthenticated to login with return URL
-- [ ] Phase 6.4: LiveKit Video Room Implementation
+- [x] Phase 6.4: LiveKit Consultation Room
+  - Full LiveKit integration: LiveKitRoom, RoomAudioRenderer, VideoTrack, useTracks
+  - Custom dark-themed consultation UI matching telehealth standards
+  - Participant grid: remote (large) + local (picture-in-picture)
+  - Session timer (elapsed time counter)
+  - Connection state handling (connecting spinner, disconnected screen)
+  - Camera/Mic toggle controls (large touch targets, 48px)
+  - Leave confirmation dialog
+  - Waiting state when other participant hasn't joined
+  - Avatar fallbacks when camera is off
+  - Role-based redirect on leave (patient→/dashboard, therapist→/therapist/dashboard)
+  - Responsive: mobile PIP, desktop side-by-side
+  - Accessible: ARIA labels on all controls, keyboard operable
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery
