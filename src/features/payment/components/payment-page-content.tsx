@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import type { PaymentMethod, PaymentStatus } from "../types";
+import type { PaymentMethod, PaymentStatus, PaymentSummary } from "../types";
 import { mockPaymentSummary } from "../constants";
 import { PaymentMethodSelector } from "./payment-method-selector";
 import { OrderSummary } from "./order-summary";
@@ -9,7 +9,12 @@ import { PaymentProcessing } from "./payment-processing";
 import { PaymentSuccess } from "./payment-success";
 import { PaymentFailed } from "./payment-failed";
 
-export function PaymentPageContent() {
+interface PaymentPageContentProps {
+  appointmentInfo?: PaymentSummary;
+}
+
+export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps) {
+  const summary = appointmentInfo || mockPaymentSummary;
   const [method, setMethod] = useState<PaymentMethod>("upi");
   const [status, setStatus] = useState<PaymentStatus>("idle");
 
@@ -41,7 +46,7 @@ export function PaymentPageContent() {
   if (status === "success") {
     return (
       <div className="py-12">
-        <PaymentSuccess summary={mockPaymentSummary} />
+        <PaymentSuccess summary={summary} />
       </div>
     );
   }
@@ -79,20 +84,20 @@ export function PaymentPageContent() {
           onClick={processPayment}
           className="w-full rounded-xl bg-primary py-3.5 text-base font-medium text-white transition-all hover:bg-primary-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
-          Pay ₹{mockPaymentSummary.total.toLocaleString("en-IN")}
+          Pay ₹{summary.total.toLocaleString("en-IN")}
         </button>
       </div>
 
       {/* Sidebar */}
       <div className="hidden lg:block">
         <div className="sticky top-20">
-          <OrderSummary summary={mockPaymentSummary} />
+          <OrderSummary summary={summary} />
         </div>
       </div>
 
       {/* Mobile summary */}
       <div className="lg:hidden">
-        <OrderSummary summary={mockPaymentSummary} />
+        <OrderSummary summary={summary} />
       </div>
     </div>
   );

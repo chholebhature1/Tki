@@ -152,6 +152,27 @@
 - [x] Booking page fetches therapist from repository (not mock)
 - [x] Loading states for date/slot fetching
 
+### Phase 4.3.4: Booking Creation & Appointment Lifecycle
+
+- [x] BookingService (createBooking, lockSlot)
+  - Validates therapist exists + approved
+  - Checks for duplicate bookings
+  - Verifies slot lock ownership + expiry
+  - Creates appointment with status `payment_pending`
+  - Generates unique booking reference (TKI-XXXXX-XXXX)
+  - Removes slot lock after successful creation
+- [x] Server Actions (createBookingAction, lockSlotAction)
+  - Authenticates user before booking
+  - Returns typed BookingResult
+- [x] Booking wizard submits real booking on step 5
+  - Locks slot when time is selected
+  - Creates appointment on "Continue to Payment"
+  - Redirects to /payment/[appointmentId]
+  - Shows error messages if booking fails
+- [x] Payment page loads real appointment data when available
+  - Falls back to mock data for demo
+- [x] Error handling: expired lock, duplicate booking, unauthenticated
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
