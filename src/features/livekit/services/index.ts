@@ -1,2 +1,2 @@
-export { validateLiveKitConfig, getRoomName, generateToken, validateParticipant } from "./livekit.service";
-export { joinMeeting, leaveMeeting, endMeeting } from "./meeting.service";
+export { validateLiveKitConfig, getRoomName, buildParticipantIdentity, generateToken } from "./livekit.service";
+export { authorizeMeetingJoin, type MeetingAuthResult } from "./meeting.service";

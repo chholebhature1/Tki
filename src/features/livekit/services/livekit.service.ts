@@ -1,9 +1,12 @@
 /**
- * LiveKit configuration and token service.
- * ALL LiveKit secrets stay server-side only.
+ * LiveKit core service.
+ * Handles configuration validation and JWT token generation.
+ * ALL secrets stay server-side. Never expose apiKey/apiSecret to client.
  */
 
-import { ROOM_PREFIX } from "../constants";
+import { AccessToken } from "livekit-server-sdk";
+import { ROOM_PREFIX, TOKEN_EXPIRATION_SECONDS } from "../constants";
+import type { MeetingRole } from "../types";
 
 /** Validates LiveKit environment configuration. Throws if missing. */
 export function validateLiveKitConfig(): { url: string; apiKey: string; apiSecret: string } {
@@ -18,30 +21,42 @@ export function validateLiveKitConfig(): { url: string; apiKey: string; apiSecre
   return { url, apiKey, apiSecret };
 }
 
-/** Generates a unique room name from an appointment ID */
+/** Generates a room name from appointment ID */
 export function getRoomName(appointmentId: string): string {
   return `${ROOM_PREFIX}-${appointmentId}`;
 }
 
-/**
- * Generates a LiveKit access token for a participant.
- * To be implemented in Phase 6.2.
- */
-export async function generateToken(
-  _roomName: string,
-  _participantIdentity: string,
-  _participantName: string
-): Promise<string> {
-  throw new Error("Not implemented: generateToken will be built in Phase 6.2");
+/** Builds a unique participant identity */
+export function buildParticipantIdentity(userId: string, role: MeetingRole): string {
+  return `${role}_${userId}`;
 }
 
 /**
- * Validates a participant's permission to join a meeting.
- * To be implemented in Phase 6.2.
+ * Generates a LiveKit access token for a participant.
+ * The token grants room access with audio/video publish permissions.
  */
-export async function validateParticipant(
-  _appointmentId: string,
-  _userId: string
-): Promise<boolean> {
-  throw new Error("Not implemented: validateParticipant will be built in Phase 6.2");
+export async function generateToken(
+  roomName: string,
+  participantIdentity: string,
+  participantName: string,
+  role: MeetingRole
+): Promise<string> {
+  const { apiKey, apiSecret } = validateLiveKitConfig();
+
+  const token = new AccessToken(apiKey, apiSecret, {
+    identity: participantIdentity,
+    name: participantName,
+    ttl: TOKEN_EXPIRATION_SECONDS,
+    metadata: JSON.stringify({ role }),
+  });
+
+  token.addGrant({
+    room: roomName,
+    roomJoin: true,
+    canPublish: true,
+    canSubscribe: true,
+    canPublishData: true,
+  });
+
+  return await token.toJwt();
 }

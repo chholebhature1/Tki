@@ -1,38 +1,74 @@
 /**
- * Meeting lifecycle service.
- * Manages join/leave/end logic for consultations.
- * To be fully implemented in Phase 6.2.
+ * Meeting service.
+ * Orchestrates authorization and token generation for video consultations.
  */
 
-import type { TokenResponse, MeetingRole } from "../types";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { TokenResponse } from "../types";
+import { getRoomName, buildParticipantIdentity, generateToken, validateLiveKitConfig } from "./livekit.service";
+import { MeetingRepository } from "../repositories";
 
-/**
- * Joins a meeting — validates permissions and returns a token.
- */
-export async function joinMeeting(
-  _appointmentId: string,
-  _userId: string,
-  _role: MeetingRole
-): Promise<TokenResponse> {
-  throw new Error("Not implemented: joinMeeting will be built in Phase 6.2");
+export interface MeetingAuthResult {
+  success: boolean;
+  data?: TokenResponse;
+  error?: string;
 }
 
 /**
- * Leaves a meeting — records attendance.
+ * Authorizes a user to join a meeting and returns a LiveKit token.
+ * 
+ * Security checks:
+ * 1. User is authenticated
+ * 2. Appointment exists
+ * 3. Appointment status is "confirmed"
+ * 4. User is either the assigned patient or therapist
+ * 5. LiveKit configuration is valid
  */
-export async function leaveMeeting(
-  _appointmentId: string,
-  _userId: string
-): Promise<void> {
-  throw new Error("Not implemented: leaveMeeting will be built in Phase 6.2");
-}
+export async function authorizeMeetingJoin(
+  appointmentId: string,
+  userId: string
+): Promise<MeetingAuthResult> {
+  // Validate LiveKit config early
+  try {
+    validateLiveKitConfig();
+  } catch {
+    return { success: false, error: "Video service is not configured." };
+  }
 
-/**
- * Ends a meeting — marks appointment as completed.
- */
-export async function endMeeting(
-  _appointmentId: string,
-  _userId: string
-): Promise<void> {
-  throw new Error("Not implemented: endMeeting will be built in Phase 6.2");
+  // Validate participant
+  const { valid, role, appointment } = await MeetingRepository.validateParticipant(appointmentId, userId);
+
+  if (!valid || !role || !appointment) {
+    return { success: false, error: "You are not authorized to join this session." };
+  }
+
+  // Get participant name from profile
+  const supabase = await createServerSupabaseClient();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", userId)
+    .single();
+
+  const participantName = profile?.full_name || "Participant";
+
+  // Generate room name and token
+  const roomName = getRoomName(appointmentId);
+  const identity = buildParticipantIdentity(userId, role);
+
+  const token = await generateToken(roomName, identity, participantName, role);
+
+  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
+  if (!serverUrl) {
+    return { success: false, error: "Video service URL is not configured." };
+  }
+
+  return {
+    success: true,
+    data: {
+      token,
+      serverUrl,
+      roomName,
+    },
+  };
 }

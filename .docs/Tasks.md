@@ -305,8 +305,14 @@
   - Components: ConsultationRoom, ParticipantTile, ControlBar, WaitingScreen, PermissionScreen, ConnectionStatus, LoadingScreen, ErrorScreen
   - Environment validated: LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET configured
 
-- [ ] Phase 6.2: Token Generation & Consultation Room Implementation
-- [ ] Phase 6.3: Video Session Page & Dashboard Integration
+- [x] Phase 6.2: Secure Token Generation & Authorization
+  - LiveKitService: validateLiveKitConfig, getRoomName, buildParticipantIdentity, generateToken (JWT via livekit-server-sdk)
+  - MeetingRepository: validateParticipant (checks ownership + status), getRoomInfo, recordJoin/recordLeave (stubs)
+  - MeetingService: authorizeMeetingJoin (orchestrates validation → token generation)
+  - Server Action: generateMeetingTokenAction (authenticates → authorizes → returns token)
+  - Security: only confirmed appointments, only assigned patient/therapist, secrets never exposed
+  - Room naming: tki-consultation-{appointmentId}
+- [ ] Phase 6.3: Consultation Room Page & Dashboard Integration
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery

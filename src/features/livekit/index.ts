@@ -31,7 +31,7 @@ export {
   ErrorScreen,
 } from "./components";
 
-// Actions
+// Actions (public API for frontend)
 export {
   generateMeetingTokenAction,
   joinMeetingAction,
