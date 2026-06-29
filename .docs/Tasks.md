@@ -213,6 +213,24 @@
   - AppointmentActions (cancel button with confirmation, join placeholder)
 - [x] Appointment Detail page now includes actions (cancel, join session placeholder)
 
+### Phase 5.1: Patient Dashboard
+
+- [x] DashboardRepository.getPatientDashboard() — stats + upcoming + recent
+- [x] Patient layout (sidebar + mobile bottom nav + auth guard)
+- [x] DashboardSidebar (logo, nav items, user info, logout)
+- [x] DashboardMobileNav (top bar + bottom tab nav)
+- [x] StatCard (reusable stat component)
+- [x] Dashboard page:
+  - Greeting with time-of-day
+  - Next appointment notice
+  - 4 stat cards (upcoming, completed, cancelled, total)
+  - Quick actions (find therapist, book session, edit profile)
+  - Upcoming appointments list (real data, AppointmentCard)
+  - Recent activity
+  - Empty state with CTA
+- [x] Route protection (redirects unauthenticated to login)
+- [x] Mobile-friendly with bottom padding for fixed nav
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
