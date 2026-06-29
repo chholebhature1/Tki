@@ -231,6 +231,22 @@
 - [x] Route protection (redirects unauthenticated to login)
 - [x] Mobile-friendly with bottom padding for fixed nav
 
+### Phase 5.2: Therapist Dashboard
+
+- [x] TherapistDashboardRepository.getDashboard() — stats, today's schedule, upcoming, availability summary
+- [x] Therapist layout (auth guard, role verification, sidebar)
+- [x] TherapistSidebar (nav: dashboard, appointments, availability, patients, profile, settings)
+- [x] /therapist/dashboard page:
+  - Welcome greeting
+  - 4 stat cards (today's sessions, upcoming, completed today, active patients)
+  - Today's schedule (AppointmentCard with showPatient)
+  - Upcoming sessions
+  - Availability summary (working days, hours, slot duration)
+  - Quick actions
+  - Empty states
+- [x] Role-based redirects (patients → /dashboard, admins → /admin)
+- [x] Reuses: StatCard, AppointmentCard, DashboardMobileNav
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
