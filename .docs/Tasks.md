@@ -263,6 +263,20 @@
 - Add redirect URL: `https://klmwkaqylpivwbggvzlb.supabase.co/auth/v1/callback`
 - Add site URL: `http://localhost:3000` (dev) or production URL
 
+### Phase 5.4: Admin Dashboard (MVP)
+
+- [x] AdminRepository (getStats, getTherapists, getUsers, getReviews, updateVerificationStatus, updateUserActiveStatus)
+- [x] Server Actions (approve/reject/suspend therapist, activate/deactivate user)
+- [x] Admin layout (role-based guard: admin only, redirects non-admins)
+- [x] AdminSidebar (6 nav items)
+- [x] /admin/dashboard — real stats (users, patients, therapists, verification, appointments, rating)
+- [x] /admin/therapists — table with approve/reject/suspend actions
+- [x] /admin/users — table with activate/deactivate actions
+- [x] /admin/appointments — list using AppointmentCard
+- [x] /admin/reviews — table with ratings and comments
+- [x] /admin/settings — simple form (platform name, email, phone, fee %)
+- [x] Reuses: StatCard, AppointmentCard, AppointmentStatusBadge, Logo
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
