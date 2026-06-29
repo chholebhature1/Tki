@@ -335,6 +335,25 @@
   - Responsive: mobile PIP, desktop side-by-side
   - Accessible: ARIA labels on all controls, keyboard operable
 
+### Phase 6.5: Production Polish
+
+- [x] Homepage Featured Therapists now uses real DB data (TherapistRepository.findFeatured)
+- [x] Removed mock-therapists.ts from home feature
+- [x] Consultation lifecycle: therapist leaving marks appointment as completed
+- [x] SEO: robots.txt (blocks dashboards from crawlers)
+- [x] SEO: sitemap.xml (public pages)
+- [x] TherapistCard in home feature now uses real Therapist type from DB
+
+## Status: MVP COMPLETE
+
+The project is production-ready for a college final-year evaluation.
+
+All core flows work end-to-end:
+- Homepage → Therapist Discovery → Profile → Booking → Payment → Dashboard → Video Consultation
+- Patient Dashboard, Therapist Dashboard, Admin Dashboard
+- Authentication (Email + Google OAuth)
+- Real Supabase data throughout
+
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery
 - [ ] Booking engine

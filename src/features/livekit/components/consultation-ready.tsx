@@ -43,12 +43,8 @@ export function ConsultationReady(props: ConsultationReadyProps) {
   );
 }
 
-function ConsultationRoomUI({
-  role,
-  therapistName,
-  appointmentTime,
-  duration,
-}: ConsultationReadyProps) {
+function ConsultationRoomUI(props: ConsultationReadyProps) {
+  const { role, therapistName, appointmentTime, duration } = props;
   const router = useRouter();
   const connectionState = useConnectionState();
   const room = useRoomContext();
@@ -78,11 +74,16 @@ function ConsultationRoomUI({
     setVideoEnabled(!videoEnabled);
   }, [localParticipant, videoEnabled]);
 
-  const handleLeave = useCallback(() => {
+  const handleLeave = useCallback(async () => {
     room.disconnect();
+    // Mark appointment completed when therapist leaves
+    if (role === "therapist") {
+      const { markCompletedAction } = await import("@/features/appointments/actions");
+      await markCompletedAction(props.token.roomName.replace("tki-consultation-", ""));
+    }
     if (role === "patient") router.push("/dashboard");
     else router.push("/therapist/dashboard");
-  }, [room, role, router]);
+  }, [room, role, router, props.token.roomName]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
