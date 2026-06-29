@@ -93,7 +93,8 @@ export class MeetingRepository {
    * Records a participant joining the meeting.
    * No-op until session_attendance table is created.
    */
-  static async recordJoin(_appointmentId: string, _userId: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async recordJoin(appointmentId: string, userId: string): Promise<void> {
     // Will insert into session_attendance when table exists
   }
 
@@ -101,7 +102,8 @@ export class MeetingRepository {
    * Records a participant leaving the meeting.
    * No-op until session_attendance table is created.
    */
-  static async recordLeave(_appointmentId: string, _userId: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static async recordLeave(appointmentId: string, userId: string): Promise<void> {
     // Will update session_attendance when table exists
   }
 }

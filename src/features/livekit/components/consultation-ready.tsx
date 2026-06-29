@@ -76,14 +76,21 @@ function ConsultationRoomUI(props: ConsultationReadyProps) {
 
   const handleLeave = useCallback(async () => {
     room.disconnect();
-    // Mark appointment completed when therapist leaves
-    if (role === "therapist") {
-      const { markCompletedAction } = await import("@/features/appointments/actions");
-      await markCompletedAction(props.token.roomName.replace("tki-consultation-", ""));
+    // Only mark completed when therapist explicitly leaves via dialog
+    // (Not on accidental disconnect)
+    if (role === "therapist" && elapsed > 60) {
+      // Only mark completed if session lasted more than 1 minute
+      try {
+        const { markCompletedAction } = await import("@/features/appointments/actions");
+        const appointmentId = props.token.roomName.replace("tki-consultation-", "");
+        await markCompletedAction(appointmentId);
+      } catch {
+        // Best effort — don't block navigation
+      }
     }
     if (role === "patient") router.push("/dashboard");
     else router.push("/therapist/dashboard");
-  }, [room, role, router, props.token.roomName]);
+  }, [room, role, router, props.token.roomName, elapsed]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
