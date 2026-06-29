@@ -1,16 +1,17 @@
 "use server";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { getBaseUrl } from "@/lib/get-base-url";
 import { redirect } from "next/navigation";
 
 export async function signInWithGoogle() {
   const supabase = await createServerSupabaseClient();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = getBaseUrl();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${siteUrl}/auth/callback?next=/dashboard`,
+      redirectTo: `${baseUrl}/auth/callback?next=/dashboard`,
     },
   });
 
