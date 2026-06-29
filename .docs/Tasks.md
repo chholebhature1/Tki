@@ -247,6 +247,22 @@
 - [x] Role-based redirects (patients → /dashboard, admins → /admin)
 - [x] Reuses: StatCard, AppointmentCard, DashboardMobileNav
 
+### Phase 5.3: Google OAuth
+
+- [x] `signInWithGoogle()` server action (uses supabase.auth.signInWithOAuth)
+- [x] `GoogleSignInButton` component (branded Google icon, loading state, error handling)
+- [x] Login page updated: Google button primary, email/password below divider
+- [x] Register page updated: same pattern
+- [x] Redirects through existing /auth/callback route
+- [x] Profile auto-created via existing handle_new_user() trigger
+- [x] Graceful error handling (cancelled login, provider unavailable)
+
+**Supabase Dashboard Configuration Required:**
+- Enable Google provider in Authentication → Providers → Google
+- Set Google Client ID and Secret (from Google Cloud Console)
+- Add redirect URL: `https://klmwkaqylpivwbggvzlb.supabase.co/auth/v1/callback`
+- Add site URL: `http://localhost:3000` (dev) or production URL
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
