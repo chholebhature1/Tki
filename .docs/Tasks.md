@@ -192,6 +192,27 @@
 - [x] PaymentSuccess supports onViewAppointment callback
 - [x] PaymentFailed shows server error messages
 
+### Phase 4.4: Appointment Management
+
+- [x] AppointmentService with validated status transitions
+  - cancelAppointment (patient or therapist)
+  - rescheduleAppointment
+  - markCompleted (therapist only)
+  - markNoShow (therapist only)
+  - Transition matrix enforced (e.g. only confirmed → completed)
+- [x] Server Actions (cancel, reschedule, markCompleted, markNoShow)
+  - All authenticate user
+  - All verify ownership/authorization
+- [x] Extended AppointmentRepository
+  - getUpcoming(userId) — future confirmed/pending
+  - getPast(userId) — historical appointments
+  - getTherapistAppointments(therapistProfileId) — therapist view
+- [x] Reusable components:
+  - AppointmentStatusBadge (color-coded per status)
+  - AppointmentCard (clickable, shows therapist/patient, date, time, mode)
+  - AppointmentActions (cancel button with confirmation, join placeholder)
+- [x] Appointment Detail page now includes actions (cancel, join session placeholder)
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)

@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout";
-import { AppointmentDetailCard, AppointmentRepository } from "@/features/appointments";
+import {
+  AppointmentDetailCard,
+  AppointmentActions,
+  AppointmentRepository,
+} from "@/features/appointments";
 
 export const metadata = {
   title: "Appointment Details",
@@ -29,6 +33,11 @@ export default async function AppointmentDetailPage(
 
           <div className="mt-8 rounded-2xl border border-border bg-white p-6 sm:p-8">
             <AppointmentDetailCard appointment={appointment} />
+
+            {/* Actions */}
+            <div className="mt-6 border-t border-border pt-6">
+              <AppointmentActions appointment={appointment} />
+            </div>
           </div>
         </div>
       </Container>
