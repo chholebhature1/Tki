@@ -292,6 +292,22 @@
 
 ## Pending
 
+### Phase 6: LiveKit Video Consultation
+
+- [x] Phase 6.1: Architecture & Foundation
+  - Installed: @livekit/components-react, @livekit/components-styles, livekit-client, livekit-server-sdk
+  - Created feature structure: types, constants, repositories, services, actions, components
+  - Types: MeetingParticipant, MeetingRole, MeetingState, ConnectionStatus, MediaState, etc.
+  - Constants: ROOM_PREFIX, TOKEN_EXPIRATION, EARLY_JOIN_MINUTES, CONNECTION_TIMEOUT
+  - Services: validateLiveKitConfig, getRoomName, generateToken (stub), validateParticipant (stub)
+  - Repository: MeetingRepository (getRoomInfo, recordJoin, recordLeave stubs)
+  - Actions: generateMeetingTokenAction, joinMeetingAction, leaveMeetingAction (stubs)
+  - Components: ConsultationRoom, ParticipantTile, ControlBar, WaitingScreen, PermissionScreen, ConnectionStatus, LoadingScreen, ErrorScreen
+  - Environment validated: LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET configured
+
+- [ ] Phase 6.2: Token Generation & Consultation Room Implementation
+- [ ] Phase 6.3: Video Session Page & Dashboard Integration
+
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery
 - [ ] Booking engine
