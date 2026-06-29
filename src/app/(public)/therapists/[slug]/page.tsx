@@ -1,59 +1,56 @@
+import { notFound } from "next/navigation";
 import { Container } from "@/components/layout";
-import { mockProfile } from "@/features/therapists/constants";
+import { TherapistRepository } from "@/features/therapists/repositories";
+import { TherapistListingCard } from "@/features/therapists/components/therapist-listing-card";
 import {
   ProfileHero,
   ProfileAbout,
   ProfileSpecializations,
-  ProfileEducation,
-  ProfileCertifications,
   ProfileConsultationInfo,
-  ProfileAvailability,
-  ProfileReviews,
   BookingCard,
-  SimilarTherapists,
 } from "@/features/therapists/components/profile";
 
-export function generateMetadata() {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+  const therapist = await TherapistRepository.findBySlug(slug);
+  if (!therapist) return { title: "Therapist Not Found" };
   return {
-    title: mockProfile.name,
-    description: `${mockProfile.professionalTitle} — ${mockProfile.bio}`,
+    title: therapist.name,
+    description: `${therapist.professionalTitle} — ${therapist.bio}`,
   };
 }
 
-export default function TherapistProfilePage() {
-  const therapist = mockProfile;
+export default async function TherapistProfilePage(
+  props: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await props.params;
+  const therapist = await TherapistRepository.findBySlug(slug);
+
+  if (!therapist) notFound();
+
+  const similar = await TherapistRepository.findSimilar(therapist.id);
 
   return (
     <section className="py-8 sm:py-10 lg:py-12">
       <Container>
         <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-          {/* Main Content */}
           <div className="space-y-8">
-            <ProfileHero therapist={therapist} />
-            <ProfileAbout bio={therapist.fullBio} />
+            <ProfileHero therapist={therapist as never} />
+            <ProfileAbout bio={therapist.bio} />
             <ProfileSpecializations specializations={therapist.specializations} />
             <ProfileConsultationInfo
-              sessionDuration={therapist.sessionDuration}
+              sessionDuration={50}
               consultationMode={therapist.consultationMode}
-              responseTime={therapist.responseTime}
-              cancellationPolicy={therapist.cancellationPolicy}
-            />
-            <ProfileEducation education={therapist.education} />
-            <ProfileCertifications certifications={therapist.certifications} />
-            <ProfileAvailability availability={therapist.availability} />
-            <ProfileReviews
-              reviews={therapist.reviews}
-              rating={therapist.rating}
-              totalReviews={therapist.totalReviews}
+              responseTime="Usually responds within 2 hours"
+              cancellationPolicy="Free cancellation up to 24 hours before the session"
             />
           </div>
 
-          {/* Sticky Booking Card — Desktop */}
           <div className="hidden lg:block">
             <div className="sticky top-20">
               <BookingCard
                 sessionFee={therapist.sessionFee}
-                sessionDuration={therapist.sessionDuration}
+                sessionDuration={50}
                 nextAvailableSlot={therapist.nextAvailableSlot}
               />
             </div>
@@ -67,21 +64,25 @@ export default function TherapistProfilePage() {
               <p className="text-lg font-bold text-text">
                 ₹{therapist.sessionFee.toLocaleString("en-IN")}
               </p>
-              <p className="text-xs text-muted">{therapist.sessionDuration} min session</p>
+              <p className="text-xs text-muted">50 min session</p>
             </div>
-            <a
-              href="/register"
-              className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-            >
+            <a href="/register" className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-hover">
               Book Appointment
             </a>
           </div>
         </div>
 
         {/* Similar Therapists */}
-        <div className="mt-12 border-t border-border pt-12">
-          <SimilarTherapists currentId={therapist.id} />
-        </div>
+        {similar.length > 0 && (
+          <div className="mt-12 border-t border-border pt-12">
+            <h2 className="text-lg font-semibold text-text">Similar Therapists</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {similar.map((t) => (
+                <TherapistListingCard key={t.id} therapist={t} />
+              ))}
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   );

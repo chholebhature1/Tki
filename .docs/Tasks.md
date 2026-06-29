@@ -129,6 +129,16 @@
 - [x] Regenerated database types
 - [x] Migration file: `20240701000001_auth_profile_sync.sql`
 
+### Phase 4.3.2: Demo Data & Therapist Repository
+
+- [x] Seed migration: 10 therapists, 3 patients, 20 appointments, 13 reviews
+- [x] All junction tables populated (specializations, languages)
+- [x] TherapistRepository (findAll, findBySlug, findFeatured, findSimilar)
+- [x] /find-therapists now queries real Supabase data
+- [x] /therapists/[slug] now queries real Supabase data
+- [x] Similar Therapists section uses repository
+- [x] Generated updated database types
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
