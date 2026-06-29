@@ -5,12 +5,16 @@ import { TherapistCard } from "./therapist-card";
 import { TherapistRepository } from "@/features/therapists/repositories";
 
 export async function FeaturedTherapistsSection() {
+  // Don't attempt DB query if Supabase is not configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return null;
+  }
+
   let therapists: Awaited<ReturnType<typeof TherapistRepository.findFeatured>> = [];
   try {
     therapists = await TherapistRepository.findFeatured();
   } catch {
-    // If DB query fails, don't crash the homepage
-    therapists = [];
+    return null;
   }
 
   if (therapists.length === 0) return null;

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import {
   HeroSection,
   TrustSection,
@@ -14,7 +15,9 @@ export default function HomePage() {
       <TrustSection />
       <CategoriesSection />
       <HowItWorksSection />
-      <FeaturedTherapistsSection />
+      <Suspense fallback={null}>
+        <FeaturedTherapistsSection />
+      </Suspense>
       <TestimonialsSection />
     </>
   );
