@@ -3,9 +3,10 @@ import { XCircle } from "lucide-react";
 interface PaymentFailedProps {
   onRetry: () => void;
   onChangeMethod: () => void;
+  errorMessage?: string;
 }
 
-export function PaymentFailed({ onRetry, onChangeMethod }: PaymentFailedProps) {
+export function PaymentFailed({ onRetry, onChangeMethod, errorMessage }: PaymentFailedProps) {
   return (
     <div className="mx-auto max-w-md text-center">
       {/* Error icon */}
@@ -15,8 +16,7 @@ export function PaymentFailed({ onRetry, onChangeMethod }: PaymentFailedProps) {
 
       <h1 className="mt-6 text-2xl font-bold text-text">Payment Failed</h1>
       <p className="mt-2 text-sm text-text-secondary">
-        We couldn&apos;t process your payment. Your appointment has not been confirmed
-        and no amount has been charged.
+        {errorMessage || "We couldn\u0027t process your payment. Your appointment has not been confirmed and no amount has been charged."}
       </p>
 
       {/* Actions */}

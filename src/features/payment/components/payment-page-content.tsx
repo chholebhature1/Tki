@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import type { PaymentMethod, PaymentStatus, PaymentSummary } from "../types";
 import { mockPaymentSummary } from "../constants";
+import { confirmPaymentAction, markPaymentFailedAction } from "../actions";
 import { PaymentMethodSelector } from "./payment-method-selector";
 import { OrderSummary } from "./order-summary";
 import { PaymentProcessing } from "./payment-processing";
@@ -11,26 +13,44 @@ import { PaymentFailed } from "./payment-failed";
 
 interface PaymentPageContentProps {
   appointmentInfo?: PaymentSummary;
+  appointmentId?: string;
 }
 
-export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps) {
+export function PaymentPageContent({ appointmentInfo, appointmentId }: PaymentPageContentProps) {
   const summary = appointmentInfo || mockPaymentSummary;
+  const router = useRouter();
   const [method, setMethod] = useState<PaymentMethod>("upi");
   const [status, setStatus] = useState<PaymentStatus>("idle");
+  const [error, setError] = useState("");
 
-  const processPayment = useCallback(() => {
+  const processPayment = useCallback(async () => {
     setStatus("processing");
+    setError("");
 
-    // Mock processing delay (2.5 seconds)
-    setTimeout(() => {
-      // 80% success rate for demo purposes
-      const success = Math.random() > 0.2;
-      setStatus(success ? "success" : "failed");
-    }, 2500);
-  }, []);
+    // Mock processing delay (simulates Razorpay checkout)
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+
+    // If we have a real appointment, confirm it in the database
+    if (appointmentId) {
+      const result = await confirmPaymentAction(appointmentId);
+      if (!result.success) {
+        setError(result.error || "Payment confirmation failed.");
+        setStatus("failed");
+        await markPaymentFailedAction(appointmentId);
+        return;
+      }
+    }
+
+    setStatus("success");
+  }, [appointmentId]);
+
+  const handleRetry = useCallback(() => {
+    processPayment();
+  }, [processPayment]);
 
   const resetToIdle = useCallback(() => {
     setStatus("idle");
+    setError("");
   }, []);
 
   // Processing state
@@ -46,7 +66,14 @@ export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps)
   if (status === "success") {
     return (
       <div className="py-12">
-        <PaymentSuccess summary={summary} />
+        <PaymentSuccess
+          summary={summary}
+          onViewAppointment={
+            appointmentId
+              ? () => router.push(`/appointments/${appointmentId}`)
+              : undefined
+          }
+        />
       </div>
     );
   }
@@ -56,8 +83,9 @@ export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps)
     return (
       <div className="py-12">
         <PaymentFailed
-          onRetry={processPayment}
+          onRetry={handleRetry}
           onChangeMethod={resetToIdle}
+          errorMessage={error}
         />
       </div>
     );
@@ -66,11 +94,9 @@ export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps)
   // Default: payment selection
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-      {/* Main */}
       <div className="space-y-6">
         <PaymentMethodSelector selected={method} onSelect={setMethod} />
 
-        {/* Cancellation policy */}
         <div className="rounded-xl border border-border bg-surface p-4">
           <p className="text-sm font-medium text-text">Cancellation Policy</p>
           <p className="mt-1 text-xs text-text-secondary">
@@ -78,7 +104,6 @@ export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps)
           </p>
         </div>
 
-        {/* Pay button */}
         <button
           type="button"
           onClick={processPayment}
@@ -88,14 +113,12 @@ export function PaymentPageContent({ appointmentInfo }: PaymentPageContentProps)
         </button>
       </div>
 
-      {/* Sidebar */}
       <div className="hidden lg:block">
         <div className="sticky top-20">
           <OrderSummary summary={summary} />
         </div>
       </div>
 
-      {/* Mobile summary */}
       <div className="lg:hidden">
         <OrderSummary summary={summary} />
       </div>

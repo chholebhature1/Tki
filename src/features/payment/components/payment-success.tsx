@@ -4,9 +4,10 @@ import type { PaymentSummary } from "../types";
 
 interface PaymentSuccessProps {
   summary: PaymentSummary;
+  onViewAppointment?: () => void;
 }
 
-export function PaymentSuccess({ summary }: PaymentSuccessProps) {
+export function PaymentSuccess({ summary, onViewAppointment }: PaymentSuccessProps) {
   return (
     <div className="mx-auto max-w-md text-center">
       {/* Success icon */}
@@ -51,12 +52,22 @@ export function PaymentSuccess({ summary }: PaymentSuccessProps) {
 
       {/* Actions */}
       <div className="mt-8 flex flex-col gap-3">
-        <Link
-          href="/dashboard/appointments"
-          className="block w-full rounded-xl bg-primary py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-        >
-          View Appointment
-        </Link>
+        {onViewAppointment ? (
+          <button
+            type="button"
+            onClick={onViewAppointment}
+            className="block w-full rounded-xl bg-primary py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            View Appointment
+          </button>
+        ) : (
+          <Link
+            href="/dashboard/appointments"
+            className="block w-full rounded-xl bg-primary py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            View Appointment
+          </Link>
+        )}
         <Link
           href="/dashboard"
           className="block w-full rounded-xl border border-border py-3.5 text-center text-sm font-medium text-text transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"

@@ -11,10 +11,9 @@ export default async function PaymentPage(
 ) {
   const { bookingId } = await props.params;
 
-  // Try to load real appointment; fall back to mock if not found
+  // Load real appointment data
   const appointment = await AppointmentRepository.findById(bookingId);
 
-  // Pass appointment info to payment content if available
   const paymentInfo = appointment
     ? {
         therapistName: appointment.therapist.name,
@@ -27,7 +26,7 @@ export default async function PaymentPage(
         time: appointment.startTime,
         consultationType: appointment.consultationMode === "online" ? "Video Consultation" : "In-Person",
         duration: appointment.durationMinutes,
-        sessionFee: 1500, // Will come from therapist profile later
+        sessionFee: 1500,
         platformFee: 0,
         total: 1500,
         bookingId: appointment.bookingReference || bookingId,
@@ -45,7 +44,10 @@ export default async function PaymentPage(
             Choose a payment method to confirm your booking.
           </p>
         </div>
-        <PaymentPageContent appointmentInfo={paymentInfo} />
+        <PaymentPageContent
+          appointmentInfo={paymentInfo}
+          appointmentId={appointment ? bookingId : undefined}
+        />
       </Container>
     </section>
   );

@@ -173,6 +173,25 @@
   - Falls back to mock data for demo
 - [x] Error handling: expired lock, duplicate booking, unauthenticated
 
+### Phase 4.3.5: Payment Confirmation Workflow
+
+- [x] PaymentService (confirmPayment, markPaymentFailed)
+  - Validates appointment exists
+  - Verifies patient ownership
+  - Enforces status transition: only payment_pending → confirmed
+  - Returns typed PaymentResult
+- [x] Server Actions (confirmPaymentAction, markPaymentFailedAction)
+  - Authenticates user
+  - Delegates to service layer
+- [x] Payment page calls confirmPaymentAction on success
+  - Real appointment status updated to `confirmed` in database
+  - Redirects to /appointments/[id] on "View Appointment"
+- [x] Payment failure calls markPaymentFailedAction
+  - Appointment stays in payment_pending for retry
+- [x] PaymentPageContent receives real appointmentId from page
+- [x] PaymentSuccess supports onViewAppointment callback
+- [x] PaymentFailed shows server error messages
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
