@@ -5,9 +5,14 @@ import { TherapistCard } from "./therapist-card";
 import { TherapistRepository } from "@/features/therapists/repositories";
 
 export async function FeaturedTherapistsSection() {
-  const therapists = await TherapistRepository.findFeatured();
+  let therapists: Awaited<ReturnType<typeof TherapistRepository.findFeatured>> = [];
+  try {
+    therapists = await TherapistRepository.findFeatured();
+  } catch {
+    // If DB query fails, don't crash the homepage
+    therapists = [];
+  }
 
-  // Fall back to empty if no DB data
   if (therapists.length === 0) return null;
 
   return (
