@@ -277,6 +277,19 @@
 - [x] /admin/settings — simple form (platform name, email, phone, fee %)
 - [x] Reuses: StatCard, AppointmentCard, AppointmentStatusBadge, Logo
 
+#### Phase 5.4.1: Admin Dashboard Polish
+
+- [x] Created VerificationBadge component (proper verification status colors)
+- [x] Replaced misused AppointmentStatusBadge in therapist table
+- [x] Added confirmation dialogs to all destructive actions
+- [x] Added loading states to all action buttons
+- [x] Added empty states to therapists and users pages
+- [x] Added row hover effects to all tables
+- [x] Added quick action cards to dashboard
+- [x] Added focus-visible rings to all action buttons
+- [x] Added count displays in page headers
+- [x] Improved overall accessibility
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
