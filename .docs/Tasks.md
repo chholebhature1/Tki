@@ -312,7 +312,16 @@
   - Server Action: generateMeetingTokenAction (authenticates → authorizes → returns token)
   - Security: only confirmed appointments, only assigned patient/therapist, secrets never exposed
   - Room naming: tki-consultation-{appointmentId}
-- [ ] Phase 6.3: Consultation Room Page & Dashboard Integration
+- [x] Phase 6.3: Protected Consultation Route
+  - /consultation/[appointmentId] — Server Component with full authorization
+  - Join window: 15 min before → session end + 15 min after
+  - Status checks: only "confirmed" generates tokens
+  - Participant validation: patient or assigned therapist only
+  - Time window validation with configurable EARLY/LATE_JOIN_MINUTES
+  - UX: ConsultationUnavailable (too_early, ended, cancelled, payment_pending, unauthorized, not_found)
+  - UX: ConsultationReady (shows token/room confirmation, participant info)
+  - Redirect unauthenticated to login with return URL
+- [ ] Phase 6.4: LiveKit Video Room Implementation
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery

@@ -1,4 +1,6 @@
 export { ConsultationRoom } from "./consultation-room";
+export { ConsultationReady } from "./consultation-ready";
+export { ConsultationUnavailable } from "./consultation-unavailable";
 export { ParticipantTile } from "./participant-tile";
 export { ControlBar } from "./control-bar";
 export { WaitingScreen } from "./waiting-screen";
