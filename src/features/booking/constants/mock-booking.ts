@@ -7,6 +7,7 @@ export const mockTherapistBooking: BookingTherapistInfo = {
   sessionFee: 1500,
   sessionDuration: 50,
   consultationMode: "online",
+  therapistProfileId: "00000000-0000-0000-0001-000000000001",
 };
 
 export function generateMockDates(): BookingDate[] {

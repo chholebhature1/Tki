@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import type { BookingState, ConsultationType, PatientDetails, BookingTherapistInfo } from "../types";
-import { generateMockDates, mockTimeSlots } from "../constants";
+import type { BookingState, ConsultationType, PatientDetails, BookingTherapistInfo, BookingDate, TimeSlot } from "../types";
+import { getAvailableDates, getAvailableSlots } from "../actions";
 import { StepIndicator } from "./step-indicator";
 import { StepConsultationType } from "./step-consultation-type";
 import { StepDateSelection } from "./step-date-selection";
@@ -25,7 +25,38 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
     patientDetails: null,
   });
 
-  const dates = useMemo(() => generateMockDates(), []);
+  const [dates, setDates] = useState<BookingDate[]>([]);
+  const [slots, setSlots] = useState<TimeSlot[]>([]);
+  const [loadingDates, setLoadingDates] = useState(false);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+
+  // Load dates when entering step 2
+  const loadDates = useCallback(() => {
+    if (dates.length > 0) return;
+    setLoadingDates(true);
+    getAvailableDates(therapist.therapistProfileId).then((d) => {
+      setDates(d);
+      setLoadingDates(false);
+    });
+  }, [dates.length, therapist.therapistProfileId]);
+
+  // Load slots when a date is selected
+  const loadSlots = useCallback(
+    (date: string) => {
+      setLoadingSlots(true);
+      setSlots([]);
+      getAvailableSlots(therapist.therapistProfileId, date).then((s) => {
+        setSlots(s);
+        setLoadingSlots(false);
+      });
+    },
+    [therapist.therapistProfileId]
+  );
+
+  function handleDateSelect(date: string) {
+    setState((s) => ({ ...s, selectedDate: date, selectedTime: null }));
+    loadSlots(date);
+  }
 
   function canContinue(): boolean {
     switch (state.step) {
@@ -40,7 +71,9 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
 
   function next() {
     if (canContinue() && state.step < 5) {
-      setState((s) => ({ ...s, step: s.step + 1 }));
+      const nextStep = state.step + 1;
+      setState((s) => ({ ...s, step: nextStep }));
+      if (nextStep === 2) loadDates();
     }
   }
 
@@ -52,7 +85,6 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-      {/* Main Wizard */}
       <div>
         <StepIndicator currentStep={state.step} />
 
@@ -64,18 +96,30 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
             />
           )}
           {state.step === 2 && (
-            <StepDateSelection
-              dates={dates}
-              selected={state.selectedDate}
-              onSelect={(date: string) => setState((s) => ({ ...s, selectedDate: date }))}
-            />
+            loadingDates ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              </div>
+            ) : (
+              <StepDateSelection
+                dates={dates}
+                selected={state.selectedDate}
+                onSelect={handleDateSelect}
+              />
+            )
           )}
           {state.step === 3 && (
-            <StepTimeSelection
-              slots={mockTimeSlots}
-              selected={state.selectedTime}
-              onSelect={(time: string) => setState((s) => ({ ...s, selectedTime: time }))}
-            />
+            loadingSlots ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              </div>
+            ) : (
+              <StepTimeSelection
+                slots={slots}
+                selected={state.selectedTime}
+                onSelect={(time: string) => setState((s) => ({ ...s, selectedTime: time }))}
+              />
+            )
           )}
           {state.step === 4 && (
             <StepPatientDetails
@@ -100,7 +144,6 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
               Back
             </button>
             <div className="flex items-center gap-4">
-              {/* Mobile price hint */}
               <span className="text-sm font-semibold text-text lg:hidden">
                 ₹{therapist.sessionFee.toLocaleString("en-IN")}
               </span>
@@ -117,7 +160,6 @@ export function BookingWizard({ therapist }: BookingWizardProps) {
         </div>
       </div>
 
-      {/* Desktop Summary Sidebar */}
       <div className="hidden lg:block">
         <div className="sticky top-20">
           <BookingSummarySidebar state={state} therapist={therapist} />

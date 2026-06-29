@@ -37,4 +37,5 @@ export interface BookingTherapistInfo {
   sessionFee: number;
   sessionDuration: number;
   consultationMode: string;
+  therapistProfileId: string;
 }

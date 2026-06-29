@@ -139,6 +139,19 @@
 - [x] Similar Therapists section uses repository
 - [x] Generated updated database types
 
+### Phase 4.3.3: Therapist Availability
+
+- [x] `therapist_availability` table (weekly schedule, slot duration, buffer)
+- [x] `therapist_blocked_periods` table (holidays, leave)
+- [x] `slot_locks` table (temporary booking reservation, 5-min TTL)
+- [x] RLS policies for all three tables
+- [x] Seeded availability (Mon-Sat, morning + afternoon) for all 10 therapists
+- [x] `AvailabilityRepository` (getAvailableDates, getAvailableSlots)
+- [x] Server Actions (getAvailableDates, getAvailableSlots)
+- [x] Booking wizard connected to real availability data
+- [x] Booking page fetches therapist from repository (not mock)
+- [x] Loading states for date/slot fetching
+
 ## Pending
 
 - [ ] Database migrations (profiles, roles, therapist_profiles)

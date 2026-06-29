@@ -320,6 +320,44 @@ export type Database = {
         }
         Relationships: []
       }
+      slot_locks: {
+        Row: {
+          appointment_date: string
+          expires_at: string
+          id: string
+          locked_at: string
+          patient_id: string
+          start_time: string
+          therapist_profile_id: string
+        }
+        Insert: {
+          appointment_date: string
+          expires_at?: string
+          id?: string
+          locked_at?: string
+          patient_id: string
+          start_time: string
+          therapist_profile_id: string
+        }
+        Update: {
+          appointment_date?: string
+          expires_at?: string
+          id?: string
+          locked_at?: string
+          patient_id?: string
+          start_time?: string
+          therapist_profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slot_locks_therapist_profile_id_fkey"
+            columns: ["therapist_profile_id"]
+            isOneToOne: false
+            referencedRelation: "therapist_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       specializations: {
         Row: {
           created_at: string
@@ -343,6 +381,88 @@ export type Database = {
           slug?: string
         }
         Relationships: []
+      }
+      therapist_availability: {
+        Row: {
+          buffer_after_minutes: number
+          created_at: string
+          end_time: string
+          id: string
+          is_active: boolean
+          slot_duration_minutes: number
+          start_time: string
+          therapist_profile_id: string
+          updated_at: string
+          weekday: number
+        }
+        Insert: {
+          buffer_after_minutes?: number
+          created_at?: string
+          end_time: string
+          id?: string
+          is_active?: boolean
+          slot_duration_minutes?: number
+          start_time: string
+          therapist_profile_id: string
+          updated_at?: string
+          weekday: number
+        }
+        Update: {
+          buffer_after_minutes?: number
+          created_at?: string
+          end_time?: string
+          id?: string
+          is_active?: boolean
+          slot_duration_minutes?: number
+          start_time?: string
+          therapist_profile_id?: string
+          updated_at?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "therapist_availability_therapist_profile_id_fkey"
+            columns: ["therapist_profile_id"]
+            isOneToOne: false
+            referencedRelation: "therapist_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      therapist_blocked_periods: {
+        Row: {
+          created_at: string
+          end_datetime: string
+          id: string
+          reason: string | null
+          start_datetime: string
+          therapist_profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_datetime: string
+          id?: string
+          reason?: string | null
+          start_datetime: string
+          therapist_profile_id: string
+        }
+        Update: {
+          created_at?: string
+          end_datetime?: string
+          id?: string
+          reason?: string | null
+          start_datetime?: string
+          therapist_profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "therapist_blocked_periods_therapist_profile_id_fkey"
+            columns: ["therapist_profile_id"]
+            isOneToOne: false
+            referencedRelation: "therapist_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       therapist_languages: {
         Row: {
