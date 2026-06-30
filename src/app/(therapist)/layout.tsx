@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { TherapistSidebar } from "@/features/dashboard/components/therapist-sidebar";
-import { DashboardMobileNav } from "@/features/dashboard/components/dashboard-mobile-nav";
+import { TherapistMobileNav } from "@/features/dashboard/components/therapist-mobile-nav";
 import { NotificationBell } from "@/features/notifications/components";
 
 export default async function TherapistLayout({
@@ -33,7 +33,7 @@ export default async function TherapistLayout({
 
   return (
     <div className="min-h-screen bg-surface">
-      <DashboardMobileNav user={userInfo} />
+      <TherapistMobileNav user={userInfo} />
       <div className="flex">
         <TherapistSidebar user={userInfo} />
         <main id="main-content" className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
