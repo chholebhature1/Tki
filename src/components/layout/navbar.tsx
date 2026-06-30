@@ -2,30 +2,85 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/constants/site";
 import { Container } from "./container";
 import { Logo } from "./logo";
+import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<{ email?: string; name?: string } | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Check auth state on mount and on auth changes
+  useEffect(() => {
+    const supabase = createClient();
+
+    async function getUser() {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      if (authUser) {
+        setUser({ email: authUser.email, name: authUser.user_metadata?.full_name || authUser.email });
+      } else {
+        setUser(null);
+      }
+    }
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({ email: session.user.email, name: session.user.user_metadata?.full_name || session.user.email });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Close mobile menu on Escape key
   useEffect(() => {
-    if (!mobileMenuOpen) return;
+    if (!mobileMenuOpen && !profileOpen) return;
 
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setMobileMenuOpen(false);
+        setProfileOpen(false);
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, profileOpen]);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    if (!profileOpen) return;
+
+    function handleClick(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-profile-menu]")) {
+        setProfileOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [profileOpen]);
+
+  async function handleLogout() {
+    setProfileOpen(false);
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
+    router.push("/login");
+  }
+
+  const initials = user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
@@ -57,18 +112,64 @@ export function Navbar() {
 
           {/* Desktop Auth Actions */}
           <div className="hidden items-center gap-3 lg:flex">
-            <Link
-              href="/login"
-              className="rounded-md px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-            >
-              Book Appointment
-            </Link>
+            {user ? (
+              <div className="relative" data-profile-menu>
+                <button
+                  type="button"
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-light text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+                  aria-expanded={profileOpen}
+                  aria-label="Account menu"
+                >
+                  {initials}
+                </button>
+
+                {profileOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-border bg-white p-1.5 shadow-lg">
+                    <p className="truncate px-3 py-2 text-xs text-muted">{user.email}</p>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-text"
+                    >
+                      <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/dashboard/profile"
+                      onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-text"
+                    >
+                      <User className="h-4 w-4" aria-hidden="true" />
+                      Profile
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-danger"
+                    >
+                      <LogOut className="h-4 w-4" aria-hidden="true" />
+                      Log out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="rounded-md px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+                >
+                  Book Appointment
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,20 +211,51 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="mt-4 flex flex-col gap-2 border-t border-divider pt-4">
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover"
-                >
-                  Book Appointment
-                </Link>
+                {user ? (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
+                    >
+                      <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/dashboard/profile"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
+                    >
+                      <User className="h-4 w-4" aria-hidden="true" />
+                      Profile
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                      className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-danger"
+                    >
+                      <LogOut className="h-4 w-4" aria-hidden="true" />
+                      Log out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
+                    >
+                      Log in
+                    </Link>
+                    <Link
+                      href="/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+                    >
+                      Book Appointment
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </Container>
