@@ -103,21 +103,43 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <ul className="hidden items-center gap-1 lg:flex" role="list">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                    pathname === link.href
-                      ? "text-primary"
-                      : "text-text-secondary hover:text-text"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link, i) => {
+              const items = [];
+              // Insert Dashboard link after Home (index 0), only when logged in
+              if (i === 1 && user) {
+                items.push(
+                  <li key="dashboard-nav">
+                    <Link
+                      href={dashboardHref}
+                      className={cn(
+                        "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                        pathname.startsWith("/dashboard") || pathname.startsWith("/therapist/") || pathname.startsWith("/admin/")
+                          ? "text-primary"
+                          : "text-text-secondary hover:text-text"
+                      )}
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                );
+              }
+              items.push(
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      pathname === link.href
+                        ? "text-primary"
+                        : "text-text-secondary hover:text-text"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+              return items;
+            })}
           </ul>
 
           {/* Desktop Auth Actions */}
