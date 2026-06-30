@@ -1,6 +1,6 @@
 "use client";
 
-import { Container } from "@/components/layout";
+import { Container } from "@/components/layout/container";
 
 export default function PublicError({
   reset,
