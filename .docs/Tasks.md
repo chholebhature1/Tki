@@ -349,6 +349,7 @@
 ### Additional Pages
 - [x] /dashboard/appointments — Patient appointment management with tabs (Upcoming/Completed/Cancelled), empty states, real data
 - [x] /dashboard/profile — Patient profile management (edit name, phone, DOB, gender, city, state, emergency contact) with Zod validation + Server Action
+- [x] /therapist/profile — Therapist professional profile management (title, bio, fee, experience, consultation mode) with Zod validation + Server Action + public profile preview
 
 The project is production-ready for a college final-year evaluation.
 

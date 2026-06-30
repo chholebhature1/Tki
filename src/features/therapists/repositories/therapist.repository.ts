@@ -125,4 +125,52 @@ export class TherapistRepository {
     if (error || !data) return [];
     return (data as unknown as RawTherapistRow[]).map(mapRowToTherapist);
   }
+
+  /**
+   * Finds therapist profile by the auth user ID (profile_id).
+   * Does NOT filter by verification_status — therapist sees own profile always.
+   */
+  static async findByProfileId(userId: string): Promise<{ therapist: Therapist; raw: RawTherapistRow } | null> {
+    const supabase = await createServerSupabaseClient();
+    const { data, error } = await supabase
+      .from("therapist_profiles")
+      .select(THERAPIST_SELECT)
+      .eq("profile_id", userId)
+      .single();
+
+    if (error || !data) return null;
+    const row = data as unknown as RawTherapistRow;
+    return { therapist: mapRowToTherapist(row), raw: row };
+  }
+
+  /**
+   * Updates therapist professional profile.
+   */
+  static async updateProfile(therapistProfileId: string, userId: string, updates: {
+    professional_title?: string;
+    biography?: string;
+    years_experience?: number;
+    consultation_fee?: number;
+    consultation_mode?: string;
+  }): Promise<{ success: boolean; error?: string }> {
+    const supabase = await createServerSupabaseClient();
+
+    // Verify ownership
+    const { data: existing } = await supabase
+      .from("therapist_profiles")
+      .select("id, profile_id")
+      .eq("id", therapistProfileId)
+      .eq("profile_id", userId)
+      .single();
+
+    if (!existing) return { success: false, error: "Profile not found or access denied." };
+
+    const { error } = await supabase
+      .from("therapist_profiles")
+      .update(updates)
+      .eq("id", therapistProfileId);
+
+    if (error) return { success: false, error: "Failed to update profile." };
+    return { success: true };
+  }
 }
