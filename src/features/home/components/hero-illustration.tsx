@@ -78,6 +78,13 @@ export function HeroIllustration() {
   const [paused, setPaused] = useState(false);
   const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Fade in on mount to prevent hydration flash
+  useEffect(() => {
+    const el = containerRef.current;
+    if (el) el.style.opacity = "1";
+  }, []);
 
   const next = useCallback(() => {
     setActive((i) => (i + 1) % therapists.length);
@@ -119,7 +126,8 @@ export function HeroIllustration() {
 
   return (
     <div
-      className="relative flex flex-col items-center"
+      ref={containerRef}
+      className="relative flex flex-col items-center transition-opacity duration-500 opacity-0"
       aria-label="Featured therapists carousel"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -149,6 +157,7 @@ export function HeroIllustration() {
                 style={{ aspectRatio: "4/5", background: therapist.gradient }}
               >
                 {!failedImages[therapist.id] ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={therapist.image}
                     alt={therapist.name}

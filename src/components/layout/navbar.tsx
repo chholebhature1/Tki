@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ email?: string; name?: string } | null>(null);
+  const [user, setUser] = useState<{ email?: string; name?: string; role?: string } | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -24,7 +24,14 @@ export function Navbar() {
     async function getUser() {
       const { data: { user: authUser } } = await supabase.auth.getUser();
       if (authUser) {
-        setUser({ email: authUser.email, name: authUser.user_metadata?.full_name || authUser.email });
+        // Fetch role
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role:roles!profiles_role_id_fkey(name)")
+          .eq("id", authUser.id)
+          .single();
+        const role = (profile?.role as unknown as { name: string })?.name || "patient";
+        setUser({ email: authUser.email, name: authUser.user_metadata?.full_name || authUser.email, role });
       } else {
         setUser(null);
       }
@@ -34,7 +41,8 @@ export function Navbar() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        setUser({ email: session.user.email, name: session.user.user_metadata?.full_name || session.user.email });
+        // Re-fetch role on auth change
+        getUser();
       } else {
         setUser(null);
       }
@@ -81,6 +89,8 @@ export function Navbar() {
   }
 
   const initials = user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";
+  const dashboardHref = user?.role === "therapist" ? "/therapist/dashboard" : user?.role === "admin" ? "/admin/dashboard" : "/dashboard";
+  const profileHref = user?.role === "therapist" ? "/therapist/profile" : user?.role === "admin" ? "/admin/settings" : "/dashboard/profile";
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
@@ -128,7 +138,7 @@ export function Navbar() {
                   <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-border bg-white p-1.5 shadow-lg">
                     <p className="truncate px-3 py-2 text-xs text-muted">{user.email}</p>
                     <Link
-                      href="/dashboard"
+                      href={dashboardHref}
                       onClick={() => setProfileOpen(false)}
                       className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-text"
                     >
@@ -136,7 +146,7 @@ export function Navbar() {
                       Dashboard
                     </Link>
                     <Link
-                      href="/dashboard/profile"
+                      href={profileHref}
                       onClick={() => setProfileOpen(false)}
                       className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-text"
                     >
@@ -214,7 +224,7 @@ export function Navbar() {
                 {user ? (
                   <>
                     <Link
-                      href="/dashboard"
+                      href={dashboardHref}
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
                     >
@@ -222,7 +232,7 @@ export function Navbar() {
                       Dashboard
                     </Link>
                     <Link
-                      href="/dashboard/profile"
+                      href={profileHref}
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-text"
                     >
