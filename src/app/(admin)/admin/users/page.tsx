@@ -1,6 +1,7 @@
 import { Users } from "lucide-react";
 import { AdminRepository } from "@/features/admin";
 import { UserActions } from "./user-actions";
+import { RoleChanger } from "./role-changer";
 
 export const metadata = { title: "Manage Users" };
 
@@ -38,7 +39,9 @@ export default async function AdminUsersPage() {
                     <p className="font-medium text-text">{u.name}</p>
                     <p className="text-xs text-muted">{u.email}</p>
                   </td>
-                  <td className="px-4 py-3 capitalize text-text-secondary">{u.role}</td>
+                  <td className="px-4 py-3">
+                    <RoleChanger userId={u.id} currentRole={u.role} />
+                  </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${u.isActive ? "bg-success/10 text-success" : "bg-danger/10 text-danger"}`}>
                       {u.isActive ? "Active" : "Inactive"}
