@@ -348,6 +348,7 @@
 
 ### Additional Pages
 - [x] /dashboard/appointments — Patient appointment management with tabs (Upcoming/Completed/Cancelled), empty states, real data
+- [x] /dashboard/profile — Patient profile management (edit name, phone, DOB, gender, city, state, emergency contact) with Zod validation + Server Action
 
 The project is production-ready for a college final-year evaluation.
 
