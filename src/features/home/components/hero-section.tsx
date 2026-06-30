@@ -56,7 +56,7 @@ export function HeroSection() {
             {/* CTAs — prominent sizing */}
             <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
               <Link
-                href="/register"
+                href="/find-therapists"
                 className="rounded-xl bg-primary px-7 py-3.5 text-base font-medium text-white shadow-sm transition-all hover:bg-primary-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Book Appointment
