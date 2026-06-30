@@ -385,6 +385,13 @@
 - [x] NotificationBell integrated into Admin Dashboard layout
 - [x] All notification bells show unread count badge with Suspense boundary
 
+### Final Lifecycle Integration
+- [x] Google OAuth first-login detection (checks notification count as proxy, sends welcome only once)
+- [x] Consultation completed → patient notification + therapist notification
+- [x] Review reminder → patient receives "How was your session?" notification after completion
+- [x] All notifications go through NotificationService (no direct calls)
+- [x] All email sending is best-effort (never blocks primary flow)
+
 The project is production-ready for a college final-year evaluation.
 
 All core flows work end-to-end:

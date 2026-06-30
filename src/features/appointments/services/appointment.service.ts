@@ -152,9 +152,61 @@ export async function markCompleted(
   appointmentId: string,
   userId: string
 ): Promise<AppointmentStatusTransitionResult> {
-  return verifyAndTransition(appointmentId, userId, "completed", "therapist", {
+  const result = await verifyAndTransition(appointmentId, userId, "completed", "therapist", {
     completed_at: new Date().toISOString(),
   });
+
+  // Send completion + review reminder notifications (best-effort)
+  if (result.success) {
+    try {
+      const supabase = await createServerSupabaseClient();
+      const { NotificationService } = await import("@/features/notifications/services");
+
+      const { data: appt } = await supabase.from("appointments")
+        .select("patient_profile_id, therapist_profile_id, appointment_date")
+        .eq("id", appointmentId).single();
+
+      if (appt) {
+        const { data: patient } = await supabase.from("profiles").select("full_name, email").eq("id", appt.patient_profile_id).single();
+        const { data: tpData } = await supabase.from("therapist_profiles")
+          .select("profile:profiles!therapist_profiles_profile_id_fkey(id, full_name, email)")
+          .eq("id", appt.therapist_profile_id).single();
+        const therapistProfile = tpData?.profile as unknown as { id: string; full_name: string; email: string } | null;
+
+        // Notify patient — session completed
+        if (patient) {
+          await NotificationService.notify({
+            userId: appt.patient_profile_id, email: patient.email,
+            title: "Consultation Completed",
+            message: `Your session with ${therapistProfile?.full_name || "your therapist"} has been completed.`,
+            type: "appointment", category: "consultation", link: `/appointments/${appointmentId}`,
+            emailSubject: "TalkIndia — Session Completed",
+            emailBody: undefined, // Use default template
+          });
+
+          // Review reminder
+          await NotificationService.notify({
+            userId: appt.patient_profile_id, email: patient.email,
+            title: "How was your session?",
+            message: "Please take a moment to rate your therapist. Your feedback helps other patients.",
+            type: "review", category: "reminder", link: `/appointments/${appointmentId}`,
+          });
+        }
+
+        // Notify therapist — session completed
+        if (therapistProfile) {
+          await NotificationService.notify({
+            userId: therapistProfile.id, email: therapistProfile.email,
+            title: "Session Completed",
+            message: `Your consultation with ${patient?.full_name || "patient"} has been marked as completed.`,
+            type: "appointment", category: "consultation", link: "/therapist/dashboard",
+          });
+        }
+      }
+    } catch { /* Never block completion */ }
+  }
+
+  return result;
 }
 
 export async function markNoShow(
