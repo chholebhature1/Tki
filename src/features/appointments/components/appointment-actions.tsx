@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Video } from "lucide-react";
 import type { AppointmentDetail } from "../types";
 import { cancelAppointmentAction } from "../actions";
 
@@ -41,14 +43,13 @@ export function AppointmentActions({ appointment }: AppointmentActionsProps) {
       )}
       <div className="flex flex-wrap gap-2">
         {canJoin && (
-          <button
-            type="button"
-            disabled
-            className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white opacity-50 cursor-not-allowed"
-            title="Video consultation not yet available"
+          <Link
+            href={`/consultation/${appointment.id}`}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover"
           >
-            Join Session (Coming Soon)
-          </button>
+            <Video className="h-4 w-4" aria-hidden="true" />
+            Join Session
+          </Link>
         )}
         {canCancel && (
           <button
