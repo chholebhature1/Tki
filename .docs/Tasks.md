@@ -357,6 +357,19 @@
 - [x] /privacy-policy — Professional privacy policy for healthcare platform
 - [x] /terms — Terms of service with cancellation/refund policies
 
+### Notification System
+- [x] Extended notifications table (category, link, email_sent columns)
+- [x] NotificationRepository (create, findByUser, countUnread, markRead, markAllRead, deleteOne, deleteAll)
+- [x] EmailService (Resend SDK, graceful fallback if unconfigured)
+- [x] NotificationService (centralized — bookingConfirmed, bookingCancelled, paymentSuccess, newBookingForTherapist, therapistApproved, welcome)
+- [x] Server Actions (markRead, markAllRead, delete, deleteAll)
+- [x] NotificationsList reusable component (unread badge, mark/delete actions, empty state)
+- [x] /dashboard/notifications — Patient notifications page
+- [x] /therapist/notifications — Therapist notifications page
+- [x] /admin/notifications — Admin notifications page
+- [x] Professional HTML email template (TalkIndia branding)
+- [x] Best-effort email: never blocks main user flow if Resend fails
+
 The project is production-ready for a college final-year evaluation.
 
 All core flows work end-to-end:
