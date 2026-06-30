@@ -17,6 +17,7 @@ import {
 export type AuthResult = {
   success: boolean;
   message: string;
+  redirectTo?: string;
 };
 
 /**
@@ -64,7 +65,17 @@ export async function loginAction(data: LoginFormData): Promise<AuthResult> {
     return { success: false, message: safeAuthError(error, "login") };
   }
 
-  return { success: true, message: "Login successful." };
+  // Detect role for smart redirect
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role:roles!profiles_role_id_fkey(name)")
+    .eq("id", (await supabase.auth.getUser()).data.user?.id || "")
+    .single();
+
+  const role = (profile?.role as unknown as { name: string })?.name;
+  const redirectTo = role === "admin" ? "/admin/dashboard" : role === "therapist" ? "/therapist/dashboard" : "/dashboard";
+
+  return { success: true, message: "Login successful.", redirectTo };
 }
 
 export async function registerAction(

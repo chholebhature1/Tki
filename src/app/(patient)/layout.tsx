@@ -17,6 +17,17 @@ export default async function PatientLayout({
     redirect("/login?redirect=/dashboard");
   }
 
+  // Portal isolation: redirect non-patients to their correct portal
+  const { data: roleCheck } = await supabase
+    .from("profiles")
+    .select("role:roles!profiles_role_id_fkey(name)")
+    .eq("id", user.id)
+    .single();
+
+  const userRole = (roleCheck?.role as unknown as { name: string })?.name;
+  if (userRole === "therapist") redirect("/therapist/dashboard");
+  if (userRole === "admin") redirect("/admin/dashboard");
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("full_name, email, avatar_url")
