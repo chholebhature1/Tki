@@ -75,7 +75,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right — Illustration (desktop) */}
+          {/* Right — Featured Therapists Carousel */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
