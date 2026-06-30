@@ -3,7 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { IndianRupee, TrendingUp, Calendar, Star } from "lucide-react";
 import { StatCard } from "@/features/dashboard";
 
-export const metadata = { title: "Earnings & Analytics" };
+export const metadata = { title: "Earnings — TalkIndia Pro" };
 
 export default async function TherapistEarningsPage() {
   const supabase = await createServerSupabaseClient();

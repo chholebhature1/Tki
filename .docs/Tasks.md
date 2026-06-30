@@ -400,6 +400,47 @@ All core flows work end-to-end:
 - Authentication (Email + Google OAuth)
 - Real Supabase data throughout
 
+### Phase 8: Therapist Portal — Work-Centric Redesign (v2)
+
+**Design philosophy**: Portal redesigned from first principles around daily therapist workflow.
+Not page-centric. Work-centric. A therapist's day: Check today → Join sessions → Review patients → Update availability → Leave.
+
+Architecture decisions:
+- Dashboard IS "Today" — shows chronological session timeline, not scattered stat cards
+- Settings merged into Profile (redirect preserved)
+- Notifications removed from sidebar (bell in header is sufficient at 6 items)
+- Navigation reduced 8 → 6 items: flat, no groups needed at this count
+
+- [x] Dashboard redesigned as "Today" view:
+  - Chronological session timeline: time column → dot indicator → patient → action
+  - Active sessions: highlighted row + "Join" button (15min join window logic)
+  - Completed sessions: dimmed + ✓
+  - Future sessions: show "Starts in Xm" relative time
+  - Header CTA: "Join — PatientName" (active), "Next session in Xm" (waiting), nothing (empty day)
+  - No stat cards in primary view — stats moved to compact sidebar cards
+  - Performance metrics + Availability summary in right sidebar
+  - "Coming Up" section shows next 3-day preview
+  - Empty state guides to availability management
+- [x] Sidebar: 6 items (Today, Schedule, Patients, Availability, Earnings, Profile)
+  - Active state highlighting (pathname-based)
+  - Sticky positioning (h-screen, sticky top-0)
+  - Narrower (w-56) for more content space
+  - No section labels (unnecessary at 6 items)
+- [x] Mobile nav: "Today" replaces "Home" — matches therapist mental model
+  - Active state with color change
+  - 4 items: Today, Schedule, Patients, Profile
+- [x] Profile absorbs Settings:
+  - Professional form (unchanged, working)
+  - Specializations (unchanged)
+  - NEW: Account section (email, phone, member since, change password, log out)
+  - Single page for all account management
+- [x] Settings: now redirects to /therapist/profile
+- [x] Appointments page: unchanged (inline actions + search already solid)
+- [x] Patients page: unchanged (card-based with detail page already solid)
+- [x] All titles: "— TalkIndia Pro" suffix consistently
+- [x] Loading states: dashboard skeleton matches timeline layout
+- [x] Verified: TypeScript ✓ (0 errors), ESLint ✓ (0 errors, 0 warnings), Build ✓
+
 - [ ] Database migrations (profiles, roles, therapist_profiles)
 - [ ] Therapist discovery
 - [ ] Booking engine

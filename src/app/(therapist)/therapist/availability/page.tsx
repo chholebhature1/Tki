@@ -3,7 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getTherapistAvailability, getTherapistBlockedPeriods } from "@/features/booking/actions/manage-availability.actions";
 import { AvailabilityManager } from "./availability-manager";
 
-export const metadata = { title: "Manage Availability" };
+export const metadata = { title: "Availability — TalkIndia Pro" };
 
 export default async function TherapistAvailabilityPage() {
   const supabase = await createServerSupabaseClient();

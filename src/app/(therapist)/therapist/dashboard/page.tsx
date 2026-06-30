@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Calendar, CheckCircle, Users, Clock, Video, ArrowRight, Star, TrendingUp } from "lucide-react";
+import { Calendar, CheckCircle, Users, Clock, Video, Star, TrendingUp } from "lucide-react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { TherapistDashboardRepository } from "@/features/appointments/repositories";
-import { StatCard } from "@/features/dashboard";
 
-export const metadata = { title: "Therapist Dashboard" };
+export const metadata = { title: "Today — TalkIndia Pro" };
 
 export default async function TherapistDashboardPage() {
   const supabase = await createServerSupabaseClient();
@@ -31,92 +30,205 @@ export default async function TherapistDashboardPage() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
+  const now = new Date();
+
+  // Classify today's sessions relative to now
+  const confirmedToday = dashboard.todayAppointments.filter((a) => a.status === "confirmed");
+  const completedToday = dashboard.todayAppointments.filter((a) => a.status === "completed");
+
+  // Find the active/next joinable session
+  const activeSession = confirmedToday.find((appt) => {
+    const start = new Date(`${appt.appointmentDate}T${appt.startTime}`);
+    const end = new Date(start.getTime() + appt.durationMinutes * 60000);
+    return now >= new Date(start.getTime() - 15 * 60000) && now <= new Date(end.getTime() + 15 * 60000);
+  });
+
+  // Next upcoming session (not yet joinable)
+  const nextSession = !activeSession
+    ? confirmedToday.find((appt) => {
+        const start = new Date(`${appt.appointmentDate}T${appt.startTime}`);
+        return start > now;
+      })
+    : null;
+
+  // Compute time until next session
+  let timeUntilNext = "";
+  if (nextSession) {
+    const start = new Date(`${nextSession.appointmentDate}T${nextSession.startTime}`);
+    const diffMin = Math.round((start.getTime() - now.getTime()) / 60000);
+    if (diffMin < 60) timeUntilNext = `in ${diffMin} min`;
+    else timeUntilNext = `in ${Math.floor(diffMin / 60)}h ${diffMin % 60}m`;
+  }
+
+  const remaining = confirmedToday.length;
+  const done = completedToday.length;
+
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
-      {/* Header — Productivity focused */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mx-auto max-w-5xl space-y-6">
+      {/* Header */}
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-text">{greeting}, Dr. {name}</h1>
           <p className="mt-0.5 text-sm text-text-secondary">
-            {dashboard.stats.todaySessions > 0
-              ? `${dashboard.stats.todaySessions} session${dashboard.stats.todaySessions > 1 ? "s" : ""} scheduled today`
-              : "No sessions today — enjoy your break"}
+            {remaining > 0
+              ? `${done} done · ${remaining} remaining today`
+              : done > 0
+                ? `${done} session${done > 1 ? "s" : ""} completed today`
+                : "No sessions today — enjoy your break"}
           </p>
         </div>
-        {dashboard.todayAppointments.length > 0 && (
-          <Link href={`/consultation/${dashboard.todayAppointments[0].id}`} className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white hover:bg-primary-hover">
-            <Video className="h-4 w-4" aria-hidden="true" /> Join Next Session
+
+        {/* Primary action — contextual */}
+        {activeSession ? (
+          <Link
+            href={`/consultation/${activeSession.id}`}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
+            <Video className="h-4 w-4" aria-hidden="true" />
+            Join — {activeSession.patient.name?.split(" ")[0] || "Patient"}
           </Link>
-        )}
-      </div>
+        ) : nextSession ? (
+          <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-text-secondary">
+            <Clock className="h-4 w-4 text-primary" aria-hidden="true" />
+            Next session {timeUntilNext}
+          </div>
+        ) : null}
+      </header>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard icon={Calendar} label="Today" value={dashboard.stats.todaySessions} />
-        <StatCard icon={Clock} label="Upcoming" value={dashboard.stats.upcoming} />
-        <StatCard icon={Users} label="Patients" value={dashboard.stats.activePatients} />
-        <StatCard icon={CheckCircle} label="Completed" value={dashboard.stats.completedToday} />
-      </div>
-
-      {/* Two-column layout: Schedule + Sidebar */}
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        {/* Main — Today's Schedule */}
-        <div className="space-y-6">
-          {/* Today's Queue */}
-          <section className="rounded-2xl border border-border bg-white p-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold text-text">Today&apos;s Schedule</h2>
-              <Link href="/therapist/appointments" className="text-xs font-medium text-primary hover:text-primary-hover">View All →</Link>
-            </div>
-            {dashboard.todayAppointments.length > 0 ? (
-              <div className="mt-4 space-y-3">
-                {dashboard.todayAppointments.map((appt) => (
-                  <div key={appt.id} className="flex items-center justify-between rounded-xl border border-border p-4 transition-colors hover:bg-surface/50">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-light text-sm font-semibold text-primary">
-                        {appt.patient.name?.[0] || "P"}
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-text">{appt.patient.name || "Patient"}</p>
-                        <p className="text-xs text-text-secondary">{appt.startTime} · {appt.durationMinutes} min · {appt.consultationMode === "online" ? "Video" : "In-Person"}</p>
-                      </div>
-                    </div>
-                    <Link href={`/consultation/${appt.id}`} className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20">
-                      Join
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-6 text-center py-8">
-                <Calendar className="mx-auto h-8 w-8 text-muted" aria-hidden="true" />
-                <p className="mt-2 text-sm text-text-secondary">No sessions scheduled for today</p>
-              </div>
-            )}
-          </section>
-
-          {/* Upcoming Sessions */}
-          {dashboard.upcomingAppointments.length > 0 && (
-            <section className="rounded-2xl border border-border bg-white p-5">
-              <h2 className="text-base font-semibold text-text">Upcoming Sessions</h2>
-              <div className="mt-4 space-y-2">
-                {dashboard.upcomingAppointments.map((appt) => (
-                  <div key={appt.id} className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
-                    <div>
-                      <p className="text-sm font-medium text-text">{appt.patient.name || "Patient"}</p>
-                      <p className="text-xs text-muted">{new Date(appt.appointmentDate).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} · {appt.startTime}</p>
-                    </div>
-                    <span className="text-xs text-text-secondary">{appt.consultationMode === "online" ? "Video" : "In-Person"}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+      {/* Today's Sessions — the focus */}
+      <section className="rounded-2xl border border-border bg-white" aria-labelledby="today-heading">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <h2 id="today-heading" className="text-base font-semibold text-text">Today&apos;s Sessions</h2>
+          <Link href="/therapist/appointments" className="text-xs font-medium text-primary hover:text-primary-hover">
+            Full Schedule →
+          </Link>
         </div>
 
-        {/* Sidebar — Quick Info */}
+        {confirmedToday.length > 0 || completedToday.length > 0 ? (
+          <div className="divide-y divide-border">
+            {dashboard.todayAppointments
+              .filter((a) => a.status === "confirmed" || a.status === "completed")
+              .sort((a, b) => a.startTime.localeCompare(b.startTime))
+              .map((appt) => {
+                const start = new Date(`${appt.appointmentDate}T${appt.startTime}`);
+                const end = new Date(start.getTime() + appt.durationMinutes * 60000);
+                const isActive = appt.status === "confirmed" && now >= new Date(start.getTime() - 15 * 60000) && now <= new Date(end.getTime() + 15 * 60000);
+                const isPast = appt.status === "completed" || now > new Date(end.getTime() + 15 * 60000);
+                const isFuture = appt.status === "confirmed" && !isActive;
+
+                return (
+                  <div
+                    key={appt.id}
+                    className={`flex items-center gap-4 px-5 py-4 transition-colors ${
+                      isActive ? "bg-primary/5" : isPast ? "opacity-60" : ""
+                    }`}
+                  >
+                    {/* Time column */}
+                    <div className="w-14 shrink-0 text-center">
+                      <p className={`text-sm font-semibold ${isActive ? "text-primary" : "text-text"}`}>
+                        {appt.startTime}
+                      </p>
+                      <p className="text-[10px] text-muted">{appt.durationMinutes}m</p>
+                    </div>
+
+                    {/* Divider dot */}
+                    <div className="flex flex-col items-center">
+                      <div className={`h-3 w-3 rounded-full border-2 ${
+                        isActive ? "border-primary bg-primary" :
+                        isPast ? "border-muted bg-muted" :
+                        "border-border bg-white"
+                      }`} />
+                    </div>
+
+                    {/* Patient info */}
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-text">
+                        {appt.patient.name || "Patient"}
+                      </p>
+                      <p className="text-xs text-text-secondary">
+                        {appt.consultationMode === "online" ? "Video" : "In-Person"}
+                        {isActive && " · In progress"}
+                        {isPast && " · Completed"}
+                        {isFuture && ` · Starts ${(() => {
+                          const diff = Math.round((start.getTime() - now.getTime()) / 60000);
+                          if (diff < 60) return `in ${diff}m`;
+                          return `in ${Math.floor(diff / 60)}h ${diff % 60}m`;
+                        })()}`}
+                      </p>
+                    </div>
+
+                    {/* Action */}
+                    {isActive && (
+                      <Link
+                        href={`/consultation/${appt.id}`}
+                        className="shrink-0 rounded-lg bg-primary px-4 py-2 text-xs font-medium text-white hover:bg-primary-hover"
+                      >
+                        Join
+                      </Link>
+                    )}
+                    {isPast && (
+                      <span className="shrink-0 rounded-full bg-surface px-2.5 py-1 text-[10px] font-medium text-muted">
+                        <CheckCircle className="mr-1 inline h-3 w-3" aria-hidden="true" />Done
+                      </span>
+                    )}
+                    {isFuture && (
+                      <span className="shrink-0 text-xs text-muted">{appt.startTime}</span>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        ) : (
+          <div className="px-5 py-10 text-center">
+            <Calendar className="mx-auto h-8 w-8 text-muted" aria-hidden="true" />
+            <p className="mt-2 text-sm text-text-secondary">No sessions scheduled for today</p>
+            <Link href="/therapist/availability" className="mt-3 inline-block text-xs font-medium text-primary hover:text-primary-hover">
+              Check Availability →
+            </Link>
+          </div>
+        )}
+      </section>
+
+      {/* Two-column: Upcoming + Sidebar */}
+      <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
+        {/* Upcoming days */}
+        {dashboard.upcomingAppointments.length > 0 && (
+          <section className="rounded-2xl border border-border bg-white p-5">
+            <h2 className="text-base font-semibold text-text">Coming Up</h2>
+            <div className="mt-4 space-y-2">
+              {dashboard.upcomingAppointments.map((appt) => (
+                <div key={appt.id} className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-text">{appt.patient.name || "Patient"}</p>
+                    <p className="text-xs text-muted">
+                      {new Date(appt.appointmentDate).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} · {appt.startTime} · {appt.durationMinutes}m
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-xs text-text-secondary">
+                    {appt.consultationMode === "online" ? "Video" : "In-Person"}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <Link href="/therapist/appointments" className="mt-4 block text-xs font-medium text-primary hover:text-primary-hover">
+              View Full Schedule →
+            </Link>
+          </section>
+        )}
+
+        {/* If no upcoming, fill space */}
+        {dashboard.upcomingAppointments.length === 0 && (
+          <section className="rounded-2xl border border-border bg-white p-5">
+            <h2 className="text-base font-semibold text-text">Coming Up</h2>
+            <div className="mt-4 py-6 text-center">
+              <Calendar className="mx-auto h-7 w-7 text-muted" aria-hidden="true" />
+              <p className="mt-2 text-sm text-text-secondary">No upcoming sessions</p>
+            </div>
+          </section>
+        )}
+
+        {/* Performance sidebar */}
         <div className="space-y-4">
-          {/* Performance */}
           <div className="rounded-2xl border border-border bg-white p-5">
             <h3 className="text-sm font-semibold text-text">Performance</h3>
             <div className="mt-3 space-y-3">
@@ -128,7 +240,7 @@ export default async function TherapistDashboardPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-2 text-sm text-text-secondary">
-                  <TrendingUp className="h-3.5 w-3.5 text-primary" aria-hidden="true" /> Total Sessions
+                  <TrendingUp className="h-3.5 w-3.5 text-primary" aria-hidden="true" /> Sessions
                 </span>
                 <span className="text-sm font-semibold text-text">{therapistProfile.total_sessions}</span>
               </div>
@@ -139,10 +251,11 @@ export default async function TherapistDashboardPage() {
                 <span className="text-sm font-semibold text-text">{therapistProfile.total_reviews}</span>
               </div>
             </div>
-            <Link href="/therapist/earnings" className="mt-4 block text-xs font-medium text-primary hover:text-primary-hover">View Analytics →</Link>
+            <Link href="/therapist/earnings" className="mt-4 block text-xs font-medium text-primary hover:text-primary-hover">
+              View Earnings →
+            </Link>
           </div>
 
-          {/* Availability */}
           <div className="rounded-2xl border border-border bg-white p-5">
             <h3 className="text-sm font-semibold text-text">Availability</h3>
             <div className="mt-3 grid grid-cols-3 gap-2 text-center">
@@ -159,25 +272,9 @@ export default async function TherapistDashboardPage() {
                 <p className="text-[10px] text-muted">Slot</p>
               </div>
             </div>
-            <Link href="/therapist/availability" className="mt-4 block text-xs font-medium text-primary hover:text-primary-hover">Manage Schedule →</Link>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="rounded-2xl border border-border bg-white p-5">
-            <h3 className="text-sm font-semibold text-text">Quick Actions</h3>
-            <div className="mt-3 space-y-2">
-              {[
-                { href: "/therapist/appointments", label: "All Appointments" },
-                { href: "/therapist/patients", label: "My Patients" },
-                { href: "/therapist/profile", label: "Edit Profile" },
-                { href: "/therapist/availability", label: "Manage Availability" },
-              ].map((action) => (
-                <Link key={action.href} href={action.href} className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-surface hover:text-text">
-                  {action.label}
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </Link>
-              ))}
-            </div>
+            <Link href="/therapist/availability" className="mt-4 block text-xs font-medium text-primary hover:text-primary-hover">
+              Manage Schedule →
+            </Link>
           </div>
         </div>
       </div>

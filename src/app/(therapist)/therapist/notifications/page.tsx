@@ -3,7 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { NotificationRepository } from "@/features/notifications";
 import { NotificationsList } from "@/features/notifications/components";
 
-export const metadata = { title: "Notifications" };
+export const metadata = { title: "Notifications — TalkIndia Pro" };
 
 export default async function TherapistNotificationsPage() {
   const supabase = await createServerSupabaseClient();
