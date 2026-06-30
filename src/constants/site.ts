@@ -23,6 +23,7 @@ export const footerLinks = {
   company: [
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
+    { label: "Careers", href: "/careers" },
     { label: "Blog", href: "/blog" },
   ],
   patients: [

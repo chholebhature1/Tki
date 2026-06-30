@@ -2,6 +2,7 @@ import Link from "next/link";
 import { siteConfig, footerLinks } from "@/constants/site";
 import { Container } from "./container";
 import { Logo } from "./logo";
+import { NewsletterForm } from "./newsletter-form";
 
 const footerSections = [
   { title: "Company", links: footerLinks.company },
@@ -24,6 +25,12 @@ export function Footer() {
                 India&apos;s trusted mental healthcare marketplace. Find
                 verified therapists and book secure consultations.
               </p>
+              <div className="mt-4">
+                <p className="text-xs font-medium text-text">Stay updated with mental health tips</p>
+                <div className="mt-2">
+                  <NewsletterForm />
+                </div>
+              </div>
             </div>
 
             {/* Link Sections */}

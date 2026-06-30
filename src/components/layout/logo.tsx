@@ -25,7 +25,7 @@ export function Logo({ className, iconOnly }: LogoProps) {
         height={iconOnly ? 96 : 120}
         className={cn(
           "object-contain",
-          iconOnly ? "h-24 w-24" : "h-12 w-auto"
+          iconOnly ? "h-24 w-24" : "h-[120px] w-auto"
         )}
         priority
       />
