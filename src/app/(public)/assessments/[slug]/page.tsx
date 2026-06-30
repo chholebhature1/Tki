@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Container } from "@/components/layout";
 import { ArrowLeft, CheckCircle } from "lucide-react";
+import { saveAssessmentResultAction } from "@/features/assessments/actions/save-result.action";
 
-const assessmentData: Record<string, { title: string; questions: { text: string; options: string[] }[] }> = {
+const assessmentData: Record<string, { title: string; type: string; questions: { text: string; options: string[] }[] }> = {
   anxiety: {
     title: "Anxiety Assessment (GAD-7)",
+    type: "GAD-7",
     questions: [
       { text: "Feeling nervous, anxious, or on edge", options: ["Not at all", "Several days", "More than half the days", "Nearly every day"] },
       { text: "Not being able to stop or control worrying", options: ["Not at all", "Several days", "More than half the days", "Nearly every day"] },
@@ -20,6 +22,7 @@ const assessmentData: Record<string, { title: string; questions: { text: string;
   },
   depression: {
     title: "Depression Screening (PHQ-9)",
+    type: "PHQ-9",
     questions: [
       { text: "Little interest or pleasure in doing things", options: ["Not at all", "Several days", "More than half the days", "Nearly every day"] },
       { text: "Feeling down, depressed, or hopeless", options: ["Not at all", "Several days", "More than half the days", "Nearly every day"] },
@@ -34,6 +37,7 @@ const assessmentData: Record<string, { title: string; questions: { text: string;
   },
   stress: {
     title: "Stress Level Check",
+    type: "Stress",
     questions: [
       { text: "How often have you felt overwhelmed by your responsibilities?", options: ["Never", "Rarely", "Sometimes", "Often"] },
       { text: "How often do you have trouble sleeping due to worry?", options: ["Never", "Rarely", "Sometimes", "Often"] },
@@ -50,6 +54,8 @@ export default function AssessmentPage({ params }: { params: { slug: string } })
   const assessment = assessmentData[params.slug];
   const [answers, setAnswers] = useState<number[]>([]);
   const [completed, setCompleted] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const saveAttempted = useRef(false);
 
   if (!assessment) return <div className="py-20 text-center text-text-secondary">Assessment not found.</div>;
 
@@ -63,6 +69,25 @@ export default function AssessmentPage({ params }: { params: { slug: string } })
     if (percentage <= 75) return { level: "Moderate", color: "text-warning", message: "Your responses suggest moderate symptoms. We recommend consulting a mental health professional." };
     return { level: "Severe", color: "text-danger", message: "Your responses suggest significant symptoms. Please reach out to a qualified therapist for support." };
   }
+
+  // Save result to DB when completed (best-effort, works only if logged in)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (!completed || saveAttempted.current) return;
+    saveAttempted.current = true;
+
+    const result = getResult();
+    saveAssessmentResultAction({
+      assessmentType: assessment.type,
+      score,
+      maxScore,
+      severity: result.level,
+      answers,
+    }).then((res) => {
+      if (res.success) setSaved(true);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [completed]);
 
   if (completed) {
     const result = getResult();
@@ -78,6 +103,9 @@ export default function AssessmentPage({ params }: { params: { slug: string } })
               <p className={`mt-2 text-lg font-semibold ${result.color}`}>{result.level}</p>
               <p className="mt-3 text-sm text-text-secondary">{result.message}</p>
             </div>
+            {saved && (
+              <p className="mt-3 text-xs text-primary">✓ Results saved to your profile</p>
+            )}
             <div className="mt-6 flex flex-col gap-3">
               <Link href="/find-therapists" className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-hover">Find a Therapist</Link>
               <Link href="/assessments" className="rounded-xl border border-border px-6 py-3 text-sm font-medium text-text hover:bg-surface">Take Another Assessment</Link>
