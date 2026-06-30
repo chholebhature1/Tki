@@ -16,7 +16,14 @@ export const metadata = {
 };
 
 export default async function FindTherapistsPage() {
-  const therapists = await TherapistRepository.findAll();
+  let therapists: Awaited<ReturnType<typeof TherapistRepository.findAll>> = [];
+  try {
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      therapists = await TherapistRepository.findAll();
+    }
+  } catch {
+    therapists = [];
+  }
 
   return (
     <section className="bg-surface py-8 sm:py-10 lg:py-12">
