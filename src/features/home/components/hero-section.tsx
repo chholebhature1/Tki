@@ -15,7 +15,7 @@ const fadeUp = {
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-surface py-16 sm:py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-surface py-10 sm:py-12 lg:py-14">
       {/* Subtle background decoration */}
       <div
         className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-primary/5 blur-3xl"
@@ -27,14 +27,14 @@ export function HeroSection() {
       />
 
       <Container className="relative">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left — Content */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="flex flex-col"
+            className="flex flex-col lg:pt-10"
           >
             {/* Headline group — tighter internal spacing */}
             <h1 className="text-4xl font-bold leading-tight tracking-tight text-text sm:text-5xl lg:text-[3.5rem] lg:leading-[1.1]">
@@ -91,7 +91,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
-          className="mt-14 rounded-2xl border border-border bg-white px-6 py-6 shadow-sm sm:px-8 lg:mt-20"
+          className="mt-10 rounded-2xl border border-border bg-white px-6 py-6 shadow-sm sm:px-8 lg:mt-14"
         >
           <HeroStats />
         </motion.div>
