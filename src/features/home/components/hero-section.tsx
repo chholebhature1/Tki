@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout";
-import { Tiles } from "@/components/ui/tiles";
 import { HeroIllustration } from "./hero-illustration";
 import { HeroSearch } from "./hero-search";
 import { TrustBadges } from "./trust-badges";
@@ -17,11 +16,6 @@ const fadeUp = {
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-surface py-10 sm:py-12 lg:py-14">
-      {/* Interactive Tiles Background */}
-      <div className="absolute inset-0 z-0 opacity-100" aria-hidden="true">
-        <Tiles rows={60} cols={12} tileSize="md" />
-      </div>
-
       {/* Subtle background decoration */}
       <div
         className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-primary/5 blur-3xl"
@@ -32,7 +26,7 @@ export function HeroSection() {
         aria-hidden="true"
       />
 
-      <Container className="relative z-10">
+      <Container className="relative">
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left — Content */}
           <motion.div
