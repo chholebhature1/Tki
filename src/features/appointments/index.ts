@@ -3,6 +3,7 @@ export {
   AppointmentStatusBadge,
   AppointmentCard,
   AppointmentActions,
+  ReviewForm,
 } from "./components";
 export { AppointmentRepository } from "./repositories";
 export {
