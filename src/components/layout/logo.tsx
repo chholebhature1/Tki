@@ -21,11 +21,11 @@ export function Logo({ className, iconOnly }: LogoProps) {
       <Image
         src="/IMAGES/LOGO.png"
         alt="TalkIndia"
-        width={iconOnly ? 32 : 140}
-        height={iconOnly ? 32 : 40}
+        width={iconOnly ? 96 : 420}
+        height={iconOnly ? 96 : 120}
         className={cn(
           "object-contain",
-          iconOnly ? "h-8 w-8" : "h-9 w-auto sm:h-10"
+          iconOnly ? "h-24 w-24" : "h-12 w-auto"
         )}
         priority
       />
