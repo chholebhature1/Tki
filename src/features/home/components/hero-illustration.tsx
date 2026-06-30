@@ -125,28 +125,28 @@ export function HeroIllustration() {
       onMouseLeave={() => setPaused(false)}
     >
       {/* Heading */}
-      <div className="mb-5 text-center">
+      <div className="mb-4 text-center">
         <p className="text-[10px] font-semibold uppercase tracking-[3px] text-primary">Trusted Professionals</p>
         <h2 className="mt-1 text-xl font-bold text-text sm:text-2xl">Our Top Therapists</h2>
       </div>
 
-      {/* 3D Carousel Stage — taller for 4:5 cards */}
+      {/* 3D Carousel Stage — full height */}
       <div
-        className="relative h-[520px] w-full sm:h-[580px]"
+        className="relative h-[600px] w-full sm:h-[680px]"
         style={{ perspective: "1000px" }}
       >
         {therapists.map((therapist, index) => (
           <div
             key={therapist.id}
-            className="absolute left-1/2 top-0 -ml-[120px] transition-all duration-500 ease-out sm:-ml-[130px]"
+            className="absolute left-1/2 top-0 -ml-[115px] transition-all duration-500 ease-out sm:-ml-[125px]"
             style={getCardStyle(index)}
           >
-            {/* Card — 4:5 portrait */}
-            <div className="flex w-[240px] flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-lg sm:w-[260px]" style={{ aspectRatio: "4/5" }}>
-              {/* Image — 55% of card */}
+            {/* Card — image is 4:5, plus info below */}
+            <div className="flex w-[230px] flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-lg sm:w-[250px]">
+              {/* Image container — strict 4:5 aspect ratio */}
               <div
-                className="relative flex-[0_0_55%] overflow-hidden"
-                style={{ background: therapist.gradient }}
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "4/5", background: therapist.gradient }}
               >
                 {!failedImages[therapist.id] ? (
                   <img
@@ -171,14 +171,16 @@ export function HeroIllustration() {
                 </div>
               </div>
 
-              {/* Info — 45% of card */}
-              <div className="flex flex-[0_0_45%] flex-col p-3.5">
-                <p className="text-sm font-bold leading-tight text-text">{therapist.name}</p>
-                <p className="mt-0.5 text-[10px] text-text-secondary">{therapist.title}</p>
-                <p className="mt-1 text-[10px] text-muted">{therapist.experience} experience</p>
+              {/* Info below image */}
+              <div className="flex flex-col gap-2 p-3.5">
+                <div>
+                  <p className="text-sm font-bold leading-tight text-text">{therapist.name}</p>
+                  <p className="mt-0.5 text-[10px] text-text-secondary">{therapist.title}</p>
+                  <p className="mt-0.5 text-[10px] text-muted">{therapist.experience} experience</p>
+                </div>
 
                 {/* Specialization chips */}
-                <div className="mt-2 flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1">
                   {therapist.specializations.map((s) => (
                     <span key={s} className="rounded-full bg-primary-light px-2 py-0.5 text-[9px] font-medium text-primary">
                       {s}
@@ -188,7 +190,7 @@ export function HeroIllustration() {
 
                 {/* Buttons — only on active card */}
                 {index === active && (
-                  <div className="mt-auto flex gap-2 pt-2">
+                  <div className="flex gap-2 pt-1">
                     <Link
                       href={`/book/${therapist.slug}`}
                       className="flex-1 rounded-lg bg-primary py-1.5 text-center text-[10px] font-semibold text-white hover:bg-primary-hover"
