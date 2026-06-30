@@ -27,10 +27,10 @@ export function PaymentPageContent({ appointmentInfo, appointmentId }: PaymentPa
     setStatus("processing");
     setError("");
 
-    // Mock processing delay (simulates Razorpay checkout)
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+    // Simulated payment (instant for demo — no real gateway configured)
+    await new Promise((resolve) => setTimeout(resolve, 1200));
 
-    // If we have a real appointment, confirm it in the database
+    // Confirm the appointment in the database
     if (appointmentId) {
       const result = await confirmPaymentAction(appointmentId);
       if (!result.success) {
