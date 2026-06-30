@@ -4,6 +4,7 @@ export { CategoriesSection } from "./categories-section";
 export { HowItWorksSection } from "./how-it-works-section";
 export { FeaturedTherapistsSection } from "./featured-therapists-section";
 export { TestimonialsSection } from "./testimonials-section";
+export { QuerySection } from "./query-section";
 export { FeatureCard } from "./feature-card";
 export { CategoryCard } from "./category-card";
 export { StepCard } from "./step-card";

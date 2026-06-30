@@ -9,6 +9,7 @@ import {
   HowItWorksSection,
   FeaturedTherapistsSection,
   TestimonialsSection,
+  QuerySection,
 } from "@/features/home";
 
 export default function HomePage() {
@@ -53,6 +54,7 @@ export default function HomePage() {
       </section>
 
       <TestimonialsSection />
+      <QuerySection />
     </>
   );
 }

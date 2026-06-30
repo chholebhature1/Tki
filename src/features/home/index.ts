@@ -5,4 +5,5 @@ export {
   HowItWorksSection,
   FeaturedTherapistsSection,
   TestimonialsSection,
+  QuerySection,
 } from "./components";
