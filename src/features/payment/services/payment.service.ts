@@ -46,6 +46,19 @@ export async function confirmPayment(
     return { success: false, error: "Failed to confirm appointment." };
   }
 
+  // Send notifications (best-effort)
+  try {
+    const { NotificationService } = await import("@/features/notifications/services");
+    const { data: patientProfile } = await supabase.from("profiles").select("full_name, email").eq("id", userId).single();
+    const { data: apptData } = await supabase.from("appointments").select("therapist_profile_id, appointment_date, start_time").eq("id", appointmentId).single();
+    const { data: therapistData } = await supabase.from("therapist_profiles").select("profile:profiles!therapist_profiles_profile_id_fkey(full_name)").eq("id", apptData?.therapist_profile_id).single();
+    const therapistName = (therapistData?.profile as unknown as { full_name: string })?.full_name || "Therapist";
+    const dateLabel = apptData ? new Date(apptData.appointment_date).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" }) : "";
+
+    await NotificationService.bookingConfirmed(userId, patientProfile?.email || "", therapistName, dateLabel, apptData?.start_time || "");
+    await NotificationService.paymentSuccess(userId, patientProfile?.email || "", 1500, therapistName);
+  } catch { /* Never block payment flow */ }
+
   return { success: true };
 }
 

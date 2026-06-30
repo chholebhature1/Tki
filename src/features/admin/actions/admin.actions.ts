@@ -19,12 +19,47 @@ async function verifyAdmin(): Promise<boolean> {
 
 export async function approveTherapistAction(therapistProfileId: string) {
   if (!(await verifyAdmin())) return { success: false, error: "Unauthorized" };
-  return AdminRepository.updateVerificationStatus(therapistProfileId, "approved");
+  const result = await AdminRepository.updateVerificationStatus(therapistProfileId, "approved");
+
+  // Notify therapist
+  if (result.success) {
+    try {
+      const supabase = await createServerSupabaseClient();
+      const { data: tp } = await supabase.from("therapist_profiles").select("profile:profiles!therapist_profiles_profile_id_fkey(id, email)").eq("id", therapistProfileId).single();
+      const profile = tp?.profile as unknown as { id: string; email: string } | null;
+      if (profile) {
+        const { NotificationService } = await import("@/features/notifications/services");
+        await NotificationService.therapistApproved(profile.id, profile.email);
+      }
+    } catch { /* best-effort */ }
+  }
+
+  return result;
 }
 
 export async function rejectTherapistAction(therapistProfileId: string) {
   if (!(await verifyAdmin())) return { success: false, error: "Unauthorized" };
-  return AdminRepository.updateVerificationStatus(therapistProfileId, "rejected");
+  const result = await AdminRepository.updateVerificationStatus(therapistProfileId, "rejected");
+
+  // Notify therapist
+  if (result.success) {
+    try {
+      const supabase = await createServerSupabaseClient();
+      const { data: tp } = await supabase.from("therapist_profiles").select("profile:profiles!therapist_profiles_profile_id_fkey(id, email)").eq("id", therapistProfileId).single();
+      const profile = tp?.profile as unknown as { id: string; email: string } | null;
+      if (profile) {
+        const { NotificationService } = await import("@/features/notifications/services");
+        await NotificationService.notify({
+          userId: profile.id, email: profile.email,
+          title: "Verification Rejected",
+          message: "Your therapist profile was not approved. Please review your documents and resubmit.",
+          type: "verification", category: "verification", link: "/therapist/profile",
+        });
+      }
+    } catch { /* best-effort */ }
+  }
+
+  return result;
 }
 
 export async function suspendTherapistAction(therapistProfileId: string) {

@@ -370,6 +370,13 @@
 - [x] Professional HTML email template (TalkIndia branding)
 - [x] Best-effort email: never blocks main user flow if Resend fails
 
+### Platform Integration
+- [x] NotificationService wired into Booking flow (new booking → therapist notified)
+- [x] NotificationService wired into Payment flow (confirmed → patient notified + receipt email)
+- [x] NotificationService wired into Admin actions (approve/reject → therapist notified + email)
+- [x] NotificationBell reusable component (shows unread count badge)
+- [x] All notifications are best-effort (failures never block main user flow)
+
 The project is production-ready for a college final-year evaluation.
 
 All core flows work end-to-end:

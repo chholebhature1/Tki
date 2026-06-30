@@ -77,15 +77,13 @@ function ConsultationRoomUI(props: ConsultationReadyProps) {
   const handleLeave = useCallback(async () => {
     room.disconnect();
     // Only mark completed when therapist explicitly leaves via dialog
-    // (Not on accidental disconnect)
     if (role === "therapist" && elapsed > 60) {
-      // Only mark completed if session lasted more than 1 minute
       try {
         const { markCompletedAction } = await import("@/features/appointments/actions");
         const appointmentId = props.token.roomName.replace("tki-consultation-", "");
         await markCompletedAction(appointmentId);
       } catch {
-        // Best effort — don't block navigation
+        // Best effort
       }
     }
     if (role === "patient") router.push("/dashboard");

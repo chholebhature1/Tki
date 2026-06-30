@@ -115,6 +115,21 @@ export async function createBooking(input: CreateBookingInput): Promise<BookingR
     await supabase.from("slot_locks").delete().eq("id", lock.id);
   }
 
+  // 6. Send notifications (best-effort, never blocks booking)
+  try {
+    const { NotificationService } = await import("@/features/notifications/services");
+    // Get patient and therapist info for notification
+    const { data: patientProfile } = await supabase.from("profiles").select("full_name, email").eq("id", input.patientId).single();
+    const { data: therapistData } = await supabase.from("therapist_profiles").select("profile:profiles!therapist_profiles_profile_id_fkey(id, full_name, email)").eq("id", input.therapistProfileId).single();
+    const therapistUser = therapistData?.profile as unknown as { id: string; full_name: string; email: string } | null;
+
+    const dateLabel = new Date(input.appointmentDate).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" });
+
+    if (therapistUser) {
+      await NotificationService.newBookingForTherapist(therapistUser.id, therapistUser.email, patientProfile?.full_name || "Patient", dateLabel, input.startTime);
+    }
+  } catch { /* Notification failure must never block booking */ }
+
   return {
     success: true,
     appointmentId: appointment.id,
