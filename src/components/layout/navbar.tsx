@@ -163,7 +163,7 @@ export function Navbar() {
                   Log in
                 </Link>
                 <Link
-                  href="/register"
+                  href="/find-therapists"
                   className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
                 >
                   Book Appointment
@@ -248,7 +248,7 @@ export function Navbar() {
                       Log in
                     </Link>
                     <Link
-                      href="/register"
+                      href="/find-therapists"
                       onClick={() => setMobileMenuOpen(false)}
                       className="rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover"
                     >

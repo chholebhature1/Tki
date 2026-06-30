@@ -70,7 +70,7 @@ export default async function TherapistProfilePage(
             </div>
             <div className="hidden lg:block">
               <div className="sticky top-20">
-                <BookingCard sessionFee={fallbackProfile.sessionFee} sessionDuration={fallbackProfile.sessionDuration} nextAvailableSlot={fallbackProfile.nextAvailableSlot} />
+                <BookingCard slug={slug} sessionFee={fallbackProfile.sessionFee} sessionDuration={fallbackProfile.sessionDuration} nextAvailableSlot={fallbackProfile.nextAvailableSlot} />
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default async function TherapistProfilePage(
                 <p className="text-lg font-bold text-text">₹{fallbackProfile.sessionFee.toLocaleString("en-IN")}</p>
                 <p className="text-xs text-muted">{fallbackProfile.sessionDuration} min session</p>
               </div>
-              <a href="/register" className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-hover">Book Appointment</a>
+              <a href={`/book/${slug}`} className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-hover">Book Appointment</a>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ export default async function TherapistProfilePage(
           </div>
           <div className="hidden lg:block">
             <div className="sticky top-20">
-              <BookingCard sessionFee={therapist.sessionFee} sessionDuration={50} nextAvailableSlot={therapist.nextAvailableSlot} />
+              <BookingCard slug={therapist.slug} sessionFee={therapist.sessionFee} sessionDuration={50} nextAvailableSlot={therapist.nextAvailableSlot} />
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default async function TherapistProfilePage(
               <p className="text-lg font-bold text-text">₹{therapist.sessionFee.toLocaleString("en-IN")}</p>
               <p className="text-xs text-muted">50 min session</p>
             </div>
-            <a href="/register" className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-hover">Book Appointment</a>
+            <a href={`/book/${therapist.slug}`} className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primary-hover">Book Appointment</a>
           </div>
         </div>
 

@@ -2,12 +2,13 @@ import Link from "next/link";
 import { Clock, Calendar } from "lucide-react";
 
 interface BookingCardProps {
+  slug: string;
   sessionFee: number;
   sessionDuration: number;
   nextAvailableSlot: string;
 }
 
-export function BookingCard({ sessionFee, sessionDuration, nextAvailableSlot }: BookingCardProps) {
+export function BookingCard({ slug, sessionFee, sessionDuration, nextAvailableSlot }: BookingCardProps) {
   return (
     <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
       <div className="text-center">
@@ -29,7 +30,7 @@ export function BookingCard({ sessionFee, sessionDuration, nextAvailableSlot }: 
       </div>
 
       <Link
-        href="/register"
+        href={`/book/${slug}`}
         className="mt-6 block w-full rounded-xl bg-primary py-3.5 text-center text-base font-medium text-white transition-all hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         Book Appointment
