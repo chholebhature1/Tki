@@ -80,7 +80,6 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-            className="hidden lg:block"
           >
             <HeroIllustration />
           </motion.div>
