@@ -95,9 +95,49 @@ export async function cancelAppointment(
   userId: string,
   role: "patient" | "therapist" | "admin"
 ): Promise<AppointmentStatusTransitionResult> {
-  return verifyAndTransition(appointmentId, userId, "cancelled", role, {
+  const result = await verifyAndTransition(appointmentId, userId, "cancelled", role, {
     cancelled_at: new Date().toISOString(),
   });
+
+  // Send cancellation notifications (best-effort)
+  if (result.success) {
+    try {
+      const { createServerSupabaseClient } = await import("@/lib/supabase/server");
+      const supabase = await createServerSupabaseClient();
+      const { NotificationService } = await import("@/features/notifications/services");
+
+      const { data: appt } = await supabase.from("appointments")
+        .select("patient_profile_id, therapist_profile_id, appointment_date")
+        .eq("id", appointmentId).single();
+
+      if (appt) {
+        const dateLabel = new Date(appt.appointment_date).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" });
+
+        // Get names and emails
+        const { data: patient } = await supabase.from("profiles").select("full_name, email").eq("id", appt.patient_profile_id).single();
+        const { data: tpData } = await supabase.from("therapist_profiles")
+          .select("profile:profiles!therapist_profiles_profile_id_fkey(id, full_name, email)")
+          .eq("id", appt.therapist_profile_id).single();
+        const therapistProfile = tpData?.profile as unknown as { id: string; full_name: string; email: string } | null;
+
+        // Notify patient
+        if (patient) {
+          await NotificationService.bookingCancelled(appt.patient_profile_id, patient.email, therapistProfile?.full_name || "Therapist", dateLabel);
+        }
+        // Notify therapist
+        if (therapistProfile) {
+          await NotificationService.notify({
+            userId: therapistProfile.id, email: therapistProfile.email,
+            title: "Booking Cancelled",
+            message: `${patient?.full_name || "Patient"} cancelled their appointment on ${dateLabel}.`,
+            type: "appointment", category: "cancellation", link: "/therapist/dashboard",
+          });
+        }
+      }
+    } catch { /* Never block cancellation */ }
+  }
+
+  return result;
 }
 
 export async function rescheduleAppointment(

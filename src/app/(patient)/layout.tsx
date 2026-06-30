@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/features/dashboard/components/dashboard-sidebar";
 import { DashboardMobileNav } from "@/features/dashboard/components/dashboard-mobile-nav";
+import { NotificationBell } from "@/features/notifications/components";
 
 export default async function PatientLayout({
   children,
@@ -15,7 +17,6 @@ export default async function PatientLayout({
     redirect("/login?redirect=/dashboard");
   }
 
-  // Get profile for sidebar
   const { data: profile } = await supabase
     .from("profiles")
     .select("full_name, email, avatar_url")
@@ -30,15 +31,18 @@ export default async function PatientLayout({
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Mobile Nav */}
       <DashboardMobileNav user={userInfo} />
 
       <div className="flex">
-        {/* Desktop Sidebar */}
         <DashboardSidebar user={userInfo} />
 
-        {/* Main Content */}
         <main id="main-content" className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+          {/* Notification Bell - top right */}
+          <div className="mb-4 flex justify-end lg:mb-0 lg:absolute lg:right-8 lg:top-6">
+            <Suspense fallback={null}>
+              <NotificationBell userId={user.id} href="/dashboard/notifications" />
+            </Suspense>
+          </div>
           {children}
         </main>
       </div>

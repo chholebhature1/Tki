@@ -91,6 +91,15 @@ export async function registerAction(
     return { success: false, message: safeAuthError(error, "register") };
   }
 
+  // Send welcome notification + email (best-effort)
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { NotificationService } = await import("@/features/notifications/services");
+      await NotificationService.welcome(user.id, parsed.data.email, parsed.data.fullName);
+    }
+  } catch { /* Never block registration */ }
+
   return {
     success: true,
     message: "Account created! Please check your email to verify.",
