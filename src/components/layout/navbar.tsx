@@ -204,21 +204,29 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text lg:hidden"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
+          {/* Mobile: Book Appointment + Hamburger */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              href="/find-therapists"
+              className="rounded-lg bg-primary px-3 py-2 text-xs font-medium text-white hover:bg-primary-hover"
+            >
+              Book Now
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </nav>
       </Container>
 
