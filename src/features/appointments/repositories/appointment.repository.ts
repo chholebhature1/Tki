@@ -213,7 +213,7 @@ export class AppointmentRepository {
 
     if (error || !data) return [];
     return data.map((row) => {
-      const patient = row.patient as unknown as { id: string; full_name: string; email: string };
+      const patient = row.patient as unknown as { id: string; full_name: string; email: string } | null;
       return {
         id: row.id,
         appointmentDate: row.appointment_date,
@@ -228,7 +228,7 @@ export class AppointmentRepository {
         cancelledAt: row.cancelled_at,
         completedAt: row.completed_at,
         therapist: { id: therapistProfileId, name: "", professionalTitle: null, qualification: null, avatarUrl: null },
-        patient: { id: patient.id, name: patient.full_name, email: patient.email },
+        patient: { id: patient?.id || "", name: patient?.full_name || "Patient", email: patient?.email || "" },
       };
     });
   }
