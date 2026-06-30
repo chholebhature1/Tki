@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: "/IMAGES/LOGO.png",
+    apple: "/IMAGES/LOGO.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -22,11 +26,13 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
+    images: [{ url: "/IMAGES/LOGO.png", width: 400, height: 120, alt: "TalkIndia" }],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
+    images: ["/IMAGES/LOGO.png"],
   },
   robots: {
     index: true,
