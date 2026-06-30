@@ -126,7 +126,7 @@ export default async function TherapistAppointmentsPage(
                         </span>
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3 text-primary" aria-hidden="true" />
-                          {appt.startTime} · {appt.durationMinutes}m
+                          {appt.startTime?.slice(0, 5)} · {appt.durationMinutes}m
                         </span>
                         <span className="flex items-center gap-1">
                           <ModeIcon className="h-3 w-3 text-primary" aria-hidden="true" />

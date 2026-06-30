@@ -123,7 +123,7 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
                         <AppointmentStatusBadge status={appt.status} />
                       </div>
                       <p className="text-xs text-text-secondary">
-                        {appt.start_time} · {appt.duration_minutes} min · {appt.consultation_mode === "online" ? "Video" : "In-Person"}
+                        {appt.start_time?.slice(0, 5)} · {appt.duration_minutes} min · {appt.consultation_mode === "online" ? "Video" : "In-Person"}
                       </p>
                     </div>
                   </div>

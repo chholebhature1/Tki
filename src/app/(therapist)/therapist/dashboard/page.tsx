@@ -110,11 +110,13 @@ export default async function TherapistDashboardPage() {
               .filter((a) => a.status === "confirmed" || a.status === "completed")
               .sort((a, b) => a.startTime.localeCompare(b.startTime))
               .map((appt) => {
+                // Format time: "10:49:49.817928" → "10:49"
+                const displayTime = appt.startTime?.slice(0, 5) || "—";
                 const start = new Date(`${appt.appointmentDate}T${appt.startTime}`);
                 const end = new Date(start.getTime() + appt.durationMinutes * 60000);
                 const isActive = appt.status === "confirmed" && now >= new Date(start.getTime() - 15 * 60000) && now <= new Date(end.getTime() + 15 * 60000);
                 const isPast = appt.status === "completed" || now > new Date(end.getTime() + 15 * 60000);
-                const isFuture = appt.status === "confirmed" && !isActive;
+                const isFuture = appt.status === "confirmed" && !isActive && !isPast;
 
                 return (
                   <div
@@ -126,7 +128,7 @@ export default async function TherapistDashboardPage() {
                     {/* Time column */}
                     <div className="w-14 shrink-0 text-center">
                       <p className={`text-sm font-semibold ${isActive ? "text-primary" : "text-text"}`}>
-                        {appt.startTime}
+                        {displayTime}
                       </p>
                       <p className="text-[10px] text-muted">{appt.durationMinutes}m</p>
                     </div>
@@ -149,11 +151,12 @@ export default async function TherapistDashboardPage() {
                         {appt.consultationMode === "online" ? "Video" : "In-Person"}
                         {isActive && " · In progress"}
                         {isPast && " · Completed"}
-                        {isFuture && ` · Starts ${(() => {
+                        {isFuture && (() => {
                           const diff = Math.round((start.getTime() - now.getTime()) / 60000);
-                          if (diff < 60) return `in ${diff}m`;
-                          return `in ${Math.floor(diff / 60)}h ${diff % 60}m`;
-                        })()}`}
+                          if (diff <= 0) return " · Starting soon";
+                          if (diff < 60) return ` · Starts in ${diff}m`;
+                          return ` · Starts in ${Math.floor(diff / 60)}h ${diff % 60}m`;
+                        })()}
                       </p>
                     </div>
 
@@ -172,7 +175,7 @@ export default async function TherapistDashboardPage() {
                       </span>
                     )}
                     {isFuture && (
-                      <span className="shrink-0 text-xs text-muted">{appt.startTime}</span>
+                      <span className="shrink-0 text-xs text-muted">{displayTime}</span>
                     )}
                   </div>
                 );
@@ -201,7 +204,7 @@ export default async function TherapistDashboardPage() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-text">{appt.patient.name || "Patient"}</p>
                     <p className="text-xs text-muted">
-                      {new Date(appt.appointmentDate).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} · {appt.startTime} · {appt.durationMinutes}m
+                      {new Date(appt.appointmentDate).toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} · {appt.startTime?.slice(0, 5)} · {appt.durationMinutes}m
                     </p>
                   </div>
                   <span className="shrink-0 text-xs text-text-secondary">

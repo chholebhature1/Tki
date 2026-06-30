@@ -74,7 +74,7 @@ export function AppointmentDetailCard({ appointment }: AppointmentDetailCardProp
           <div>
             <p className="text-xs text-muted">Time</p>
             <p className="text-sm font-medium text-text">
-              {appointment.startTime} – {appointment.endTime} ({appointment.durationMinutes} min)
+              {appointment.startTime?.slice(0, 5)} – {appointment.endTime?.slice(0, 5)} ({appointment.durationMinutes} min)
             </p>
           </div>
         </div>

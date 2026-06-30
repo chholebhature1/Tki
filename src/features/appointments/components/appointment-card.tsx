@@ -57,7 +57,7 @@ export function AppointmentCard({ appointment, showTherapist = true, showPatient
         </span>
         <span className="flex items-center gap-1.5">
           <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-          {appointment.startTime} · {appointment.durationMinutes} min
+          {appointment.startTime?.slice(0, 5)} · {appointment.durationMinutes} min
         </span>
         <span className="flex items-center gap-1.5">
           <ModeIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
