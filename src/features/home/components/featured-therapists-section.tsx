@@ -3,21 +3,24 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout";
 import { TherapistCard } from "./therapist-card";
 import { TherapistRepository } from "@/features/therapists/repositories";
+import { fallbackTherapists } from "@/features/therapists/constants/fallback-therapists";
 
 export async function FeaturedTherapistsSection() {
   // Don't attempt DB query if Supabase is not configured
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    return null;
-  }
-
   let therapists: Awaited<ReturnType<typeof TherapistRepository.findFeatured>> = [];
-  try {
-    therapists = await TherapistRepository.findFeatured();
-  } catch {
-    return null;
+
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    try {
+      therapists = await TherapistRepository.findFeatured();
+    } catch {
+      therapists = [];
+    }
   }
 
-  if (therapists.length === 0) return null;
+  // Fallback to mock data if DB empty
+  if (therapists.length === 0) {
+    therapists = fallbackTherapists;
+  }
 
   return (
     <section className="bg-surface py-16 sm:py-20 lg:py-24">

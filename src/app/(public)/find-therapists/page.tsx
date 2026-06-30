@@ -8,6 +8,7 @@ import {
   MobileFilterDrawer,
   TherapistRepository,
 } from "@/features/therapists";
+import { fallbackTherapists } from "@/features/therapists/constants/fallback-therapists";
 
 export const metadata = {
   title: "Find a Therapist",
@@ -23,6 +24,11 @@ export default async function FindTherapistsPage() {
     }
   } catch {
     therapists = [];
+  }
+
+  // Use fallback data if DB returns empty
+  if (therapists.length === 0) {
+    therapists = fallbackTherapists;
   }
 
   return (
