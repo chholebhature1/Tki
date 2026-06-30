@@ -351,6 +351,11 @@
 - [x] /dashboard/profile — Patient profile management (edit name, phone, DOB, gender, city, state, emergency contact) with Zod validation + Server Action
 - [x] /therapist/profile — Therapist professional profile management (title, bio, fee, experience, consultation mode) with Zod validation + Server Action + public profile preview
 - [x] /therapist/availability — Full availability management (weekly schedule per day, slot duration, add/remove time blocks, blocked periods with reasons)
+- [x] /about — Mission, vision, values, CTA
+- [x] /contact — Contact form, info cards, emergency disclaimer
+- [x] /faq — Accordion FAQ with 5 categories, 15 questions
+- [x] /privacy-policy — Professional privacy policy for healthcare platform
+- [x] /terms — Terms of service with cancellation/refund policies
 
 The project is production-ready for a college final-year evaluation.
 
