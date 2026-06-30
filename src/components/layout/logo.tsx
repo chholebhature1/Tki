@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -18,16 +17,14 @@ export function Logo({ className, iconOnly }: LogoProps) {
       )}
       aria-label="TalkIndia — Home"
     >
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src="/IMAGES/LOGO.png"
         alt="TalkIndia"
-        width={iconOnly ? 96 : 420}
-        height={iconOnly ? 96 : 120}
         className={cn(
           "object-contain",
           iconOnly ? "h-24 w-24" : "h-[120px] w-auto"
         )}
-        priority
       />
     </Link>
   );
