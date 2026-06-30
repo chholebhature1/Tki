@@ -52,9 +52,9 @@ export class AvailabilityRepository {
       }
     });
 
-    // Generate date list
+    // Generate date list (starting from today)
     const dates: BookingDate[] = [];
-    for (let i = 1; i <= daysAhead; i++) {
+    for (let i = 0; i <= daysAhead; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       const dateStr = d.toISOString().split("T")[0];
