@@ -346,6 +346,9 @@
 
 ## Status: MVP COMPLETE
 
+### Additional Pages
+- [x] /dashboard/appointments — Patient appointment management with tabs (Upcoming/Completed/Cancelled), empty states, real data
+
 The project is production-ready for a college final-year evaluation.
 
 All core flows work end-to-end:
