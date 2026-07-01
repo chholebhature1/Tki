@@ -46,9 +46,23 @@ export default async function ConsultationPage(
     return <ConsultationUnavailable reason="unauthorized" />;
   }
 
-  // 4. Validate participant
-  const { valid, role } = await MeetingRepository.validateParticipant(appointmentId, user.id);
-  if (!valid || !role) {
+  // 4. Validate participant — use already-fetched appointment data, no second query needed
+  let role: "patient" | "therapist" | null = null;
+
+  if (appointment.patient_profile_id === user.id) {
+    role = "patient";
+  } else {
+    // Check if user is the therapist
+    const { data: therapistProfile } = await supabase
+      .from("therapist_profiles")
+      .select("id")
+      .eq("id", appointment.therapist_profile_id)
+      .eq("profile_id", user.id)
+      .single();
+    if (therapistProfile) role = "therapist";
+  }
+
+  if (!role) {
     return <ConsultationUnavailable reason="unauthorized" />;
   }
 
