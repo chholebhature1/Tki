@@ -53,7 +53,15 @@ export default async function ConsultationPage(
   }
 
   // 5. Validate time window
-  const appointmentStart = new Date(`${appointment.appointment_date}T${appointment.start_time}`);
+  // appointment_date and start_time are stored in IST (India Standard Time, UTC+5:30)
+  // We must parse them as IST to avoid timezone mismatch on UTC servers
+  const [year, month, day] = appointment.appointment_date.split("-").map(Number);
+  const [hours, minutes, seconds] = appointment.start_time.split(":").map(Number);
+  // Create date in IST by subtracting 5h30m from the local representation
+  // IST = UTC + 5:30, so to get UTC we subtract 5:30 from the IST time
+  const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+  const appointmentStartUTC = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds || 0) - IST_OFFSET_MS);
+  const appointmentStart = appointmentStartUTC;
   const appointmentEnd = new Date(appointmentStart.getTime() + appointment.duration_minutes * 60000);
   const joinWindowStart = new Date(appointmentStart.getTime() - EARLY_JOIN_MINUTES * 60000);
   const joinWindowEnd = new Date(appointmentEnd.getTime() + LATE_JOIN_MINUTES * 60000);
