@@ -16,17 +16,12 @@ export interface MeetingAuthResult {
 
 /**
  * Authorizes a user to join a meeting and returns a LiveKit token.
- * 
- * Security checks:
- * 1. User is authenticated
- * 2. Appointment exists
- * 3. Appointment status is "confirmed"
- * 4. User is either the assigned patient or therapist
- * 5. LiveKit configuration is valid
+ * Role is passed in directly (already validated by the caller).
  */
 export async function authorizeMeetingJoin(
   appointmentId: string,
-  userId: string
+  userId: string,
+  prevalidatedRole?: "patient" | "therapist"
 ): Promise<MeetingAuthResult> {
   // Validate LiveKit config early
   try {
@@ -35,11 +30,15 @@ export async function authorizeMeetingJoin(
     return { success: false, error: "Video service is not configured." };
   }
 
-  // Validate participant
-  const { valid, role, appointment } = await MeetingRepository.validateParticipant(appointmentId, userId);
+  let role = prevalidatedRole;
 
-  if (!valid || !role || !appointment) {
-    return { success: false, error: "You are not authorized to join this session." };
+  // Only call validateParticipant if role not already known
+  if (!role) {
+    const { valid, role: detectedRole } = await MeetingRepository.validateParticipant(appointmentId, userId);
+    if (!valid || !detectedRole) {
+      return { success: false, error: "You are not authorized to join this session." };
+    }
+    role = detectedRole;
   }
 
   // Get participant name from profile

@@ -95,8 +95,8 @@ export default async function ConsultationPage(
     return <ConsultationUnavailable reason="ended" />;
   }
 
-  // 6. Generate token
-  const authResult = await authorizeMeetingJoin(appointmentId, user.id);
+  // 6. Generate token — pass already-validated role to skip redundant DB query
+  const authResult = await authorizeMeetingJoin(appointmentId, user.id, role);
 
   if (!authResult.success || !authResult.data) {
     return <ConsultationUnavailable reason="unauthorized" />;
