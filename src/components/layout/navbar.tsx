@@ -105,15 +105,32 @@ export function Navbar() {
           <ul className="hidden items-center gap-1 lg:flex" role="list">
             {navLinks.map((link, i) => {
               const items = [];
-              // Insert Dashboard link after Home (index 0), only when logged in
+              // Insert Admin Panel + Dashboard links after Home (index 0), only when logged in
               if (i === 1 && user) {
+                if (user.role === "admin") {
+                  items.push(
+                    <li key="admin-panel-nav">
+                      <Link
+                        href="/admin/dashboard"
+                        className={cn(
+                          "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                          pathname.startsWith("/admin/")
+                            ? "text-primary"
+                            : "text-text-secondary hover:text-text"
+                        )}
+                      >
+                        Admin Panel
+                      </Link>
+                    </li>
+                  );
+                }
                 items.push(
                   <li key="dashboard-nav">
                     <Link
                       href={dashboardHref}
                       className={cn(
                         "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        pathname.startsWith("/dashboard") || pathname.startsWith("/therapist/") || pathname.startsWith("/admin/")
+                        pathname.startsWith("/dashboard") || pathname.startsWith("/therapist/") || (pathname.startsWith("/admin/") && user.role !== "admin")
                           ? "text-primary"
                           : "text-text-secondary hover:text-text"
                       )}
