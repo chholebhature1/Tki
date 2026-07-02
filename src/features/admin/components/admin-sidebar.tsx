@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, Users, UserCheck, Calendar, Star, Settings, LogOut, Wrench, MessageCircle } from "lucide-react";
+import { LayoutDashboard, Users, UserCheck, Calendar, Star, Settings, LogOut, Wrench, MessageCircle, FileText } from "lucide-react";
 import { Logo } from "@/components/layout";
 
 interface AdminSidebarProps {
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/users", icon: Users, label: "Users" },
   { href: "/admin/appointments", icon: Calendar, label: "Appointments" },
   { href: "/admin/reviews", icon: Star, label: "Reviews" },
+  { href: "/admin/blog", icon: FileText, label: "Blog" },
   { href: "/admin/queries", icon: MessageCircle, label: "Queries" },
   { href: "/admin/tools", icon: Wrench, label: "Tools" },
   { href: "/admin/settings", icon: Settings, label: "Settings" },
