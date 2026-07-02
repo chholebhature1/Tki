@@ -40,7 +40,7 @@ export async function updateSession(request: NextRequest) {
 
   const isProtectedRoute = protectedPaths.some((path) =>
     pathname.startsWith(path)
-  );
+  ) && pathname !== "/admin-login";
   const isAuthRoute = authPaths.some((path) => pathname.startsWith(path));
 
   // Redirect unauthenticated users from protected routes
