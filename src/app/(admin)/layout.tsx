@@ -8,7 +8,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login");
+  if (!user) redirect("/admin-login");
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .single();
 
   const role = (profile?.role as unknown as { name: string })?.name;
-  if (role !== "admin") redirect("/dashboard");
+  if (role !== "admin") redirect("/admin-login");
 
   const userInfo = { name: profile?.full_name || "Admin", email: profile?.email || "" };
 
