@@ -1,68 +1,92 @@
 import Link from "next/link";
 import { Container } from "@/components/layout";
+import { BlogRepository } from "@/features/blog";
+import { Calendar, Clock, User } from "lucide-react";
 
 export const metadata = {
   title: "Blog",
-  description: "Mental health articles, tips, and resources from TalkIndia's team of verified professionals.",
+  description: "Mental health insights, therapy guides, and wellness tips from certified professionals.",
 };
 
-const articles = [
-  {
-    slug: "understanding-anxiety",
-    title: "Understanding Anxiety: Signs, Causes, and What You Can Do",
-    excerpt: "Anxiety is one of the most common mental health concerns in India. Learn to recognize the signs and discover evidence-based strategies for managing it.",
-    category: "Mental Health",
-    date: "June 25, 2026",
-    readTime: "5 min read",
-  },
-  {
-    slug: "therapy-first-session",
-    title: "What to Expect in Your First Therapy Session",
-    excerpt: "Feeling nervous about starting therapy? Here's everything you need to know to feel prepared and make the most of your first consultation.",
-    category: "Getting Started",
-    date: "June 20, 2026",
-    readTime: "4 min read",
-  },
-  {
-    slug: "work-stress-burnout",
-    title: "Work Stress vs Burnout: How to Tell the Difference",
-    excerpt: "Stress and burnout are not the same. Understanding the distinction can help you take the right steps before things escalate.",
-    category: "Workplace Wellness",
-    date: "June 15, 2026",
-    readTime: "6 min read",
-  },
-  {
-    slug: "online-therapy-benefits",
-    title: "5 Benefits of Online Therapy You Might Not Know About",
-    excerpt: "Online therapy has become a preferred option for millions. Here's why it might be the right choice for your mental health journey.",
-    category: "Digital Health",
-    date: "June 10, 2026",
-    readTime: "3 min read",
-  },
-];
+export default async function BlogPage(props: { searchParams: Promise<{ category?: string; page?: string }> }) {
+  const searchParams = await props.searchParams;
+  const categorySlug = searchParams.category;
+  const page = Number(searchParams.page) || 1;
 
-export default function BlogPage() {
+  const { posts, total } = await BlogRepository.getPublishedPosts(page, 12, categorySlug);
+  const categories = await BlogRepository.getCategories();
+  const totalPages = Math.ceil(total / 12);
+
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-12 sm:py-16">
       <Container>
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-3xl font-bold text-text">Blog & Resources</h1>
-          <p className="mt-2 text-text-secondary">Evidence-based mental health articles from our team.</p>
+        {/* Header */}
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="text-3xl font-bold text-text sm:text-4xl">Blog</h1>
+          <p className="mt-3 text-base text-text-secondary">
+            Evidence-based mental health insights from certified professionals.
+          </p>
+        </div>
 
-          <div className="mt-10 space-y-6">
-            {articles.map((article) => (
-              <Link key={article.slug} href={`/blog/${article.slug}`} className="block rounded-2xl border border-border bg-white p-6 transition-all hover:border-primary/30 hover:shadow-sm">
-                <div className="flex items-center gap-3 text-xs text-muted">
-                  <span className="rounded-full bg-primary-light px-2.5 py-0.5 text-xs font-medium text-primary">{article.category}</span>
-                  <span>{article.date}</span>
-                  <span>{article.readTime}</span>
-                </div>
-                <h2 className="mt-3 text-lg font-semibold text-text">{article.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">{article.excerpt}</p>
-              </Link>
+        {/* Category Filter */}
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          <Link href="/blog" className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!categorySlug ? "bg-primary text-white" : "border border-border text-text-secondary hover:border-primary hover:text-primary"}`}>
+            All
+          </Link>
+          {categories.map((cat) => (
+            <Link key={cat.id} href={`/blog?category=${cat.slug}`} className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${categorySlug === cat.slug ? "bg-primary text-white" : "border border-border text-text-secondary hover:border-primary hover:text-primary"}`}>
+              {cat.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Posts Grid */}
+        {posts.length > 0 ? (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => {
+              const wordCount = (post.content || "").replace(/<[^>]*>/g, "").split(/\s+/).length;
+              const readTime = Math.max(1, Math.ceil(wordCount / 200));
+
+              return (
+                <Link key={post.id} href={`/blog/${post.slug}`} className="group rounded-2xl border border-border bg-white overflow-hidden transition-all hover:border-primary/30 hover:shadow-sm">
+                  {post.cover_image_url && (
+                    <div className="aspect-video overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={post.cover_image_url} alt={post.title} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    {post.category_name && (
+                      <span className="rounded-full bg-primary-light px-2.5 py-0.5 text-[10px] font-medium text-primary">{post.category_name}</span>
+                    )}
+                    <h2 className="mt-2 text-base font-semibold text-text line-clamp-2 group-hover:text-primary">{post.title}</h2>
+                    {post.excerpt && <p className="mt-2 text-sm text-text-secondary line-clamp-2">{post.excerpt}</p>}
+                    <div className="mt-4 flex items-center gap-3 text-xs text-muted">
+                      {post.author_name && <span className="flex items-center gap-1"><User className="h-3 w-3" />{post.author_name}</span>}
+                      {post.published_at && <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />{new Date(post.published_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>}
+                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{readTime} min</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="mt-12 text-center">
+            <p className="text-text-secondary">No posts published yet. Check back soon!</p>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex justify-center gap-2">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Link key={i} href={`/blog?page=${i + 1}${categorySlug ? `&category=${categorySlug}` : ""}`}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium ${page === i + 1 ? "bg-primary text-white" : "border border-border text-text-secondary hover:border-primary"}`}
+              >{i + 1}</Link>
             ))}
           </div>
-        </div>
+        )}
       </Container>
     </section>
   );
