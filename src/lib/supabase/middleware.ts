@@ -46,10 +46,15 @@ export async function updateSession(request: NextRequest) {
   // Redirect unauthenticated users from protected routes
   if (isProtectedRoute && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    // Only pass safe relative paths as redirect
-    if (pathname.startsWith("/") && !pathname.startsWith("//")) {
-      url.searchParams.set("redirect", pathname);
+    // Admin routes redirect to admin-specific login
+    if (pathname.startsWith("/admin")) {
+      url.pathname = "/admin-login";
+    } else {
+      url.pathname = "/login";
+      // Only pass safe relative paths as redirect
+      if (pathname.startsWith("/") && !pathname.startsWith("//")) {
+        url.searchParams.set("redirect", pathname);
+      }
     }
     return NextResponse.redirect(url);
   }
